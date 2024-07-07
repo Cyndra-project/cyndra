@@ -1,4 +1,4 @@
-export const APP_NAME = 'Cyndra'
+export const APP_NAME = 'cyndra'
 
 export const SITE_TITLE = 'Deploy Rust apps with a single Cargo command'
 
