@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://cyndra.rs
+
+# Sitemaps
+Sitemap: https://cyndra.rs/sitemap.xml
