@@ -11,12 +11,12 @@ use uuid::Uuid;
 
 extern crate lazy_static;
 
-pub const UNVEIL_PROJECT_HEADER: &str = "Unveil-Project";
+pub const cyndra_PROJECT_HEADER: &str = "Cyndra-Project";
 
 #[cfg(debug_assertions)]
 lazy_static! {
     pub static ref API_URL: String =
-        std::env::var("UNVEIL_API").unwrap_or_else(|_| "http://localhost:8001".to_string());
+        std::env::var("cyndra_API").unwrap_or_else(|_| "http://localhost:8001".to_string());
 }
 
 #[cfg(not(debug_assertions))]
@@ -67,7 +67,7 @@ impl DeploymentMeta {
     }
 
     pub fn create_host(project_config: &ProjectConfig) -> Host {
-        format!("{}.unveil.sh", project_config.name())
+        format!("{}.cyndraapp.rs", project_config.name())
     }
 }
 

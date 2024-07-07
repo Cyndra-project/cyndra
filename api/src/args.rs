@@ -1,12 +1,12 @@
-use lib::Port;
+use cyndra_common::Port;
 use std::net::IpAddr;
 use std::path::PathBuf;
 use structopt::StructOpt;
 
 #[derive(StructOpt)]
-#[structopt(name = "unveil")]
+#[structopt(name = "cyndra")]
 pub struct Args {
-    #[structopt(long, about = "Override the default root path for unveil")]
+    #[structopt(long, about = "Override the default root path for cyndra")]
     pub(crate) path: Option<PathBuf>,
     #[structopt(
         long,

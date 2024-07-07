@@ -13,9 +13,9 @@ mod factory;
 mod proxy;
 mod router;
 
-use factory::UnveilFactory;
-use lib::{DeploymentApiError, DeploymentMeta, Port};
-use lib::project::ProjectConfig;
+use factory::CyndraFactory;
+use cyndra_common::{DeploymentApiError, DeploymentMeta, Port};
+use cyndra_common::project::ProjectConfig;
 use rocket::serde::json::{Json};
 use rocket::{tokio, Data, State};
 use std::net::IpAddr;
