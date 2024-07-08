@@ -12,10 +12,18 @@ use structopt::StructOpt;
 pub enum Args {
     #[structopt(about = "deploy an cyndra project")]
     Deploy(DeployArgs),
-    #[structopt(about = "view the status of an cyndra deployment")]
+    #[structopt(about = "view the status of an cyndra project")]
     Status,
-    #[structopt(about = "view the status of an cyndra deployment")]
+    #[structopt(about = "delete the latest deployment for a cyndra project")]
     Delete,
+    #[structopt(about = "create user credentials for the cyndra platform")]
+    Auth(AuthArgs),
+}
+
+#[derive(StructOpt)]
+pub struct AuthArgs {
+    #[structopt(about = "the desired username for the cyndra platform")]
+    pub username: String,
 }
 
 #[derive(StructOpt)]
