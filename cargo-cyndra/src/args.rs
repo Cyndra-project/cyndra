@@ -18,6 +18,14 @@ pub enum Args {
     Delete,
     #[structopt(about = "create user credentials for the cyndra platform")]
     Auth(AuthArgs),
+    #[structopt(about = "login to the cyndra platform")]
+    Login(LoginArgs),
+}
+
+#[derive(StructOpt)]
+pub struct LoginArgs {
+    #[structopt(long, about = "api key for the cyndra platform")]
+    pub api_key: Option<String>,
 }
 
 #[derive(StructOpt)]
