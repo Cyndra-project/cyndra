@@ -3,26 +3,19 @@ use async_trait::async_trait;
 use cyndra_service::Factory;
 
 pub(crate) struct CyndraFactory<'a> {
-    database: &'a mut database::State
+    database: &'a mut database::State,
 }
 
 impl<'a> CyndraFactory<'a> {
-    pub(crate) fn new(
-        database: &'a mut database::State
-    ) -> Self {
-        Self {
-            database
-        }
+    pub(crate) fn new(database: &'a mut database::State) -> Self {
+        Self { database }
     }
 }
 
 #[async_trait]
 impl Factory for CyndraFactory<'_> {
     async fn get_sql_connection_string(&mut self) -> Result<String, cyndra_service::Error> {
-        let conn_str = self
-            .database
-            .request()
-            .connection_string("localhost");
+        let conn_str = self.database.request().connection_string("localhost");
         debug!("giving a sql connection string: {}", conn_str);
         Ok(conn_str)
     }

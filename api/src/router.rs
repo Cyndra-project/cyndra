@@ -1,5 +1,5 @@
-use cyndra_common::{DeploymentId, Host};
 use rocket::tokio::sync::RwLock;
+use cyndra_common::{DeploymentId, Host};
 use std::collections::HashMap;
 
 #[derive(Default)]
