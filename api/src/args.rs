@@ -1,6 +1,7 @@
-use cyndra_common::Port;
 use std::net::IpAddr;
 use std::path::PathBuf;
+
+use cyndra_common::Port;
 use structopt::StructOpt;
 
 #[derive(StructOpt)]
