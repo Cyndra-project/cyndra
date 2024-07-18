@@ -27,5 +27,5 @@ toml = "0.5.8"
 base64 = "0.13.0"
 rand = "0.8.5"
 
-cyndra-common = { version = "0.2.5", path = "../common" }
-cyndra-service = { version = "0.2.5", path = "../service", features = [ "loader" ] }
+cyndra-common = { version = "0.2.6", path = "../common" }
+cyndra-service = { version = "0.2.6", path = "../service", features = [ "loader" ] }
