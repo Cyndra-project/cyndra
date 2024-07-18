@@ -9,7 +9,7 @@ fn hello_world() {
 
     let request_text = client
         .get("hello")
-        .header("Host", "hello-world-axum-app.cyndraapp.rs")
+        .header("Host", "hello-world-axum-app.cyndraapp.test")
         .send()
         .unwrap()
         .text()

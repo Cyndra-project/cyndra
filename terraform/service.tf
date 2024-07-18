@@ -68,6 +68,7 @@ locals {
       data_dir             = local.data_dir,
       docker_image         = local.docker_image,
       pg_password          = var.postgres_password,
+      proxy_fqdn           = var.proxy_fqdn,
       cyndra_admin_secret = var.cyndra_admin_secret
     }
   )
