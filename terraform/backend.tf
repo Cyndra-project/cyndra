@@ -26,3 +26,12 @@ terraform {
 provider "aws" {
   region = "eu-west-2"
 }
+
+module "cyndra" {
+  source = "modules/cyndra"
+
+  api_fqdn             = "api.cyndra.rs"
+  proxy_fqdn           = "cyndraapp.rs"
+  postgres_password    = var.postgres_password
+  cyndra_admin_secret = var.cyndra_admin_secret
+}

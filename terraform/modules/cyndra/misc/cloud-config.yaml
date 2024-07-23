@@ -27,7 +27,10 @@ write_files:
     owner: root:root
     permissions: "0644"
 
+power_state:
+  mode: reboot
+
 # Up services on every boot
-bootcmd:
-  - [systemctl, start, "opt-cyndra.mount"]
-  - [systemctl, start, "cyndra-backend.service"]
+runcmd:
+  - [systemctl, enable, "opt-cyndra.mount"]
+  - [systemctl, enable, "cyndra-backend.service"]
