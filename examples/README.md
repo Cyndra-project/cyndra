@@ -16,9 +16,9 @@ navigate to an example root folder
 $ cd examples/rocket/hello-world
 ```
 
-open up the `Cyndra.toml` file and change the project name to something 
-unique - in cyndra, projects are globally unique. Then run
+Pick a project name that is something unique - in cyndra,
+projects are globally unique. Then run
 
 ```bash
-$ cargo cyndra deploy
+$ cargo cyndra deploy --name=$PROJECT_NAME
 ```
