@@ -1,6 +1,7 @@
-use crate::database;
 use async_trait::async_trait;
 use cyndra_service::Factory;
+
+use crate::database;
 
 pub(crate) struct CyndraFactory<'a> {
     database: &'a mut database::State,
