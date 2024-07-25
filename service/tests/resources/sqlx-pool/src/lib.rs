@@ -1,4 +1,5 @@
 use cyndra_service::error::CustomError;
+use cyndra_service::logger::Logger;
 use cyndra_service::{Factory, IntoService, Service};
 use sqlx::PgPool;
 use tokio::runtime::Runtime;
@@ -55,10 +56,15 @@ impl Service for PoolService {
     fn build(
         &mut self,
         factory: &mut dyn cyndra_service::Factory,
+        logger: Logger,
     ) -> Result<(), cyndra_service::Error> {
-        let pool = self
-            .runtime
-            .block_on(get_postgres_connection_pool(factory))?;
+        let pool = self.runtime.block_on(async move {
+            log::set_boxed_logger(Box::new(logger))
+                .map(|()| log::set_max_level(log::LevelFilter::Info))
+                .expect("logger set should succeed");
+
+            get_postgres_connection_pool(factory).await
+        })?;
 
         self.pool = Some(pool);
 

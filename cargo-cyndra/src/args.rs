@@ -53,10 +53,12 @@ fn parse_working_directory(working_directory: &OsStr) -> Result<PathBuf, OsStrin
 
 #[derive(StructOpt)]
 pub enum Command {
-    #[structopt(about = "deploy an cyndra project")]
+    #[structopt(about = "deploy a cyndra project")]
     Deploy(DeployArgs),
-    #[structopt(about = "view the status of an cyndra project")]
+    #[structopt(about = "view the status of a cyndra project")]
     Status,
+    #[structopt(about = "view the logs of a cyndra project")]
+    Logs,
     #[structopt(about = "delete the latest deployment for a cyndra project")]
     Delete,
     #[structopt(about = "create user credentials for the cyndra platform")]
