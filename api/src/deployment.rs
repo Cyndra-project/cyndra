@@ -17,8 +17,9 @@ use cyndra_common::project::ProjectName;
 use cyndra_common::{
     DeploymentApiError, DeploymentId, DeploymentMeta, DeploymentStateMeta, Host, LogItem, Port,
 };
-use cyndra_service::loader::{Loader, ServeHandle};
+use cyndra_service::loader::Loader;
 use cyndra_service::logger::Log;
+use cyndra_service::ServeHandle;
 use tokio::sync::{mpsc, RwLock};
 
 use crate::build::Build;
@@ -522,9 +523,17 @@ impl DeploymentSystem {
                 let mut lock = deployment.state.write().await;
                 if let DeploymentState::Deployed(DeployedState { so, handle, .. }) = lock.take() {
                     handle.abort();
+
                     tokio::spawn(async move {
                         so.close().unwrap();
                     });
+
+                    match handle.await {
+                        Err(err) if err.is_cancelled() => {}
+                        other => other
+                            .map_err(|e| DeploymentApiError::Internal(e.to_string()))?
+                            .map_err(|e| DeploymentApiError::Internal(e.to_string()))?,
+                    };
                 }
 
                 let _ = self.router.remove(&meta.host);
