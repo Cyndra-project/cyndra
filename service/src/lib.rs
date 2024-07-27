@@ -16,7 +16,7 @@
 //! Depend on `cyndra-service` in `Cargo.toml`:
 //!
 //! ```toml
-//! cyndra-service = { version = "0.2", features = ["web-rocket"] }
+//! cyndra-service = { version = "0.3", features = ["web-rocket"] }
 //! ```
 //!
 //! and make sure your crate has a `cdylib` output target:
@@ -32,7 +32,7 @@
 //! #[macro_use]
 //! extern crate rocket;
 //!
-//! use rocket::{Build, Rocket};
+//! use cyndra_service::CyndraRocket;
 //!
 //! #[get("/hello")]
 //! fn hello() -> &'static str {
@@ -40,7 +40,7 @@
 //! }
 //!
 //! #[cyndra_service::main]
-//! async fn init() -> Result<Rocket<Build>, cyndra_service::Error> {
+//! async fn init() -> CyndraRocket {
 //!     let rocket = rocket::build().mount("/", routes![hello]);
 //!
 //!     Ok(rocket)
@@ -85,15 +85,16 @@
 //! Depend on `cyndra-service` in `Cargo.toml`:
 //!
 //! ```toml
-//! cyndra-service = { version = "0.2", features = ["web-rocket", "sqlx-postgres"] }
+//! cyndra-service = { version = "0.3", features = ["web-rocket", "sqlx-postgres"] }
 //! ```
 //!
 //! ```rust,no_run
 //! #[macro_use]
 //! extern crate rocket;
 //!
-//! use rocket::{Build, Rocket};
+//! use rocket::State;
 //! use sqlx::PgPool;
+//! use cyndra_service::CyndraRocket;
 //!
 //! struct MyState(PgPool);
 //!
@@ -104,7 +105,7 @@
 //! }
 //!
 //! #[cyndra_service::main]
-//! async fn rocket(pool: PgPool) -> Result<Rocket<Build>, cyndra_service::Error> {
+//! async fn rocket(pool: PgPool) -> CyndraRocket {
 //!     let state = MyState(pool);
 //!     let rocket = rocket::build().manage(state).mount("/", routes![hello]);
 //!
@@ -191,10 +192,10 @@ extern crate cyndra_codegen;
 /// The simplest usage is when your service does not require any cyndra managed resources, so you only need to return a cyndra supported service:
 ///
 /// ```rust,no_run
-/// use rocket::{Build, Rocket};
+/// use cyndra_service::CyndraRocket;
 ///
 /// #[cyndra_service::main]
-/// async fn rocket() -> Result<Rocket<Build>, cyndra_service::Error> {
+/// async fn rocket() -> CyndraRocket {
 ///     let rocket = rocket::build();
 ///
 ///     Ok(rocket)
@@ -214,13 +215,13 @@ extern crate cyndra_codegen;
 /// # Getting cyndra managed services
 /// The cyndra is able to manage service dependencies for you. These services are passed in as inputs to your main function:
 /// ```rust,no_run
-/// use rocket::{Build, Rocket};
 /// use sqlx::PgPool;
+/// use cyndra_service::CyndraRocket;
 ///
 /// struct MyState(PgPool);
 ///
 /// #[cyndra_service::main]
-/// async fn rocket(pool: PgPool) -> Result<Rocket<Build>, cyndra_service::Error> {
+/// async fn rocket(pool: PgPool) -> CyndraRocket {
 ///     let state = MyState(pool);
 ///     let rocket = rocket::build().manage(state);
 ///
