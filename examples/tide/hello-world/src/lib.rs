@@ -1,5 +1,5 @@
 #[cyndra_service::main]
-async fn tide() -> Result<tide::Server<()>, cyndra_service::Error> {
+async fn tide() -> cyndra_service::CyndraTide<()> {
     let mut app = tide::new();
     app.with(tide::log::LogMiddleware::new());
 
