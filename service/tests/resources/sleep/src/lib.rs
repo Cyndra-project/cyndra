@@ -1,7 +1,6 @@
 use std::{thread::sleep, time::Duration};
 
-use cyndra_service::{IntoService, ServeHandle, Service};
-use tokio::runtime::Runtime;
+use cyndra_service::{IntoService, Runtime, ServeHandle, Service};
 
 #[macro_use]
 extern crate cyndra_service;

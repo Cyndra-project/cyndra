@@ -1,8 +1,6 @@
 use cyndra_service::error::CustomError;
-use cyndra_service::logger::Logger;
-use cyndra_service::{Factory, IntoService, ServeHandle, Service};
+use cyndra_service::{GetResource, IntoService, Logger, Runtime, ServeHandle, Service};
 use sqlx::PgPool;
-use tokio::runtime::Runtime;
 
 #[macro_use]
 extern crate cyndra_service;
@@ -40,6 +38,7 @@ async fn start(pool: PgPool) -> Result<(), cyndra_service::error::CustomError> {
     Ok(())
 }
 
+#[async_trait]
 impl Service for PoolService {
     fn bind(
         &mut self,
@@ -51,37 +50,28 @@ impl Service for PoolService {
         Ok(handle)
     }
 
-    fn build(
+    async fn build(
         &mut self,
         factory: &mut dyn cyndra_service::Factory,
         logger: Logger,
     ) -> Result<(), cyndra_service::Error> {
-        let pool = self.runtime.block_on(async move {
-            log::set_boxed_logger(Box::new(logger))
-                .map(|()| log::set_max_level(log::LevelFilter::Info))
-                .expect("logger set should succeed");
+        self.runtime
+            .spawn_blocking(move || {
+                cyndra_service::log::set_boxed_logger(Box::new(logger))
+                    .map(|()| {
+                        cyndra_service::log::set_max_level(cyndra_service::log::LevelFilter::Info)
+                    })
+                    .expect("logger set should succeed");
+            })
+            .await
+            .unwrap();
 
-            get_postgres_connection_pool(factory).await
-        })?;
+        let pool = factory.get_resource(&self.runtime).await?;
 
         self.pool = Some(pool);
 
         Ok(())
     }
-}
-
-async fn get_postgres_connection_pool(
-    factory: &mut dyn Factory,
-) -> Result<PgPool, cyndra_service::error::Error> {
-    let connection_string = factory.get_sql_connection_string().await?;
-    let pool = sqlx::postgres::PgPoolOptions::new()
-        .min_connections(1)
-        .max_connections(5)
-        .connect(&connection_string)
-        .await
-        .map_err(CustomError::new)?;
-
-    Ok(pool)
 }
 
 declare_service!(Args, init);
