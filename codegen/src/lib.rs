@@ -18,7 +18,7 @@ pub fn main(_attr: TokenStream, item: TokenStream) -> TokenStream {
             let constructor: for <'a> fn(
                 &'a mut dyn cyndra_service::Factory,
                 &'a cyndra_service::Runtime,
-                cyndra_service::Logger,
+                Box<dyn cyndra_service::log::Log>,
             ) -> std::pin::Pin<
                 Box<dyn std::future::Future<Output = Result<_, cyndra_service::Error>> + Send + 'a>,
             > = |factory, runtime, logger| Box::pin(__cyndra_wrapper(factory, runtime, logger));
@@ -87,12 +87,12 @@ impl ToTokens for Wrapper {
             async fn __cyndra_wrapper(
                 #factory_ident: &mut dyn cyndra_service::Factory,
                 runtime: &cyndra_service::Runtime,
-                logger: cyndra_service::Logger,
+                logger: Box<dyn cyndra_service::log::Log>,
             ) #fn_output {
                 #extra_imports
 
                 runtime.spawn_blocking(move || {
-                    cyndra_service::log::set_boxed_logger(Box::new(logger))
+                    cyndra_service::log::set_boxed_logger(logger)
                         .map(|()| cyndra_service::log::set_max_level(cyndra_service::log::LevelFilter::Info))
                         .expect("logger set should succeed");
                 }).await.unwrap();
@@ -143,10 +143,10 @@ mod tests {
             async fn __cyndra_wrapper(
                 _factory: &mut dyn cyndra_service::Factory,
                 runtime: &cyndra_service::Runtime,
-                logger: cyndra_service::Logger,
+                logger: Box<dyn cyndra_service::log::Log>,
             ) {
                 runtime.spawn_blocking(move || {
-                    cyndra_service::log::set_boxed_logger(Box::new(logger))
+                    cyndra_service::log::set_boxed_logger(logger)
                         .map(|()| cyndra_service::log::set_max_level(cyndra_service::log::LevelFilter::Info))
                         .expect("logger set should succeed");
                 }).await.unwrap();
@@ -186,10 +186,10 @@ mod tests {
             async fn __cyndra_wrapper(
                 _factory: &mut dyn cyndra_service::Factory,
                 runtime: &cyndra_service::Runtime,
-                logger: cyndra_service::Logger,
+                logger: Box<dyn cyndra_service::log::Log>,
             ) -> Result<(), Box<dyn std::error::Error> > {
                 runtime.spawn_blocking(move || {
-                    cyndra_service::log::set_boxed_logger(Box::new(logger))
+                    cyndra_service::log::set_boxed_logger(logger)
                         .map(|()| cyndra_service::log::set_max_level(cyndra_service::log::LevelFilter::Info))
                         .expect("logger set should succeed");
                 }).await.unwrap();
@@ -230,12 +230,12 @@ mod tests {
             async fn __cyndra_wrapper(
                 factory: &mut dyn cyndra_service::Factory,
                 runtime: &cyndra_service::Runtime,
-                logger: cyndra_service::Logger,
+                logger: Box<dyn cyndra_service::log::Log>,
             ) -> Result<(), Box<dyn std::error::Error> > {
                 use cyndra_service::GetResource;
 
                 runtime.spawn_blocking(move || {
-                    cyndra_service::log::set_boxed_logger(Box::new(logger))
+                    cyndra_service::log::set_boxed_logger(logger)
                         .map(|()| cyndra_service::log::set_max_level(cyndra_service::log::LevelFilter::Info))
                         .expect("logger set should succeed");
                 }).await.unwrap();

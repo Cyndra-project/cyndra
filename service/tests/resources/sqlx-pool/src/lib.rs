@@ -1,5 +1,5 @@
 use cyndra_service::error::CustomError;
-use cyndra_service::{GetResource, IntoService, Logger, Runtime, ServeHandle, Service};
+use cyndra_service::{log, GetResource, IntoService, Runtime, ServeHandle, Service};
 use sqlx::PgPool;
 
 #[macro_use]
@@ -53,11 +53,11 @@ impl Service for PoolService {
     async fn build(
         &mut self,
         factory: &mut dyn cyndra_service::Factory,
-        logger: Logger,
+        logger: Box<dyn log::Log>,
     ) -> Result<(), cyndra_service::Error> {
         self.runtime
             .spawn_blocking(move || {
-                cyndra_service::log::set_boxed_logger(Box::new(logger))
+                cyndra_service::log::set_boxed_logger(logger)
                     .map(|()| {
                         cyndra_service::log::set_max_level(cyndra_service::log::LevelFilter::Info)
                     })
