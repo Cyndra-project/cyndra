@@ -1,9 +1,9 @@
 export const APP_NAME = "cyndra";
 
-export const SITE_TITLE = "Deploy Rust apps with a single Cargo command";
+export const SITE_TITLE = "Stateful Serverless for Rust";
 
 export const SITE_DESCRIPTION =
-  "Cyndra is a crate that uses traits and annotations to configure your backend deployment - including databases.";
+  "Cyndra is a web application platform that uses traits and annotations to configure your backend deployment - including databases.";
 
 export const SITE_URL = "https://cyndra.rs/";
 
