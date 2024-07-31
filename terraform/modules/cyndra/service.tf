@@ -111,11 +111,18 @@ locals {
     "${path.module}/systemd/system/cyndra-backend.service.tftpl",
     {
       data_dir             = local.data_dir,
-      docker_image         = local.docker_image,
-      pg_password          = var.postgres_password,
+      docker_image         = local.docker_backend_image,
       cyndra_admin_secret = var.cyndra_admin_secret,
       proxy_fqdn           = var.proxy_fqdn,
       cyndra_initial_key  = random_string.initial_key.result
+    }
+  )
+  cyndra_provisioner_content = templatefile(
+    "${path.module}/systemd/system/cyndra-provisioner.service.tftpl",
+    {
+      data_dir     = local.data_dir,
+      docker_image = local.docker_provisioner_image,
+      pg_password  = var.postgres_password,
     }
   )
 }
@@ -129,8 +136,9 @@ data "cloudinit_config" "backend" {
     content = templatefile(
       "${path.module}/misc/cloud-config.yaml",
       {
-        opt_cyndra_content     = base64encode(local.opt_cyndra_content),
-        cyndra_backend_content = base64encode(local.cyndra_backend_content)
+        opt_cyndra_content         = base64encode(local.opt_cyndra_content),
+        cyndra_backend_content     = base64encode(local.cyndra_backend_content)
+        cyndra_provisioner_content = base64encode(local.cyndra_provisioner_content)
       }
     )
     filename = "cloud-config.yaml"

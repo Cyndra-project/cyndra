@@ -2,6 +2,7 @@
 Description=maintains the cyndra Backend API
 After=docker.socket
 After=opt-cyndra.mount
+After=cyndra-provisioner.service
 
 [Service]
 Type=simple
@@ -10,21 +11,20 @@ RestartSec=30
 Restart=always
 ExecStartPre=/usr/bin/docker pull ${docker_image}:latest
 ExecStart=/usr/bin/docker run --rm \
+			      --network cyndra-net \
+			      --name backend \
 			      -e CRATES_PATH=/opt/cyndra/crates \
 			      -e PROXY_PORT=8000 \
 			      -p 8000:8000 \
 			      -e API_PORT=8001 \
 			      -p 8001:8001 \
-			      -e PG_PORT=5432 \
-			      -p 5432:5432 \
 			      -e PROXY_FQDN=${proxy_fqdn} \
 			      -e cyndra_USERS_TOML=/opt/cyndra/users/users.toml \
-			      -e PG_PASSWORD=${pg_password} \
 			      -e cyndra_ADMIN_SECRET=${cyndra_admin_secret} \
 			      -e cyndra_INITIAL_KEY=${cyndra_initial_key} \
-			      -e PG_DATA=/opt/cyndra/postgres \
-			      -v ${data_dir}/user-data:/opt/cyndra:rw \
-			      -v ${data_dir}/conf/postgres:/etc/postgresql/11/cyndra:rw \
+			      -e PROVISIONER_ADDRESS=provisioner \
+			      -v ${data_dir}/user-data/crates:/opt/cyndra/crates:rw \
+			      -v ${data_dir}/user-data/users:/opt/cyndra/users:rw \
 			      ${docker_image}:latest
 
 [Install]
