@@ -38,7 +38,7 @@
 //! by adding the `web-rocket` feature on the `cyndra-service` dependency.
 //!
 //! ```toml
-//! cyndra-service = { version = "0.3", features = ["web-rocket"] }
+//! cyndra-service = { version = "0.3.2", features = ["web-rocket"] }
 //! ```
 //!
 //! Now replace `src/lib.rs` with the following content.
@@ -111,7 +111,7 @@
 //! Add the `sqlx-postgres` feature to the `cyndra-service` dependency inside `Cargo.toml`:
 //!
 //! ```toml
-//! cyndra-service = { version = "0.3", features = ["web-rocket", "sqlx-postgres"] }
+//! cyndra-service = { version = "0.3.2", features = ["web-rocket", "sqlx-postgres"] }
 //! ```
 //!
 //! Now update the `#[cyndra_service::main]` function to take in a `PgPool`:
