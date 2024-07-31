@@ -5,6 +5,10 @@
 Raising [issues](https://github.com/cyndra-hq/cyndra/issues) is encouraged. We have some templates to help you get started.
 
 ## Running Locally
+You can use Docker and docker-compose to test cyndra locally during development. See the [Docker install](https://docs.docker.com/get-docker/)
+and [docker-compose install](https://docs.docker.com/compose/install/) instructions if you do not have them installed already.
+
+You should now be set to run cyndra locally as follow:
 
 ```bash
 # clone the repo
@@ -13,30 +17,46 @@ git clone git@github.com:cyndra-hq/cyndra.git
 # cd into the repo
 cd cyndra
 
-# start cyndra service in the background
-docker-compose up -d
+# start the cyndra services
+docker-compose up --build
 
-# login to cyndra service
+# login to cyndra service in a new terminal window
+cd path/to/cyndra/repo
 cargo run --bin cargo-cyndra -- login --api-key "ci-test"
 
 # cd into one of the examples
 cd examples/rocket/hello-world/
 
-# run deploy the example
-cargo run --bin cargo-cyndra --manifest-path ../../../Cargo.toml -- deploy 
+# deploy the example
+# the --manifest-path is used to locate the root of the cyndra workspace
+cargo run --manifest-path ../../../Cargo.toml --bin cargo-cyndra -- deploy
 
-# test if example is working
-# (use Host header to specify domain of the service)
-curl --header "Host: hello-world-rocket-app.cyndraapp.rs" localhost:8000/hello 
+# test if the deploy is working
+# (the Host header should match the Host from the deploy output)
+curl --header "Host: hello-world-rocket-app.teste.rs" localhost:8000/hello
 ```
+### Using Podman instead of Docker
+If you are using Podman over Docker, then expose a rootless socket of Podman using the following command:
+
+```bash
+podman system service --time=0 unix:///tmp/podman.sock
+```
+
+Now make docker-compose use this socket by setting the following environment variable:
+
+```bash
+export DOCKER_HOST=unix:///tmp/podman.sock
+```
+
+cyndra can now be run locally using the steps shown earlier.
 
 ## Running Tests
 
 cyndra has reasonable test coverage - and we are working on improving this
 every day. We encourage PRs to come with tests. If you're not sure about
-what a test should look like, feel free to get in touch.
+what a test should look like, feel free to [get in touch](https://discord.gg/H33rRDTm3p).
 
-To run the test suite - just run `cargo test --all-features -- --nocapture` at the root of the repository.
+To run the test suite - just run `cargo test -- --nocapture` at the root of the repository.
 
 ## Committing
 
@@ -44,4 +64,49 @@ We use the [Angular Commit Guidelines](https://github.com/angular/angular/blob/m
 
 Furthermore, commits should be squashed before being merged to master.
 
-Also, make sure your commits don't trigger any warnings from Clippy by running: `cargo clippy --tests --all-targets --all-features`. If you have a good reason to contradict Clippy, insert an #allow[] macro, so that it won't complain.
+Also, make sure your commits don't trigger any warnings from Clippy by running: `cargo clippy --tests --all-targets`. If you have a good reason to contradict Clippy, insert an #allow[] macro, so that it won't complain.
+
+## Project Layout
+The folders in this repository relate to each other as follow:
+
+```mermaid
+graph BT
+    classDef default fill:#1f1f1f,stroke-width:0;
+    classDef binary fill:#f25100,font-weight:bold,stroke-width:0;
+    classDef external fill:#343434,font-style:italic,stroke:#f25100;
+
+    api:::binary
+    cargo-cyndra:::binary
+    common
+    codegen
+    e2e
+    proto
+    provisioner:::binary
+    service
+    user([user service]):::external
+    api --> proto
+    api -.->|calls| provisioner
+    service ---> common
+    api --> common
+    cargo-cyndra --->|"features = ['loader']"| service
+    api -->|"features = ['loader', 'secrets']"| service
+    cargo-cyndra --> common
+    service --> codegen
+    proto ---> common
+    provisioner --> proto
+    e2e -.->|starts up| api
+    e2e -.->|calls| cargo-cyndra
+    user -->|"features = ['codegen']"| service
+```
+
+First, `provisioner`, `api`, and `cargo-cyndra` are binary crates with `provisioner` and `api` being backend services. The `cargo-cyndra` binary is the `cargo cyndra` command used by users.
+
+The rest are the following libraries:
+- `common` contains shared models and functions used by the other libraries and binaries.
+- `codegen` contains our proc-macro code which gets exposed to user services from `service` by the `codegen` feature flag. The redirect through `service` is to make it available under the prettier name of `cyndra_service::main`.
+- `service` is where our special `Service` trait is defined. Anything implementing this `Service` can be loaded by the `api` and the local runner in `cargo-cyndra`.
+   The `codegen` automatically implements the `Service` trait for any user service.
+- `proto` contains the gRPC server and client definitions to allow `api` to communicate with `provisioner`.
+- `e2e` just contains tests which starts up the `api` in a container and then deploys services to it using `cargo-cyndra`.
+
+Lastly, the `user service` is not a folder in this repository, but is the user service that will be deployed by `api`.
