@@ -24,16 +24,8 @@
 //! cargo cyndra init my-rocket-app
 //! ```
 //!
-//! By looking at the `Cargo.toml` file of the created project you will see the crate has a `cdylib` type.
-//! This is because all cyndra projects are loaded by cyndra during runtime as dynamic libraries.
-//! Thus, you can convert any library crate to a cyndra project by adding these lines to `Cargo.toml`.
-//!
-//! ```toml
-//! [lib]
-//! crate-type = ["cdylib"]
-//! ```
-//!
-//! Another piece needed for a cyndra project is the `cyndra-service` dependency.
+//! By looking at the `Cargo.toml` file of the generated `my-rocket-app` project you will see it has been made to
+//! be a library crate with a `cyndra-service` dependency.
 //! Go ahead and update the `cyndra-service` dependency inside `Cargo.toml` to prepare this crate as a rocket project
 //! by adding the `web-rocket` feature on the `cyndra-service` dependency.
 //!
