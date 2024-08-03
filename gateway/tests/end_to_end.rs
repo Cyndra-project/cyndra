@@ -2,21 +2,33 @@ use std::io::Read;
 use std::sync::Arc;
 use std::time::Duration;
 
-use axum::headers::{authorization, Authorization};
+use axum::headers::{
+    authorization,
+    Authorization
+};
 use futures::prelude::*;
 use http::Request;
-use hyper::StatusCode;
-use hyper::{body::Bytes, Body};
-use cyndra_common::{DeploymentMeta, DeploymentStateMeta};
-use cyndra_gateway::tests::RequestBuilderExt;
-use tokio::sync::mpsc::channel;
-
-use log::info;
-
-use cyndra_gateway::{
-    api::make_api, auth::User, project::Project, proxy::make_proxy, service::GatewayService,
-    tests::World, worker::Worker,
+use hyper::body::Bytes;
+use hyper::{
+    Body,
+    StatusCode
 };
+use log::info;
+use cyndra_common::{
+    DeploymentMeta,
+    DeploymentStateMeta
+};
+use cyndra_gateway::api::make_api;
+use cyndra_gateway::auth::User;
+use cyndra_gateway::project::Project;
+use cyndra_gateway::proxy::make_proxy;
+use cyndra_gateway::service::GatewayService;
+use cyndra_gateway::tests::{
+    RequestBuilderExt,
+    World
+};
+use cyndra_gateway::worker::Worker;
+use tokio::sync::mpsc::channel;
 
 macro_rules! timed_loop {
     (wait: $wait:literal$(, max: $max:literal)?, $block:block) => {{
@@ -89,7 +101,7 @@ async fn end_to_end() {
             Request::post("/users/trinity")
                 .with_header(&Authorization::basic("", key.as_str()))
                 .body(Body::empty())
-                .unwrap(),
+                .unwrap()
         )
         .map_ok(|resp| {
             assert_eq!(resp.status(), StatusCode::OK);
@@ -105,7 +117,7 @@ async fn end_to_end() {
             Request::post("/projects/matrix")
                 .with_header(&authorization)
                 .body(Body::empty())
-                .unwrap(),
+                .unwrap()
         )
         .map_ok(|resp| {
             assert_eq!(resp.status(), StatusCode::OK);
@@ -141,7 +153,7 @@ async fn end_to_end() {
             Request::get("/projects/matrix/status")
                 .with_header(&authorization)
                 .body(Body::empty())
-                .unwrap(),
+                .unwrap()
         )
         .map_ok(|resp| assert_eq!(resp.status(), StatusCode::OK))
         .await
@@ -186,7 +198,7 @@ async fn end_to_end() {
             Request::get("/hello")
                 .header("Host", "matrix.cyndraapp.rs")
                 .body(Body::empty())
-                .unwrap(),
+                .unwrap()
         )
         .map_ok(|resp| {
             assert_eq!(resp.status(), StatusCode::OK);
@@ -202,7 +214,7 @@ async fn end_to_end() {
             Request::delete("/projects/matrix")
                 .with_header(&authorization)
                 .body(Body::empty())
-                .unwrap(),
+                .unwrap()
         )
         .map_ok(|resp| assert_eq!(resp.status(), StatusCode::OK))
         .await
