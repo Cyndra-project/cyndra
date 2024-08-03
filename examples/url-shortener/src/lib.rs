@@ -4,10 +4,10 @@ extern crate rocket;
 use rocket::{
     http::Status,
     response::{status, Redirect},
-    routes, Build, Rocket, State,
+    routes, State,
 };
-use serde::{Serialize};
-use cyndra_service::error::CustomError;
+use serde::Serialize;
+use cyndra_service::{error::CustomError, CyndraRocket};
 use sqlx::migrate::Migrator;
 use sqlx::{FromRow, PgPool};
 use url::Url;
@@ -71,7 +71,7 @@ async fn shorten(url: String, state: &State<AppState>) -> Result<String, status:
 static MIGRATOR: Migrator = sqlx::migrate!();
 
 #[cyndra_service::main]
-async fn rocket(pool: PgPool) -> Result<Rocket<Build>, cyndra_service::Error> {
+async fn rocket(#[shared::Postgres] pool: PgPool) -> CyndraRocket {
     MIGRATOR.run(&pool).await.map_err(CustomError::new)?;
 
     let state = AppState { pool };
