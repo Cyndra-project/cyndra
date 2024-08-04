@@ -1,5 +1,5 @@
 use cyndra_service::error::CustomError;
-use cyndra_service::{log, GetResource, IntoService, Runtime, ServeHandle, Service};
+use cyndra_service::{log, IntoService, ResourceBuilder, Runtime, ServeHandle, Service};
 use sqlx::PgPool;
 
 #[macro_use]
@@ -66,7 +66,9 @@ impl Service for PoolService {
             .await
             .unwrap();
 
-        let pool = factory.get_resource(&self.runtime).await?;
+        let pool = cyndra_service::shared::Postgres::new()
+            .build(factory, &self.runtime)
+            .await?;
 
         self.pool = Some(pool);
 
