@@ -14,7 +14,7 @@ fn cargo_cyndra_init(path: &str) -> impl Future<Output = anyhow::Result<()>> {
     let path = Path::new(path).to_path_buf();
 
     Cyndra::new().run(Args {
-        api_url: Some("network support is intentionally broken in tests".to_string()),
+        api_url: Some("http://cyndra.invalid:80".to_string()),
         project_args: ProjectArgs {
             working_directory,
             name: None,

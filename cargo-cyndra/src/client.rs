@@ -118,7 +118,7 @@ async fn get_deployment_meta(
         .basic_auth(api_key.clone(), Some(""))
         .send()
         .await
-        .context("failed to get deployment from the Cyndra server")?;
+        .context("failed to get deployment metadata")?;
 
     to_api_result(res).await
 }

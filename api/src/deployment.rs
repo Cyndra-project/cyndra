@@ -10,13 +10,13 @@ use anyhow::{anyhow, Context as AnyhowContext};
 use chrono::{DateTime, Utc};
 use futures::prelude::*;
 use libloading::Library;
-use proto::provisioner::provisioner_client::ProvisionerClient;
 use rocket::data::ByteUnit;
 use rocket::{tokio, Data};
 use cyndra_common::project::ProjectName;
 use cyndra_common::{
     DeploymentApiError, DeploymentId, DeploymentMeta, DeploymentStateMeta, Host, LogItem, Port,
 };
+use cyndra_proto::provisioner::provisioner_client::ProvisionerClient;
 use cyndra_service::loader::Loader;
 use cyndra_service::logger::Log;
 use cyndra_service::ServeHandle;

@@ -1,6 +1,4 @@
-mod helpers;
-
-use helpers::{build_so_create_loader, PostgresInstance};
+use crate::helpers::{loader::build_so_create_loader, sqlx::PostgresInstance};
 
 use cyndra_service::loader::LoaderError;
 use cyndra_service::{database, Error, Factory};
