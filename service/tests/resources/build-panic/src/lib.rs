@@ -1,45 +1,18 @@
-use async_trait::async_trait;
+use cyndra_service::Service;
 
-use cyndra_service::{Error, Factory, IntoService, Runtime, ServeHandle, Service};
+struct MyService;
 
-#[macro_use]
-extern crate cyndra_service;
-
-#[derive(Default)]
-struct Builder;
-
-impl IntoService for Builder {
-    type Service = MyService;
-
-    fn into_service(self) -> Self::Service {
-        MyService {
-            runtime: Runtime::new().unwrap(),
-        }
-    }
-}
-
-struct MyService {
-    runtime: Runtime,
-}
-
-#[async_trait]
+#[cyndra_service::async_trait]
 impl Service for MyService {
-    async fn build(
-        &mut self,
-        _factory: &mut dyn Factory,
-        _logger: Box<dyn log::Log>,
-    ) -> Result<(), Error> {
-        panic!("panic in build");
-    }
-
-    fn bind(
-        &mut self,
+    async fn bind(
+        mut self: Box<Self>,
         _: std::net::SocketAddr,
-    ) -> Result<ServeHandle, cyndra_service::error::Error> {
-        let handle = self.runtime.spawn(async move { Ok(()) });
-
-        Ok(handle)
+    ) -> Result<(), cyndra_service::Error> {
+        Ok(())
     }
 }
 
-declare_service!(Builder, Builder::default);
+#[cyndra_service::main]
+async fn build_panic() -> Result<MyService, cyndra_service::Error> {
+    panic!("panic in build");
+}

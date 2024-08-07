@@ -1,79 +1,37 @@
 use cyndra_service::error::CustomError;
-use cyndra_service::{log, IntoService, ResourceBuilder, Runtime, ServeHandle, Service};
+use cyndra_service::Service;
 use sqlx::PgPool;
 
-#[macro_use]
-extern crate cyndra_service;
-
-struct Args;
-
 struct PoolService {
-    runtime: Runtime,
-    pool: Option<PgPool>,
+    pool: PgPool,
 }
 
-fn init() -> Args {
-    Args
+#[cyndra_service::main]
+async fn init(#[shared::Postgres] pool: PgPool) -> Result<PoolService, cyndra_service::Error> {
+    Ok(PoolService { pool })
 }
 
-impl IntoService for Args {
-    type Service = PoolService;
-
-    fn into_service(self) -> Self::Service {
-        PoolService {
-            pool: None,
-            runtime: Runtime::new().unwrap(),
-        }
-    }
-}
-
-async fn start(pool: PgPool) -> Result<(), cyndra_service::error::CustomError> {
-    let (rec,): (String,) = sqlx::query_as("SELECT 'Hello world'")
-        .fetch_one(&pool)
-        .await
-        .map_err(CustomError::new)?;
-
-    assert_eq!(rec, "Hello world");
-
-    Ok(())
-}
-
-#[async_trait]
-impl Service for PoolService {
-    fn bind(
-        &mut self,
-        _: std::net::SocketAddr,
-    ) -> Result<ServeHandle, cyndra_service::error::Error> {
-        let launch = start(self.pool.take().expect("we should have an active pool"));
-        let handle = self.runtime.spawn(launch);
-
-        Ok(handle)
-    }
-
-    async fn build(
-        &mut self,
-        factory: &mut dyn cyndra_service::Factory,
-        logger: Box<dyn log::Log>,
-    ) -> Result<(), cyndra_service::Error> {
-        self.runtime
-            .spawn_blocking(move || {
-                cyndra_service::log::set_boxed_logger(logger)
-                    .map(|()| {
-                        cyndra_service::log::set_max_level(cyndra_service::log::LevelFilter::Info)
-                    })
-                    .expect("logger set should succeed");
-            })
+impl PoolService {
+    async fn start(&self) -> Result<(), cyndra_service::error::CustomError> {
+        let (rec,): (String,) = sqlx::query_as("SELECT 'Hello world'")
+            .fetch_one(&self.pool)
             .await
-            .unwrap();
+            .map_err(CustomError::new)?;
 
-        let pool = cyndra_service::shared::Postgres::new()
-            .build(factory, &self.runtime)
-            .await?;
-
-        self.pool = Some(pool);
+        assert_eq!(rec, "Hello world");
 
         Ok(())
     }
 }
 
-declare_service!(Args, init);
+#[cyndra_service::async_trait]
+impl Service for PoolService {
+    async fn bind(
+        mut self: Box<Self>,
+        _: std::net::SocketAddr,
+    ) -> Result<(), cyndra_service::error::Error> {
+        self.start().await?;
+
+        Ok(())
+    }
+}

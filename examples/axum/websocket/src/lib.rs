@@ -14,6 +14,7 @@ use futures::{SinkExt, StreamExt};
 use hyper::{Client, Uri};
 use hyper_tls::HttpsConnector;
 use serde::Serialize;
+use cyndra_service::CyndraAxum;
 use sync_wrapper::SyncWrapper;
 use tokio::{
     sync::{watch, Mutex},
@@ -36,7 +37,7 @@ struct Response {
 }
 
 #[cyndra_service::main]
-async fn main() -> Result<SyncWrapper<Router>, cyndra_service::Error> {
+async fn main() -> CyndraAxum {
     let (tx, rx) = watch::channel(Message::Text("{}".to_string()));
 
     let state = Arc::new(Mutex::new(State {

@@ -1,0 +1,15 @@
+error: cyndra_service::main functions need to return a service
+
+         = help: See the docs for services with first class support
+         = note: https://docs.rs/cyndra-service/latest/cyndra_service/attr.main.html#cyndra-supported-services
+
+ --> tests/ui/missing-return.rs:2:1
+  |
+2 | async fn missing_return() {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error[E0601]: `main` function not found in crate `$CRATE`
+ --> tests/ui/missing-return.rs:2:29
+  |
+2 | async fn missing_return() {}
+  |                             ^ consider adding a `main` function to `$DIR/tests/ui/missing-return.rs`

@@ -1,2 +1,2 @@
 #[cyndra_codegen::main]
-async fn missing_attriute(pool: PgPool, cache: Redis) {}
+async fn missing_attriute(pool: PgPool, cache: Redis) -> CyndraRocket {}

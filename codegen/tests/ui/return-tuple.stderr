@@ -1,0 +1,15 @@
+error: cyndra_service::main functions need to return a first class service or 'Result<impl Service, cyndra_service::Error>
+
+         = help: See the docs for services with first class support
+         = note: https://docs.rs/cyndra-service/latest/cyndra_service/attr.main.html#cyndra-supported-services
+
+ --> tests/ui/return-tuple.rs:2:28
+  |
+2 | async fn return_tuple() -> (String, bool) {}
+  |                            ^^^^^^^^^^^^^^
+
+error[E0601]: `main` function not found in crate `$CRATE`
+ --> tests/ui/return-tuple.rs:2:45
+  |
+2 | async fn return_tuple() -> (String, bool) {}
+  |                                             ^ consider adding a `main` function to `$DIR/tests/ui/return-tuple.rs`
