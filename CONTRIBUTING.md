@@ -8,32 +8,61 @@ Raising [issues](https://github.com/cyndra-hq/cyndra/issues) is encouraged. We h
 You can use Docker and docker-compose to test cyndra locally during development. See the [Docker install](https://docs.docker.com/get-docker/)
 and [docker-compose install](https://docs.docker.com/compose/install/) instructions if you do not have them installed already.
 
-You should now be set to run cyndra locally as follow:
+You should now be ready to setup a local environment to test code changes to core `cyndra` packages as follows:
+
+Build the required images with:
 
 ```bash
-# clone the repo
-git clone git@github.com:cyndra-hq/cyndra.git
+$ docker buildx bake -f docker-bake.hcl provisioner backend
+```
 
-# cd into the repo
-cd cyndra
+The images get built with [cargo-chef](https://github.com/LukeMathWalker/cargo-chef) and therefore support incremental builds (most of the time). So they will be much faster to re-build after an incremental change in your code - should you wish to deploy it locally straightaway.
 
-# start the cyndra services
-docker-compose up --build
+Create a docker persistent volume with:
 
-# login to cyndra service in a new terminal window
-cd path/to/cyndra/repo
-cargo run --bin cargo-cyndra -- login --api-key "ci-test"
+```bash
+$ docker volume create cyndra-backend-vol
+```
 
-# cd into one of the examples
+Finally, you can start a local deployment of the backend with:
+
+```bash
+$ docker compose -f docker-compose.dev.yml up -d
+```
+
+The API is now accessible on `localhost:8000` (for app proxies) and `localhost:8001` (for the control plane). When running `cargo run --bin cargo-cyndra` (in a debug build), the CLI will point itself to `localhost` for its API calls. The deployment parameters can be tweaked by changing values in the [.env](./.env) file.
+
+In order to test local changes to the `cyndra-service` crate, you may want to add the below to a `.cargo/config.toml` file. (See [Overriding Dependencies](https://doc.rust-lang.org/cargo/reference/overriding-dependencies.html) for more)
+
+``` toml
+[patch.crates-io]
+cyndra-service = { path = "[base]/cyndra/service" }
+```
+
+Login to cyndra service in a new terminal window from the main cyndra directory:
+
+```bash
+cargo run --bin cargo-cyndra -- login --api-key "test-key"
+```
+
+cd into one of the examples:
+
+```bash
 cd examples/rocket/hello-world/
+```
 
-# deploy the example
+Deploy the example:
+
+```bash
 # the --manifest-path is used to locate the root of the cyndra workspace
 cargo run --manifest-path ../../../Cargo.toml --bin cargo-cyndra -- deploy
+```
 
-# test if the deploy is working
+Test if the deploy is working:
+
+```bash
 # (the Host header should match the Host from the deploy output)
-curl --header "Host: hello-world-rocket-app.teste.rs" localhost:8000/hello
+curl --header "Host: {app}.localhost.local" localhost:8000/hello
 ```
 ### Using Podman instead of Docker
 If you are using Podman over Docker, then expose a rootless socket of Podman using the following command:

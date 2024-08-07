@@ -95,40 +95,9 @@ $ cargo cyndra deploy
 
 For the full documentation, visit [docs.rs/cyndra-service](https://docs.rs/cyndra-service)
 
-## Working on cyndra
+## Contributing to cyndra
 
-If you want to setup a local environment to test code changes to core `cyndra` packages, follow these steps.
-
-Build the required images with 
-
-```bash
-$ docker buildx bake -f docker-bake.hcl provisioner backend
-```
-
-The images get build with [cargo-chef](https://github.com/LukeMathWalker/cargo-chef) and therefore support incremental builds (most of the time). So they will be much faster to re-build after an incremental change in your code - should you wish to deploy it locally straightaway.
-
-Create a docker persistent volume with
-
-```bash
-$ docker volume create cyndra-backend-vol
-```
-
-Finally, you can start a local deployment of the backend with
-
-```bash
-$ docker compose -f docker-compose.dev.yml up -d
-```
-
-The API is now accessible on `localhost:8000` (for app proxies) and `localhost:8001` (for the control plane). When running `cargo run --bin cargo-cyndra` (in a debug build), the CLI will point itself to `localhost` for its API calls. The deployment parameters can be tweaked by changing values in the [.env](./.env) file.
-
-In order to test local changes to the `cyndra-service` crate, you may want to add the following to a `.cargo/config.toml` file:
-
-``` toml
-[patch.crates-io]
-cyndra-service = { path = "[base]/cyndra/service" }
-```
-
-See [Overriding Dependencies](https://doc.rust-lang.org/cargo/reference/overriding-dependencies.html) for more.
+If you want to setup a local environment to test code changes to core `cyndra` packages, or want to contribute to the project see [CONTRIBUTING.md](https://github.com/cyndra-hq/cyndra/blob/main/CONTRIBUTING.md)
 
 ## Roadmap
 
