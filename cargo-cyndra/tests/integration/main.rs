@@ -2,24 +2,26 @@ mod deploy;
 mod init;
 mod run;
 
-use cargo_cyndra::{Args, Command, ProjectArgs, Cyndra};
-use std::{future::Future, path::Path};
+use cargo_cyndra::{Args, Command, CommandOutcome, ProjectArgs, Cyndra};
+use std::path::Path;
 
 /// creates a `cargo-cyndra` run instance with some reasonable defaults set.
-fn cargo_cyndra_command(
+async fn cargo_cyndra_command(
     cmd: Command,
     working_directory: &str,
-) -> impl Future<Output = anyhow::Result<()>> {
+) -> anyhow::Result<CommandOutcome> {
     let working_directory = Path::new(working_directory).to_path_buf();
 
-    Cyndra::new().run(Args {
-        api_url: Some("http://cyndra.invalid:80".to_string()),
-        project_args: ProjectArgs {
-            working_directory,
-            name: None,
-        },
-        cmd,
-    })
+    Cyndra::new()
+        .run(Args {
+            api_url: Some("http://cyndra.invalid:80".to_string()),
+            project_args: ProjectArgs {
+                working_directory,
+                name: None,
+            },
+            cmd,
+        })
+        .await
 }
 
 #[tokio::test]
