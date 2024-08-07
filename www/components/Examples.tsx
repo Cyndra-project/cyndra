@@ -19,7 +19,7 @@ const cards: Card[] = [
     title: "Url Shortener",
     description:
       "A URL shortener that you can use from your terminal - built with cyndra, rocket and postgres/sqlx.",
-    link: "https://github.com/getsynth/cyndra/tree/main/examples/url-shortener",
+    link: "https://github.com/getsynth/cyndra/tree/main/examples/rocket/url-shortener",
     icon: "/images/icon2.svg",
   },
   {
