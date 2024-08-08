@@ -3,8 +3,8 @@ volumes:
   cyndra-backend-vol:
     external: true
 services:
-  backend:
-    image: "${CONTAINER_REGISTRY}/backend:${BACKEND_TAG}"
+  api:
+    image: "${CONTAINER_REGISTRY}/api:${BACKEND_TAG}"
     volumes:
       - cyndra-backend-vol:/var/lib/cyndra/
     depends_on:
