@@ -1,0 +1,59 @@
+version: "3"
+
+services:
+  api:
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        mkdir -p /var/lib/cyndra/crates
+
+        cat<<EOF > /var/lib/cyndra/users.toml
+        [test-key]
+        name = "tester"
+        projects = []
+        EOF
+
+        mkdir -p $$CARGO_HOME
+        cat<<EOF > $$CARGO_HOME/config.toml
+        [patch.crates-io]
+        cyndra-service = { path = "/usr/src/cyndra/service" }
+        EOF
+
+        until </dev/tcp/provisioner/8000
+        do
+          >&2 echo "provisioner is not available yet - sleeping"
+          sleep 1
+        done
+
+        exec /usr/local/bin/service "$${@:0}"
+    volumes:
+      - .:/usr/src/cyndra
+
+    build:
+      context: .
+      dockerfile: Containerfile
+      args:
+        crate: cyndra-api
+    image: "${CONTAINER_REGISTRY}/backend:dev"
+
+  provisioner:
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        until </dev/tcp/db/5432
+        do
+          >&2 echo "DB is not available yet - sleeping"
+          sleep 1
+        done
+
+        >&2 echo "DB is available - starting provisioner"
+
+        exec /usr/local/bin/service "$${@:0}"
+    build:
+      context: .
+      dockerfile: Containerfile
+      args:
+        crate: cyndra-provisioner
+    image: "${CONTAINER_REGISTRY}/provisioner:dev"

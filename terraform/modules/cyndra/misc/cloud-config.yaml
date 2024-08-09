@@ -60,6 +60,11 @@ write_files:
     path: /lib/systemd/system/cyndra-provisioner.service
     owner: root:root
     permissions: "0644"
+  - encoding: b64
+    content: ${cyndra_db_content}
+    path: /lib/systemd/system/cyndra-db.service
+    owner: root:root
+    permissions: "0644"
 
 power_state:
   mode: reboot
@@ -69,5 +74,6 @@ runcmd:
   - docker network inspect cyndra-net || docker network create --driver bridge cyndra-net
   - [systemctl, daemon-reload]
   - [systemctl, enable, "opt-cyndra.mount"]
-  - [systemctl, enable, "cyndra-backend.service"]
+  - [systemctl, enable, "cyndra-db.service"]
   - [systemctl, enable, "cyndra-provisioner.service"]
+  - [systemctl, enable, "cyndra-backend.service"]

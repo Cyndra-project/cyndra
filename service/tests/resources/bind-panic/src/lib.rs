@@ -1,31 +1,18 @@
-use async_trait::async_trait;
-
-use cyndra_service::{IntoService, ServeHandle, Service};
-
-#[macro_use]
-extern crate cyndra_service;
-
-#[derive(Default)]
-struct Builder;
-
-impl IntoService for Builder {
-    type Service = MyService;
-
-    fn into_service(self) -> Self::Service {
-        MyService
-    }
-}
+use cyndra_service::Service;
 
 struct MyService;
 
-#[async_trait]
+#[cyndra_service::async_trait]
 impl Service for MyService {
-    fn bind(
-        &mut self,
+    async fn bind(
+        mut self: Box<Self>,
         _: std::net::SocketAddr,
-    ) -> Result<ServeHandle, cyndra_service::error::Error> {
+    ) -> Result<(), cyndra_service::Error> {
         panic!("panic in bind");
     }
 }
 
-declare_service!(Builder, Builder::default);
+#[cyndra_service::main]
+async fn bind_panic() -> Result<MyService, cyndra_service::Error> {
+    Ok(MyService)
+}

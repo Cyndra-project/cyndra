@@ -51,11 +51,10 @@ version = "0.1.0"
 edition = "2021"
 
 [lib]
-crate-type = ["cdylib"]
 
 [dependencies]
 rocket = "0.5.0-rc.1"
-cyndra-service = { version = "0.3.3", features = ["web-rocket"] }
+cyndra-service = { version = "0.4.0", features = ["web-rocket"] }
 ```
 
 
@@ -96,6 +95,10 @@ $ cargo cyndra deploy
 
 For the full documentation, visit [docs.rs/cyndra-service](https://docs.rs/cyndra-service)
 
+## Contributing to cyndra
+
+If you want to setup a local environment to test code changes to core `cyndra` packages, or want to contribute to the project see [CONTRIBUTING.md](https://github.com/cyndra-hq/cyndra/blob/main/CONTRIBUTING.md)
+
 ## Roadmap
 
 For a comprehensive view of the cyndra roadmap check out this [project board](https://github.com/orgs/cyndra-hq/projects/4).
@@ -119,5 +122,3 @@ If you have any requests or suggestions feel free to open an issue.
 
 We are currently in Public Alpha. Watch "releases" of this repo to get 
 notified of major updates!
-
-
