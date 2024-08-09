@@ -18,6 +18,7 @@ use std::net::IpAddr;
 use std::sync::Arc;
 
 use auth_admin::Admin;
+use clap::Parser;
 use deployment::MAX_DEPLOYS;
 use factory::CyndraFactory;
 use rocket::serde::json::Json;
@@ -25,7 +26,6 @@ use rocket::{tokio, Build, Data, Rocket, State};
 use cyndra_common::project::ProjectName;
 use cyndra_common::{DeploymentApiError, DeploymentMeta, Port};
 use cyndra_service::SecretStore;
-use structopt::StructOpt;
 use uuid::Uuid;
 
 use crate::args::Args;
@@ -192,7 +192,7 @@ async fn rocket() -> Rocket<Build> {
         .filter_module("cyndra_service", log::LevelFilter::Debug)
         .init();
 
-    let args: Args = Args::from_args();
+    let args: Args = Args::parse();
     let build_system = FsBuildSystem::initialise(args.path).unwrap();
     let deployment_manager = Arc::new(
         DeploymentSystem::new(
