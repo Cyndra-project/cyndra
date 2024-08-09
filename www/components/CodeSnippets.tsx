@@ -120,8 +120,7 @@ $ cargo cyndra deploy
 `.trim();
 
 const USING_SQLX = `
-use rocket::{get, routes, Build, Rocket, State};
-use cyndra_service::Error;
+use rocket::{get, routes, State};
 use sqlx::PgPool;
 
 struct MyState(PgPool);
@@ -134,8 +133,8 @@ fn hello(state: &State<MyState>) -> &'static str {
 
 #[cyndra_service::main]
 async fn rocket(
-    pool: PgPool
-) -> Result<Rocket<Build>, Error> {
+    #[shared::Postgres] pool: PgPool
+) -> cyndra_service::CyndraRocket {
     let state = MyState(pool);
 
     Ok(
@@ -148,8 +147,7 @@ async fn rocket(
 `.trim();
 
 const HELLO_CLOUD = `
-use rocket::{get, routes, Build, Rocket};
-use cyndra_service::Error;
+use rocket::{get, routes};
 
 #[get("/hello")]
 fn hello() -> &'static str {
@@ -157,7 +155,7 @@ fn hello() -> &'static str {
 }
 
 #[cyndra_service::main]
-async fn init() -> Result<Rocket<Build>, Error> {
+async fn init() -> cyndra_service::CyndraRocket {
     Ok(
         rocket::build()
             .mount("/", routes![hello])
@@ -168,14 +166,13 @@ async fn init() -> Result<Rocket<Build>, Error> {
 const USING_AXUM = `
 use axum::{routing::get, Router};
 use sync_wrapper::SyncWrapper;
-use cyndra_service::Error;
 
 async fn hello_world() -> &'static str {
     "Hello, world!"
 }
 
 #[cyndra_service::main]
-async fn axum() -> Result<SyncWrapper<Router>, Error> {
+async fn axum() -> cyndra_service::CyndraAxum {
     let router = Router::new()
         .route("/hello", get(hello_world));
     let sync_wrapper = SyncWrapper::new(router);
