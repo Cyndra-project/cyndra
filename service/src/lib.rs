@@ -21,19 +21,17 @@
 //! Now that cyndra is installed, you can create your first project using:
 //!
 //! ```bash
-//! cargo cyndra init my-rocket-app
+//! cargo cyndra init --rocket my-rocket-app
 //! ```
 //!
 //! By looking at the `Cargo.toml` file of the generated `my-rocket-app` project you will see it has been made to
-//! be a library crate with a `cyndra-service` dependency.
-//! Go ahead and update the `cyndra-service` dependency inside `Cargo.toml` to prepare this crate as a rocket project
-//! by adding the `web-rocket` feature on the `cyndra-service` dependency.
+//! be a library crate with a `cyndra-service` dependency with the `web-rocket` feature on the `cyndra-service` dependency.
 //!
 //! ```toml
 //! cyndra-service = { version = "0.4.0", features = ["web-rocket"] }
 //! ```
 //!
-//! Now replace `src/lib.rs` with the following content.
+//! A boilerplate code for your rocket project can also be found in `src/lib.rs`:
 //!
 //! ```rust,no_run
 //! #[macro_use]
@@ -54,7 +52,7 @@
 //! }
 //! ```
 //!
-//! See the [cyndra_service::main][main] macro for more information on supported services - like Axum.
+//! See the [cyndra_service::main][main] macro for more information on supported services - such as `axum`.
 //! Or look at more complete examples [in the repository](https://github.com/getsynth/cyndra/tree/main/examples), but
 //! take note that the examples may update before official releases.
 //!
