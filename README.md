@@ -100,7 +100,7 @@ For the full documentation, visit [docs.rs/cyndra-service](https://docs.rs/cyndr
 
 ## Contributing to cyndra
 
-If you want to setup a local environment to test code changes to core `cyndra` packages, or want to contribute to the project see [CONTRIBUTING.md](https://github.com/cyndra-hq/cyndra/blob/main/CONTRIBUTING.md)
+If you want to setup a local environment to test code changes to core `cyndra` packages, or want to contribute to the project see [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## Roadmap
 
