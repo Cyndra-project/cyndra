@@ -2,11 +2,14 @@ version: "3"
 volumes:
   cyndra-backend-vol:
     external: true
+  cyndra-cargo-registry-vol:
+    external: true
 services:
-  api:
-    image: "${CONTAINER_REGISTRY}/api:${BACKEND_TAG}"
+  deployer:
+    image: "${CONTAINER_REGISTRY}/deployer:${BACKEND_TAG}"
     volumes:
-      - cyndra-backend-vol:/var/lib/cyndra/
+      - cyndra-backend-vol:/tmp/cyndra-builds/
+      - cyndra-cargo-registry-vol:/usr/local/cargo/registry/
     depends_on:
       - provisioner
     ports:
@@ -18,8 +21,9 @@ services:
         delay: 5s
         max_attempts: 3
     environment:
-      - cyndra_USERS_TOML=/var/lib/cyndra/users.toml
       - RUST_LOG=${RUST_LOG}
+      - CARGO_HOME=/usr/local/cargo
+      - GATEWAY_SECRET=tmp
     command:
       - "--path=/var/lib/cyndra/crates"
       - "--bind-addr=0.0.0.0"

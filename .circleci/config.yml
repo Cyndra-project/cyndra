@@ -47,6 +47,7 @@ jobs:
 
             make down
             docker volume create cyndra-backend-vol
+            docker volume create cyndra-cargo-registry-vol
             cd e2e; BUILDX_CACHE=/tmp/cache/buildx cyndra_API_KEY=test-key cargo test -- --nocapture
       - when:
           condition:
