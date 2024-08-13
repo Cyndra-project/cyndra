@@ -39,10 +39,15 @@ First download the Cyndra cargo extension and login:
 ```bash
 $ cargo install cargo-cyndra
 $ cargo cyndra login
-$ cargo init --lib hello-world
 ```
 
-Update your `Cargo.toml`:
+Create your first cyndra app with `rocket` framework:
+
+```bash
+$ cargo cyndra init --rocket hello-world
+```
+
+Your `Cargo.toml` should look like:
 
 ```toml
 [package]
@@ -53,18 +58,16 @@ edition = "2021"
 [lib]
 
 [dependencies]
-rocket = "0.5.0-rc.1"
 cyndra-service = { version = "0.4.0", features = ["web-rocket"] }
+rocket = "0.4.11"
 ```
 
 
-Create your first cyndra app in `lib.rs`:
+Your cyndra app in `lib.rs` should look like:
 
 ```rust
 #[macro_use]
 extern crate rocket;
-
-use rocket::{Build, Rocket};
 
 #[get("/")]
 fn index() -> &'static str {
@@ -72,7 +75,7 @@ fn index() -> &'static str {
 }
 
 #[cyndra_service::main]
-async fn rocket() -> Result<Rocket<Build>,cyndra_service::Error> {
+async fn rocket() -> cyndra_service::CyndraRocket {
     let rocket = rocket::build().mount("/hello", routes![index]);
 
     Ok(rocket)
@@ -97,7 +100,7 @@ For the full documentation, visit [docs.rs/cyndra-service](https://docs.rs/cyndr
 
 ## Contributing to cyndra
 
-If you want to setup a local environment to test code changes to core `cyndra` packages, or want to contribute to the project see [CONTRIBUTING.md](https://github.com/cyndra-hq/cyndra/blob/main/CONTRIBUTING.md)
+If you want to setup a local environment to test code changes to core `cyndra` packages, or want to contribute to the project see [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## Roadmap
 
