@@ -21,14 +21,14 @@
 //! Now that cyndra is installed, you can create your first project using:
 //!
 //! ```bash
-//! cargo cyndra init --rocket my-rocket-app
+//! $ cargo cyndra init --rocket my-rocket-app
 //! ```
 //!
 //! By looking at the `Cargo.toml` file of the generated `my-rocket-app` project you will see it has been made to
 //! be a library crate with a `cyndra-service` dependency with the `web-rocket` feature on the `cyndra-service` dependency.
 //!
 //! ```toml
-//! cyndra-service = { version = "0.4.0", features = ["web-rocket"] }
+//! cyndra-service = { version = "0.4.1", features = ["web-rocket"] }
 //! ```
 //!
 //! A boilerplate code for your rocket project can also be found in `src/lib.rs`:
@@ -101,7 +101,7 @@
 //! Add the `sqlx-postgres` feature to the `cyndra-service` dependency, and add `sqlx` as a dependency with the `runtime-tokio-native-tls` and `postgres` features inside `Cargo.toml`:
 //!
 //! ```toml
-//! cyndra-service = { version = "0.4.0", features = ["web-rocket", "sqlx-postgres"] }
+//! cyndra-service = { version = "0.4.1", features = ["web-rocket", "sqlx-postgres"] }
 //! sqlx = { version = "0.5", features = ["runtime-tokio-native-tls", "postgres"] }
 //! ```
 //!
@@ -263,6 +263,7 @@ extern crate cyndra_codegen;
 /// | `CyndraRocket`                       | web-rocket   | [rocket](https://docs.rs/rocket/0.5.0-rc.2) | 0.5.0-rc.2 | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/rocket/hello-world) |
 /// | `CyndraAxum`                         | web-axum     | [axum](https://docs.rs/axum/0.5)            | 0.5        | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/axum/hello-world)   |
 /// | `CyndraTide`                         | web-tide     | [tide](https://docs.rs/tide/0.16.0)         | 0.16.0     | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/tide/hello-world)   |
+/// | `CyndraPoem`                         | web-poem     | [poem](https://docs.rs/poem/1.3.35)         | 1.3.35     | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/poem/hello-world)   |
 /// | `Result<T, cyndra_service::Error>`   | web-tower    | [tower](https://docs.rs/tower/0.4.12)       | 0.14.12    | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/tower/hello-world)  |
 ///
 /// # Getting cyndra managed services
@@ -436,6 +437,25 @@ impl Service for rocket::Rocket<rocket::Build> {
 
 #[cfg(feature = "web-rocket")]
 pub type CyndraRocket = Result<rocket::Rocket<rocket::Build>, Error>;
+
+#[cfg(feature = "web-poem")]
+#[async_trait]
+impl<T> Service for T
+where
+    T: poem::Endpoint + Sync + Send + 'static,
+{
+    async fn bind(mut self: Box<Self>, addr: SocketAddr) -> Result<(), error::Error> {
+        poem::Server::new(poem::listener::TcpListener::bind(addr))
+            .run(self)
+            .await
+            .map_err(error::CustomError::new)?;
+
+        Ok(())
+    }
+}
+
+#[cfg(feature = "web-poem")]
+pub type CyndraPoem<T> = Result<T, Error>;
 
 #[cfg(feature = "web-axum")]
 #[async_trait]
