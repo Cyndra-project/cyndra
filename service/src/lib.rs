@@ -263,6 +263,7 @@ extern crate cyndra_codegen;
 /// | `CyndraRocket`                       | web-rocket   | [rocket](https://docs.rs/rocket/0.5.0-rc.2) | 0.5.0-rc.2 | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/rocket/hello-world) |
 /// | `CyndraAxum`                         | web-axum     | [axum](https://docs.rs/axum/0.5)            | 0.5        | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/axum/hello-world)   |
 /// | `CyndraTide`                         | web-tide     | [tide](https://docs.rs/tide/0.16.0)         | 0.16.0     | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/tide/hello-world)   |
+/// | `CyndraPoem`                         | web-poem     | [poem](https://docs.rs/poem/1.3.35)         | 1.3.35     | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/poem/hello-world)   |
 /// | `Result<T, cyndra_service::Error>`   | web-tower    | [tower](https://docs.rs/tower/0.4.12)       | 0.14.12    | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/tower/hello-world)  |
 ///
 /// # Getting cyndra managed services
@@ -436,6 +437,25 @@ impl Service for rocket::Rocket<rocket::Build> {
 
 #[cfg(feature = "web-rocket")]
 pub type CyndraRocket = Result<rocket::Rocket<rocket::Build>, Error>;
+
+#[cfg(feature = "web-poem")]
+#[async_trait]
+impl<T> Service for T
+where
+    T: poem::Endpoint + Sync + Send + 'static,
+{
+    async fn bind(mut self: Box<Self>, addr: SocketAddr) -> Result<(), error::Error> {
+        poem::Server::new(poem::listener::TcpListener::bind(addr))
+            .run(self)
+            .await
+            .map_err(error::CustomError::new)?;
+
+        Ok(())
+    }
+}
+
+#[cfg(feature = "web-poem")]
+pub type CyndraPoem<T> = Result<T, Error>;
 
 #[cfg(feature = "web-axum")]
 #[async_trait]
