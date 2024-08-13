@@ -21,7 +21,7 @@
 //! Now that cyndra is installed, you can create your first project using:
 //!
 //! ```bash
-//! cargo cyndra init --rocket my-rocket-app
+//! $ cargo cyndra init --rocket my-rocket-app
 //! ```
 //!
 //! By looking at the `Cargo.toml` file of the generated `my-rocket-app` project you will see it has been made to
