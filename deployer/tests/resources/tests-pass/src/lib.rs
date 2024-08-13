@@ -15,7 +15,7 @@ async fn rocket() -> cyndra_service::CyndraRocket {
 #[cfg(test)]
 mod tests {
     #[test]
-    fn this_fails() {
+    fn this_passes() {
         assert_eq!(super::index(), "Hello, world!");
     }
 }
