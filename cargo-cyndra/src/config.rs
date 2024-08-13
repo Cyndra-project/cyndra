@@ -8,6 +8,7 @@ use cargo_metadata::MetadataCommand;
 use serde::{Deserialize, Serialize};
 use cyndra_common::project::ProjectName;
 use cyndra_common::{ApiKey, ApiUrl, API_URL_DEFAULT};
+use tracing::trace;
 
 use crate::args::ProjectArgs;
 

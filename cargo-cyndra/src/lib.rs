@@ -26,10 +26,8 @@ use semver::{Version, VersionReq};
 use cyndra_service::loader::{build_crate, Loader};
 use tokio::sync::mpsc;
 use toml_edit::Document;
+use tracing::trace;
 use uuid::Uuid;
-
-#[macro_use]
-extern crate log;
 
 use cyndra_common::DeploymentStateMeta;
 

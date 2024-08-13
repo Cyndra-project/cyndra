@@ -19,6 +19,7 @@ use cyndra_common::{database::AwsRdsEngine, project::ProjectName, DatabaseReadyI
 use cyndra_service::{database::Type, error::CustomError, Factory};
 use std::{collections::HashMap, io::stdout, time::Duration};
 use tokio::time::sleep;
+use tracing::{error, trace};
 
 pub struct LocalFactory {
     docker: Docker,
