@@ -67,7 +67,7 @@ impl CyndraInit for CyndraInitAxum {
             let router = Router::new().route("/hello", get(hello_world));
             let sync_wrapper = SyncWrapper::new(router);
 
-            Ok(sync_wrapper){}
+            Ok(sync_wrapper)
         }"#}
     }
 }
