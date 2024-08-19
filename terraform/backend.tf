@@ -31,9 +31,10 @@ module "cyndra" {
   source = "./modules/cyndra"
 
   api_fqdn             = "api.cyndra.rs"
-  pg_fqdn              = "pg.cyndra.rs"
+  db_fqdn              = "db.cyndra.rs"
   proxy_fqdn           = "cyndraapp.rs"
   postgres_password    = var.postgres_password
+  mongodb_password     = var.mongodb_password
   cyndra_admin_secret = var.cyndra_admin_secret
   instance_type        = "c6g.4xlarge"
 }

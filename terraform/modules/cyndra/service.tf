@@ -75,6 +75,12 @@ resource "aws_lb_target_group_attachment" "postgres" {
   port             = var.postgres_container_port
 }
 
+resource "aws_lb_target_group_attachment" "mongodb" {
+  target_group_arn = aws_lb_target_group.mongodb.arn
+  target_id        = aws_instance.backend.id
+  port             = var.mongodb_container_port
+}
+
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -145,16 +151,24 @@ locals {
   cyndra_provisioner_content = templatefile(
     "${path.module}/systemd/system/cyndra-provisioner.service.tftpl",
     {
-      docker_image = local.docker_provisioner_image,
-      fqdn         = var.pg_fqdn,
-      pg_password  = var.postgres_password,
+      docker_image     = local.docker_provisioner_image,
+      fqdn             = var.db_fqdn,
+      pg_password      = var.postgres_password,
+      mongodb_password = var.mongodb_password,
     }
   )
-  cyndra_db_content = templatefile(
-    "${path.module}/systemd/system/cyndra-db.service.tftpl",
+  cyndra_pg_content = templatefile(
+    "${path.module}/systemd/system/cyndra-pg.service.tftpl",
     {
       data_dir    = local.data_dir,
       pg_password = var.postgres_password,
+    }
+  )
+  cyndra_mongodb_content = templatefile(
+    "${path.module}/systemd/system/cyndra-mongodb.service.tftpl",
+    {
+      data_dir         = local.data_dir,
+      mongodb_password = var.mongodb_password,
     }
   )
 }
@@ -171,7 +185,8 @@ data "cloudinit_config" "backend" {
         opt_cyndra_content         = base64encode(local.opt_cyndra_content),
         cyndra_backend_content     = base64encode(local.cyndra_backend_content)
         cyndra_provisioner_content = base64encode(local.cyndra_provisioner_content)
-        cyndra_db_content          = base64encode(local.cyndra_db_content)
+        cyndra_pg_content          = base64encode(local.cyndra_pg_content)
+        cyndra_mongodb_content     = base64encode(local.cyndra_mongodb_content)
       }
     )
     filename = "cloud-config.yaml"
