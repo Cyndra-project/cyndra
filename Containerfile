@@ -24,6 +24,7 @@ RUN cargo build --bin ${crate}
 FROM rust:buster as cyndra-common
 RUN apt-get update &&\
     apt-get install -y curl
+COPY --from=cache /build/ /usr/src/cyndra/
 
 FROM cyndra-common
 ARG crate
