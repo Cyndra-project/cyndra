@@ -1,10 +1,20 @@
 use chrono::Utc;
-use log::{Metadata, Record};
-use cyndra_common::LogItem;
+use log::{Level, Metadata, Record};
+use serde_json::json;
+use cyndra_common::{deployment::State, LogItem};
+use uuid::Uuid;
 
-use crate::print;
+pub struct Logger {
+    id: Uuid,
+}
 
-pub struct Logger;
+impl Logger {
+    pub fn new() -> Self {
+        Self {
+            id: Default::default(),
+        }
+    }
+}
 
 impl log::Log for Logger {
     fn enabled(&self, _metadata: &Metadata) -> bool {
@@ -13,16 +23,33 @@ impl log::Log for Logger {
 
     fn log(&self, record: &Record) {
         if self.enabled(record.metadata()) {
-            let datetime = Utc::now();
+            // Reuse LogItem from common to have the same output as runtime logs from production
             let item = LogItem {
-                body: format!("{}", record.args()),
-                level: record.level(),
+                id: self.id,
+                state: State::Running,
+                level: get_level(record.level()),
+                timestamp: Utc::now(),
+                file: record.file().map(String::from),
+                line: record.line(),
                 target: record.target().to_string(),
+                fields: json!({
+                    "message": format!("{}", record.args()),
+                }),
             };
 
-            print::log(datetime, item);
+            println!("{item}");
         }
     }
 
     fn flush(&self) {}
+}
+
+fn get_level(level: Level) -> cyndra_common::log::Level {
+    match level {
+        Level::Error => cyndra_common::log::Level::Error,
+        Level::Warn => cyndra_common::log::Level::Warn,
+        Level::Info => cyndra_common::log::Level::Info,
+        Level::Debug => cyndra_common::log::Level::Debug,
+        Level::Trace => cyndra_common::log::Level::Trace,
+    }
 }

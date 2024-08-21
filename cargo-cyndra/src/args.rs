@@ -7,9 +7,12 @@ use std::{
 
 use clap::Parser;
 use cyndra_common::project::ProjectName;
+use uuid::Uuid;
 
 #[derive(Parser)]
 #[clap(
+    version,
+    about,
     // Cargo passes in the subcommand name to the invoked executable. Use a
     // hidden, optional positional argument to deal with it.
     arg(clap::Arg::with_name("dummy")
@@ -46,22 +49,43 @@ pub struct ProjectArgs {
 
 #[derive(Parser)]
 pub enum Command {
-    /// deploy a cyndra project
+    /// deploy a cyndra service
     Deploy(DeployArgs),
-    /// create a new cyndra project
+    /// manage deployments of a cyndra service
+    #[clap(subcommand)]
+    Deployment(DeploymentCommand),
+    /// create a new cyndra service
     Init(InitArgs),
-    /// view the status of a cyndra project
+    /// view the status of a cyndra service
     Status,
-    /// view the logs of a cyndra project
-    Logs,
-    /// delete the latest deployment for a cyndra project
+    /// view the logs of a deployment in this cyndra service
+    Logs {
+        /// Deployment ID to get logs for. Defaults to currently running deployment
+        id: Option<Uuid>,
+
+        #[clap(short, long)]
+        /// Follow log output
+        follow: bool,
+    },
+    /// delete this cyndra service
     Delete,
     /// create user credentials for the cyndra platform
     Auth(AuthArgs),
     /// login to the cyndra platform
     Login(LoginArgs),
-    /// run a cyndra project locally
+    /// run a cyndra service locally
     Run(RunArgs),
+}
+
+#[derive(Parser)]
+pub enum DeploymentCommand {
+    /// list all the deployments for a service
+    List,
+    /// view status of a deployment
+    Status {
+        /// ID of deployment to get status for
+        id: Uuid,
+    },
 }
 
 #[derive(Parser)]
@@ -112,7 +136,7 @@ pub struct InitArgs {
     /// Initialize with poem framework
     #[clap(long, conflicts_with_all = &["axum", "rocket", "tide", "tower"])]
     pub poem: bool,
-    /// Path to initialize a new cyndra project
+    /// Path to initialize a new cyndra service
     #[clap(
         parse(try_from_os_str = parse_init_path),
         default_value = ".",
