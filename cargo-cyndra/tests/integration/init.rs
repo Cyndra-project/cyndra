@@ -24,6 +24,7 @@ async fn cargo_cyndra_init(path: PathBuf) -> anyhow::Result<CommandOutcome> {
                 tide: false,
                 tower: false,
                 poem: false,
+                serenity: false,
                 path,
             }),
         })
@@ -47,6 +48,7 @@ async fn cargo_cyndra_init_framework(path: PathBuf) -> anyhow::Result<CommandOut
                 tide: false,
                 tower: false,
                 poem: false,
+                serenity: false,
                 path,
             }),
         })
