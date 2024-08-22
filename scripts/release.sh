@@ -22,7 +22,12 @@ function update-examples-versions()
     for d in examples/*/*/;
     do
         cd "$d"
-        cargo add cyndra-service@$version
+
+        if [[ -f Cargo.toml ]]
+        then
+            cargo add cyndra-service@$version
+        fi
+
         cd ../../../
     done
 

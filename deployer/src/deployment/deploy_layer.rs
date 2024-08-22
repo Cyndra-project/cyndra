@@ -470,7 +470,7 @@ mod tests {
 
     #[async_trait::async_trait]
     impl cyndra_service::Factory for StubProvisionerFactory {
-        async fn get_sql_connection_string(
+        async fn get_db_connection_string(
             &mut self,
             _db_type: cyndra_common::database::Type,
         ) -> Result<String, cyndra_service::Error> {
