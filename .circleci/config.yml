@@ -263,7 +263,7 @@ workflows:
             - workspace-clippy
           matrix:
             parameters:
-              crate: ["cyndra-api", "cargo-cyndra", "cyndra-codegen", "cyndra-common", "cyndra-proto", "cyndra-provisioner"]
+              crate: ["cyndra-deployer", "cargo-cyndra", "cyndra-codegen", "cyndra-common", "cyndra-proto", "cyndra-provisioner"]
       - e2e-test:
           requires:
             - service-test

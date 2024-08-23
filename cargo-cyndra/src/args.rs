@@ -69,6 +69,8 @@ pub enum Command {
     },
     /// delete this cyndra service
     Delete,
+    /// manage secrets for this cyndra service
+    Secrets,
     /// create user credentials for the cyndra platform
     Auth(AuthArgs),
     /// login to the cyndra platform
