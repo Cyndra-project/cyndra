@@ -58,7 +58,7 @@ edition = "2021"
 [lib]
 
 [dependencies]
-cyndra-service = { version = "0.5.1", features = ["web-rocket"] }
+cyndra-service = { version = "0.5.2", features = ["web-rocket"] }
 rocket = "0.4.11"
 ```
 
