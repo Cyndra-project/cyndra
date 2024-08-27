@@ -107,7 +107,7 @@ graph BT
     classDef binary fill:#f25100,font-weight:bold,stroke-width:0;
     classDef external fill:#343434,font-style:italic,stroke:#f25100;
 
-    api:::binary
+    deployer:::binary
     cargo-cyndra:::binary
     common
     codegen
@@ -116,29 +116,29 @@ graph BT
     provisioner:::binary
     service
     user([user service]):::external
-    api --> proto
-    api -.->|calls| provisioner
+    deployer --> proto
+    deployer -.->|calls| provisioner
     service ---> common
-    api --> common
+    deployer --> common
     cargo-cyndra --->|"features = ['loader']"| service
-    api -->|"features = ['loader', 'secrets']"| service
+    deployer -->|"features = ['loader', 'secrets']"| service
     cargo-cyndra --> common
     service --> codegen
     proto ---> common
     provisioner --> proto
-    e2e -.->|starts up| api
+    e2e -.->|starts up| deployer
     e2e -.->|calls| cargo-cyndra
     user -->|"features = ['codegen']"| service
 ```
 
-First, `provisioner`, `api`, and `cargo-cyndra` are binary crates with `provisioner` and `api` being backend services. The `cargo-cyndra` binary is the `cargo cyndra` command used by users.
+First, `provisioner`, `deployer`, and `cargo-cyndra` are binary crates with `provisioner` and `deployer` being backend services. The `cargo-cyndra` binary is the `cargo cyndra` command used by users.
 
 The rest are the following libraries:
 - `common` contains shared models and functions used by the other libraries and binaries.
 - `codegen` contains our proc-macro code which gets exposed to user services from `service` by the `codegen` feature flag. The redirect through `service` is to make it available under the prettier name of `cyndra_service::main`.
-- `service` is where our special `Service` trait is defined. Anything implementing this `Service` can be loaded by the `api` and the local runner in `cargo-cyndra`.
+- `service` is where our special `Service` trait is defined. Anything implementing this `Service` can be loaded by the `deployer` and the local runner in `cargo-cyndra`.
    The `codegen` automatically implements the `Service` trait for any user service.
-- `proto` contains the gRPC server and client definitions to allow `api` to communicate with `provisioner`.
-- `e2e` just contains tests which starts up the `api` in a container and then deploys services to it using `cargo-cyndra`.
+- `proto` contains the gRPC server and client definitions to allow `deployer` to communicate with `provisioner`.
+- `e2e` just contains tests which starts up the `deployer` in a container and then deploys services to it using `cargo-cyndra`.
 
-Lastly, the `user service` is not a folder in this repository, but is the user service that will be deployed by `api`.
+Lastly, the `user service` is not a folder in this repository, but is the user service that will be deployed by `deployer`.
