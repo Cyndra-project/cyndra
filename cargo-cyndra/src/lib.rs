@@ -288,7 +288,7 @@ impl Cyndra {
             Ok(())
         } else {
             Err(anyhow!(
-                "Your cyndra_service version is outdated. Update your cyndra_service version to {} and try to deploy again",
+                "Your cyndra-service version is outdated. Update your cyndra-service version to {} and try to deploy again",
                 &server_version,
             ))
         }
