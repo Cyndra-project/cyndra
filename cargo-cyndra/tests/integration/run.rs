@@ -294,3 +294,19 @@ async fn poem_mongodb() {
 
     assert_eq!(request_text, "{\"note\":\"Deploy to cyndra\"}");
 }
+
+#[tokio::test]
+async fn salvo_hello_world() {
+    let port = cargo_cyndra_run("../examples/salvo/hello-world").await;
+
+    let request_text = reqwest::Client::new()
+        .get(format!("http://localhost:{port}/hello"))
+        .send()
+        .await
+        .unwrap()
+        .text()
+        .await
+        .unwrap();
+
+    assert_eq!(request_text, "Hello, world!");
+}
