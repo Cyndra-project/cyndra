@@ -25,7 +25,7 @@ async fn cargo_cyndra_deploy(path: &str, api_url: String) -> anyhow::Result<Comm
 }
 
 #[should_panic(
-    expected = "Your cyndra_service version is outdated. Update your cyndra_service version to 1.2.5 and try to deploy again"
+    expected = "Your cyndra-service version is outdated. Update your cyndra-service version to 1.2.5 and try to deploy again"
 )]
 #[test_context(HttpTestContext)]
 #[tokio::test]
