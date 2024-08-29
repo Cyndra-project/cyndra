@@ -24,10 +24,8 @@ use config::RequestContext;
 use crossterm::style::Stylize;
 use factory::LocalFactory;
 use futures::StreamExt;
-use semver::{Version, VersionReq};
 use cyndra_common::{deployment, secret};
 use cyndra_service::loader::{build_crate, Loader};
-use toml_edit::Document;
 use tracing::trace;
 use uuid::Uuid;
 
@@ -73,7 +71,6 @@ impl Cyndra {
 
         match args.cmd {
             Command::Deploy(deploy_args) => {
-                self.check_lib_version(args.project_args, &client).await?;
                 return self.deploy(deploy_args, &client).await;
             }
             Command::Init(init_args) => self.init(init_args).await,
@@ -346,30 +343,6 @@ impl Cyndra {
             println!("Deployment has not entered the running state");
 
             Ok(CommandOutcome::DeploymentFailure)
-        }
-    }
-
-    async fn check_lib_version(&self, project_args: ProjectArgs, client: &Client) -> Result<()> {
-        let cargo_path = project_args.working_directory.join("Cargo.toml");
-        let cargo_doc = read_to_string(cargo_path.clone())?.parse::<Document>()?;
-        let current_cyndra_version = &cargo_doc["dependencies"]["cyndra-service"]["version"];
-        let service_semver = match Version::parse(current_cyndra_version.as_str().unwrap()) {
-            Ok(version) => version,
-            Err(error) => return Err(anyhow!("Your cyndra-service version ({}) is invalid and should follow the MAJOR.MINOR.PATCH semantic versioning format. Error given: {:?}", current_cyndra_version.as_str().unwrap(), error.to_string())),
-        };
-
-        let server_version = client.get_cyndra_service_version().await?;
-
-        let version_required = format!("{}.{}", server_version.major, server_version.minor);
-        let server_semver = VersionReq::parse(&version_required)?;
-
-        if server_semver.matches(&service_semver) {
-            Ok(())
-        } else {
-            Err(anyhow!(
-                "Your cyndra-service version is outdated. Update your cyndra-service version to {} and try to deploy again",
-                &server_version,
-            ))
         }
     }
 
