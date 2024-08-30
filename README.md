@@ -97,11 +97,19 @@ $ cargo cyndra deploy
         Database URI:       postgres://***:***@pg.cyndra.rs/db-hello-world
 ```
 
-For the full documentation, visit [docs.rs/cyndra-service](https://docs.rs/cyndra-service)
+For the full documentation, visit [docs.rs/cyndra-service](https://docs.rs/cyndra-service).
+
+For more examples, check out [cyndra examples](https://github.com/cyndra-hq/cyndra/tree/main/examples).
 
 ## Contributing to cyndra
 
-If you want to setup a local environment to test code changes to core `cyndra` packages, or want to contribute to the project see [CONTRIBUTING.md](./CONTRIBUTING.md)
+Contributing to cyndra is highly encouraged!
+
+If you want to setup a local environment to test code changes to core `cyndra` packages, or want to contribute to the project see [CONTRIBUTING.md](./CONTRIBUTING.md). 
+
+Even if you are not planning to submit any code; joining our [Discord server](https://discord.gg/cyndra) and providing feedback helps us a lot!
+
+You can also ⭐ this repo to show your interest & support.
 
 ## Roadmap
 
@@ -114,7 +122,7 @@ If you have any requests or suggestions feel free to open an issue.
 - [Community Forum](https://github.com/cyndra-hq/cyndra/discussions). Best for: help with building, discussion about best practices.
 - [GitHub Issues](https://github.com/cyndra-hq/cyndra/issues). Best for: bugs and errors you encounter using Cyndra.
 - [Discord](https://discord.gg/cyndra). Best for: sharing your applications and hanging out with the community.
-- [Twitter](https://twitter.com/cyndra_dev). Best for: keeping up with announcements and releases
+- [Twitter](https://twitter.com/cyndra_dev). Best for: keeping up with announcements and releases.
 
 ## Status
 
