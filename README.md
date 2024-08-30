@@ -21,7 +21,7 @@
 
 # cyndra
 
-[Cyndra](https://www.cyndra.rs/) is Rust-native cloud development platform that lets you deploy your Rust apps for free.
+[Cyndra](https://www.cyndra.rs/) is a Rust-native cloud development platform that lets you deploy your Rust apps for free.
 
 Cyndra is built for productivity, reliability and performance:
 - Zero-Configuration support for Rust using annotations
