@@ -43,7 +43,11 @@ path = "../common"
 version = "0.5.2"
 path = "../proto"
 
+[dependencies.cyndra-secrets]
+version = "0.5.2"
+path = "../resources/secrets"
+
 [dependencies.cyndra-service]
 version = "0.5.2"
 path = "../service"
-features = ["loader", "secrets"]
+features = ["loader"]

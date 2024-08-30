@@ -7,8 +7,8 @@ use poem::{
     EndpointExt, Result, Route,
 };
 use serde::{Deserialize, Serialize};
+use cyndra_secrets::SecretStore;
 use cyndra_service::error::CustomError;
-use cyndra_service::SecretStore;
 use sqlx::{Executor, FromRow, PgPool};
 
 #[handler]
@@ -41,7 +41,7 @@ async fn secret(state: Data<&PgPool>) -> Result<String> {
 
 #[cyndra_service::main]
 async fn main(
-    #[shared::Postgres] pool: PgPool,
+    #[cyndra_shared_db::Postgres] pool: PgPool,
 ) -> cyndra_service::CyndraPoem<impl poem::Endpoint> {
     pool.execute(include_str!("../schema.sql"))
         .await

@@ -29,7 +29,7 @@ struct MyState {
 }
 
 #[cyndra_service::main]
-async fn tide(#[aws::rds::Postgres] pool: PgPool) -> CyndraTide<MyState> {
+async fn tide(#[cyndra_aws_rds::Postgres] pool: PgPool) -> CyndraTide<MyState> {
     pool.execute(include_str!("../schema.sql"))
         .await
         .map_err(CustomError::new)?;

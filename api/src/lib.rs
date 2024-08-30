@@ -25,7 +25,7 @@ use rocket::serde::json::Json;
 use rocket::{tokio, Build, Data, Rocket, State};
 use cyndra_common::project::ProjectName;
 use cyndra_common::{DeploymentApiError, DeploymentMeta, Port};
-use cyndra_service::SecretStore;
+use cyndra_secrets::SecretStore;
 use uuid::Uuid;
 
 use crate::args::Args;

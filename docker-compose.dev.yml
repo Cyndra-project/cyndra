@@ -18,6 +18,10 @@ services:
         cat<<EOF > $$CARGO_HOME/config.toml
         [patch.crates-io]
         cyndra-service = { path = "/usr/src/cyndra/service" }
+        cyndra-aws-rds = { path = "/usr/src/cyndra/resources/aws-rds" }
+        cyndra-persist = { path = "/usr/src/cyndra/resources/persist" }
+        cyndra-shared-db = { path = "/usr/src/cyndra/resources/shared-db" }
+        cyndra-secrets = { path = "/usr/src/cyndra/resources/secrets" }
         EOF
 
         until </dev/tcp/provisioner/8000

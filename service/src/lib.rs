@@ -1,10 +1,10 @@
 #![doc(
-    html_logo_url = "https://raw.githubusercontent.com/getsynth/cyndra/main/resources/logo-square-transparent.png",
-    html_favicon_url = "https://raw.githubusercontent.com/getsynth/cyndra/main/resources/favicon.ico"
+    html_logo_url = "https://raw.githubusercontent.com/cyndra-hq/cyndra/main/assets/logo-square-transparent.png",
+    html_favicon_url = "https://raw.githubusercontent.com/cyndra-hq/cyndra/main/assets/favicon.ico"
 )]
 //! # Cyndra - Deploy Rust apps with a single Cargo subcommand
 //! <div style="display: flex; margin-top: 30px; margin-bottom: 30px;">
-//! <img src="https://raw.githubusercontent.com/getsynth/cyndra/main/resources/logo-rectangle-transparent.png" width="400px" style="margin-left: auto; margin-right: auto;"/>
+//! <img src="https://raw.githubusercontent.com/cyndra-hq/cyndra/main/assets/logo-rectangle-transparent.png" width="400px" style="margin-left: auto; margin-right: auto;"/>
 //! </div>
 //!
 //! Hello, and welcome to the <span style="font-family: Sans-Serif;"><a href="https://cyndra.rs">cyndra</a></span> API documentation!
@@ -53,7 +53,7 @@
 //! ```
 //!
 //! See the [cyndra_service::main][main] macro for more information on supported services - such as `axum`.
-//! Or look at more complete examples [in the repository](https://github.com/getsynth/cyndra/tree/main/examples), but
+//! Or look at more complete examples [in the repository](https://github.com/cyndra-hq/cyndra/tree/main/examples), but
 //! take note that the examples may update before official releases.
 //!
 //! ## Running locally
@@ -98,10 +98,10 @@
 //!
 //! Here is a quick example to deploy a service that uses a postgres database and [sqlx](http://docs.rs/sqlx):
 //!
-//! Add the `sqlx-postgres` feature to the `cyndra-service` dependency, and add `sqlx` as a dependency with the `runtime-tokio-native-tls` and `postgres` features inside `Cargo.toml`:
+//! Add `cyndra-shared-db` as a dependency with the `postgres` feature, and add `sqlx` as a dependency with the `runtime-tokio-native-tls` and `postgres` features inside `Cargo.toml`:
 //!
 //! ```toml
-//! cyndra-service = { version = "0.5.2", features = ["web-rocket", "sqlx-postgres"] }
+//! cyndra-shared-db = { version = "0.5.2", features = ["postgres"] }
 //! sqlx = { version = "0.6.1", features = ["runtime-tokio-native-tls", "postgres"] }
 //! ```
 //!
@@ -124,7 +124,7 @@
 //! }
 //!
 //! #[cyndra_service::main]
-//! async fn rocket(#[shared::Postgres] pool: PgPool) -> CyndraRocket {
+//! async fn rocket(#[cyndra_shared_db::Postgres] pool: PgPool) -> CyndraRocket {
 //!     let state = MyState(pool);
 //!     let rocket = rocket::build().manage(state).mount("/", routes![hello]);
 //!
@@ -136,7 +136,7 @@
 //!
 //! For deploys, cyndra will provision a database for your application and connect it to the `PgPool` on your behalf.
 //!
-//! To learn more about cyndra managed services, see [cyndra_service::main][main#getting-cyndra-managed-services].
+//! To learn more about cyndra managed resources, see [cyndra_service::main][main#getting-cyndra-managed-resources].
 //!
 //! ## Configuration
 //!
@@ -200,7 +200,7 @@
 //!
 //! If you have any questions, [join our Discord server](https://discord.gg/cyndra). There's always someone on there that can help!
 //!
-//! You can also [open an issue or a discussion on GitHub](https://github.com/getsynth/cyndra).
+//! You can also [open an issue or a discussion on GitHub](https://github.com/cyndra-hq/cyndra).
 //!
 
 use std::future::Future;
@@ -220,32 +220,12 @@ pub mod logger;
 
 pub use cyndra_common::database;
 
-#[cfg(any(feature = "sqlx-postgres", feature = "mongodb-integration",))]
-pub mod shared;
-
-#[cfg(feature = "secrets")]
-pub mod secrets;
-#[cfg(feature = "secrets")]
-pub use secrets::SecretStore;
-
-#[cfg(any(
-    feature = "sqlx-aws-mariadb",
-    feature = "sqlx-aws-mysql",
-    feature = "sqlx-aws-postgres"
-))]
-pub mod aws;
-
-#[cfg(feature = "persist")]
-pub mod persist;
-#[cfg(feature = "persist")]
-pub use persist::PersistInstance;
-
 #[cfg(feature = "codegen")]
 extern crate cyndra_codegen;
 #[cfg(feature = "codegen")]
 /// Helper macro that generates the entrypoint required by any service - likely the only macro you need in this crate.
 ///
-/// # Without cyndra managed services
+/// # Without cyndra managed resources
 /// The simplest usage is when your service does not require any cyndra managed resources, so you only need to return a cyndra supported service:
 ///
 /// ```rust,no_run
@@ -265,16 +245,16 @@ extern crate cyndra_codegen;
 ///
 /// | Return type                           | Feature flag | Service                                     | Version    | Example                                                                               |
 /// | ------------------------------------- | ------------ | ------------------------------------------- | ---------- | -----------------------------------------------------------------------------------   |
-/// | `CyndraRocket`                       | web-rocket   | [rocket](https://docs.rs/rocket/0.5.0-rc.2) | 0.5.0-rc.2 | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/rocket/hello-world)   |
-/// | `CyndraAxum`                         | web-axum     | [axum](https://docs.rs/axum/0.5)            | 0.5        | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/axum/hello-world)     |
-/// | `CyndraSalvo`                        | web-salvo    | [salvo](https://docs.rs/salvo/0.34.3)       | 0.34.3     | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/salvo/hello-world)    |
-/// | `CyndraTide`                         | web-tide     | [tide](https://docs.rs/tide/0.16.0)         | 0.16.0     | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/tide/hello-world)     |
-/// | `CyndraPoem`                         | web-poem     | [poem](https://docs.rs/poem/1.3.35)         | 1.3.35     | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/poem/hello-world)     |
-/// | `Result<T, cyndra_service::Error>`   | web-tower    | [tower](https://docs.rs/tower/0.4.12)       | 0.14.12    | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/tower/hello-world)    |
-/// | `CyndraSerenity`                     | bot-serenity | [serenity](https://docs.rs/serenity/0.11.5) | 0.11.5     | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/serenity/hello-world) |
+/// | `CyndraRocket`                       | web-rocket   | [rocket](https://docs.rs/rocket/0.5.0-rc.2) | 0.5.0-rc.2 | [GitHub](https://github.com/cyndra-hq/cyndra/tree/main/examples/rocket/hello-world)   |
+/// | `CyndraAxum`                         | web-axum     | [axum](https://docs.rs/axum/0.5)            | 0.5        | [GitHub](https://github.com/cyndra-hq/cyndra/tree/main/examples/axum/hello-world)     |
+/// | `CyndraSalvo`                        | web-salvo    | [salvo](https://docs.rs/salvo/0.34.3)       | 0.34.3     | [GitHub](https://github.com/cyndra-hq/cyndra/tree/main/examples/salvo/hello-world)    |
+/// | `CyndraTide`                         | web-tide     | [tide](https://docs.rs/tide/0.16.0)         | 0.16.0     | [GitHub](https://github.com/cyndra-hq/cyndra/tree/main/examples/tide/hello-world)     |
+/// | `CyndraPoem`                         | web-poem     | [poem](https://docs.rs/poem/1.3.35)         | 1.3.35     | [GitHub](https://github.com/cyndra-hq/cyndra/tree/main/examples/poem/hello-world)     |
+/// | `Result<T, cyndra_service::Error>`   | web-tower    | [tower](https://docs.rs/tower/0.4.12)       | 0.14.12    | [GitHub](https://github.com/cyndra-hq/cyndra/tree/main/examples/tower/hello-world)    |
+/// | `CyndraSerenity`                     | bot-serenity | [serenity](https://docs.rs/serenity/0.11.5) | 0.11.5     | [GitHub](https://github.com/cyndra-hq/cyndra/tree/main/examples/serenity/hello-world) |
 ///
-/// # Getting cyndra managed services
-/// Cyndra is able to manage service dependencies for you. These services are passed in as inputs to your `#[cyndra_service::main]` function and are configured using attributes:
+/// # Getting cyndra managed resources
+/// Cyndra is able to manage resource dependencies for you. These resources are passed in as inputs to your `#[cyndra_service::main]` function and are configured using attributes:
 /// ```rust,no_run
 /// use sqlx::PgPool;
 /// use cyndra_service::CyndraRocket;
@@ -282,7 +262,7 @@ extern crate cyndra_codegen;
 /// struct MyState(PgPool);
 ///
 /// #[cyndra_service::main]
-/// async fn rocket(#[shared::Postgres] pool: PgPool) -> CyndraRocket {
+/// async fn rocket(#[cyndra_shared_db::Postgres] pool: PgPool) -> CyndraRocket {
 ///     let state = MyState(pool);
 ///     let rocket = rocket::build().manage(state);
 ///
@@ -290,17 +270,7 @@ extern crate cyndra_codegen;
 /// }
 /// ```
 ///
-/// ## cyndra managed dependencies
-/// The following dependencies can be managed by cyndra - remember to enable their feature flags for the `cyndra-service` dependency in `Cargo.toml` and configure them using an attribute annotation:
-///
-
-/// | Argument type                                                            | Feature flag        | Attribute            | Dependency                                                                                         | Example                                                                          |
-/// | ------------------------------------------------------------------------ | ------------------- | -------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-/// | [`PgPool`](https://docs.rs/sqlx/latest/sqlx/type.PgPool.html)            | sqlx-postgres       | `shared::Postgres`   | A shared PostgresSQL instance accessed using [sqlx](https://docs.rs/sqlx)                          | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/rocket/postgres) |
-/// | [`Database`](https://docs.rs/mongodb/latest/mongodb/struct.Database.html)| mongodb-integration | `shared::MongoDb`    | A shared MongoDb database accessed using the [mongodb](https://docs.rs/mongodb) driver             | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/poem/mongodb)    |
-/// | [`MySqlPool`](https://docs.rs/sqlx/latest/sqlx/type.MySqlPool.html)      | sqlx-aws-mariadb    | `aws::rds::MariaDB`  | An AWS RDS MariaDB instance tied to your instance and accessed using [sqlx](https://docs.rs/sqlx)  |                                                                                  |
-/// | [`MySqlPool`](https://docs.rs/sqlx/latest/sqlx/type.MySqlPool.html)      | sqlx-aws-mysql      | `aws::rds::MySql`    | An AWS RDS MySql instance tied to your instance and accessed using [sqlx](https://docs.rs/sqlx)    |                                                                                  |
-/// | [`PgPool`](https://docs.rs/sqlx/latest/sqlx/type.PgPool.html)            | sqlx-aws-postgres   | `aws::rds::Postgres` | An AWS RDS Postgres instance tied to your instance and accessed using [sqlx](https://docs.rs/sqlx) | [GitHub](https://github.com/getsynth/cyndra/tree/main/examples/tide/postgres)   |
+/// More [cyndra managed resources can be found here](https://github.com/cyndra-hq/cyndra/tree/main/resources)
 pub use cyndra_codegen::main;
 use tokio::task::JoinHandle;
 
@@ -329,9 +299,69 @@ pub trait Factory: Send + Sync {
 
 /// Used to get resources of type `T` from factories.
 ///
-/// This is mainly meant for consumption by our code generator and should generally not be implemented by users.
-/// Some resources cannot cross the boundary between the api runtime and the runtime of services. These resources
-/// should be created on the passed in runtime.
+/// This is mainly meant for consumption by our code generator and should generally not be called by users.
+///
+/// ## Creating your own managed resource
+/// You may want to create your own managed resource by implementing this trait for some builder `B` to construct resource `T`. [`Factory`] can be used to provision resources
+/// on cyndra's servers if your resource will need any.
+///
+/// The biggest thing to look out for is that your resource object might panic when it crosses the boundary between the cyndra's backend runtime and the runtime
+/// of services. These resources should be created on the passed in `runtime` for this trait to prevent these panics.
+///
+/// Your resource will be available on a [cyndra_service::main][main] function as follow:
+/// ```
+/// #[cyndra_service::main]
+/// async fn my_service([custom_resource_crate::namespace::B] custom_resource: T)
+///     -> cyndra_service::CyndraAxum {}
+/// ```
+///
+/// Here `custom_resource_crate::namespace` is the crate and namespace to a builder `B` that implements [`ResourceBuilder`] to create resource `T`.
+///
+/// ### Example
+/// ```
+/// pub struct Builder {
+///     name: String,
+/// }
+///
+/// pub struct Resource {
+///     name: String,
+/// }
+///
+/// impl Builder {
+///     /// Name to give resource
+///     pub fn name(self, name: &str) -> Self {
+///         self.name = name.to_string();
+///
+///         self
+///     }
+/// }
+///
+/// #[async_trait]
+/// impl ResourceBuilder<Resource> for Builder {
+///     fn new() -> Self {
+///         Self {
+///             name: String::new(),
+///         }
+///     }
+///
+///     async fn build(
+///         self,
+///         factory: &mut dyn Factory,
+///         _runtime: &Runtime,
+///     ) -> Result<Resource, cyndra_service::Error> {
+///         Ok(Resource { name: self.name })
+///     }
+/// }
+/// ```
+///
+/// Then using this resource in a service:
+/// ```
+/// #[cyndra_service::main]
+/// async fn my_service(
+///     [custom_resource_crate::Builder(name = "John")] resource: custom_resource_crate::Resource
+/// )
+///     -> cyndra_service::CyndraAxum {}
+/// ```
 #[async_trait]
 pub trait ResourceBuilder<T> {
     fn new() -> Self;

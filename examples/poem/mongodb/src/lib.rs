@@ -55,7 +55,7 @@ async fn add(Json(todo): Json<Todo>, collection: Data<&Collection<Todo>>) -> Res
 
 #[cyndra_service::main]
 async fn main(
-    #[shared::MongoDb] db: Database,
+    #[cyndra_shared_db::MongoDb] db: Database,
 ) -> cyndra_service::CyndraPoem<impl poem::Endpoint> {
     let collection = db.collection::<Todo>("todos");
 

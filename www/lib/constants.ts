@@ -11,7 +11,7 @@ export const TWITTER_HANDLE = "@cyndra_dev";
 
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
-export const GITHUB_URL = "https://github.com/getsynth/cyndra";
+export const GITHUB_URL = "https://github.com/cyndra-hq/cyndra";
 export const DISCORD_URL = "https://discord.gg/cyndra";
 export const TWITTER_URL = "https://twitter.com/cyndra_dev";
 export const cyndra_DOCS_URL =

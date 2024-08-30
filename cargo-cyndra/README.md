@@ -7,7 +7,7 @@
     <img alt="language" src="https://img.shields.io/badge/language-Rust-orange.svg">
   </a>
   <a href="https://github.com/cyndra-hq/cyndra/actions">
-    <img alt="build status" src="https://img.shields.io/github/workflow/status/getsynth/cyndra/cargo-test"/>
+    <img alt="build status" src="https://img.shields.io/github/workflow/status/cyndra-hq/cyndra/cargo-test"/>
   </a>
   <a href="https://discord.gg/H33rRDTm3p">
     <img alt="discord" src="https://img.shields.io/discord/803236282088161321?logo=discord"/>
@@ -93,7 +93,7 @@ $ cargo cyndra init --rocket my-rocket-app
 
 This should generate the following dependency in `Cargo.toml`:
 ```toml
-cyndra-service = { version = "0.5.1", features = ["web-rocket"] }
+cyndra-service = { version = "0.5.2", features = ["web-rocket"] }
 ```
 
 The following boilerplate code should be generated into `src/lib.rs`:
