@@ -77,6 +77,9 @@ pub enum Command {
     Login(LoginArgs),
     /// run a cyndra service locally
     Run(RunArgs),
+    /// manage a project on cyndra
+    #[clap(subcommand)]
+    Project(ProjectCommand),
 }
 
 #[derive(Parser)]
@@ -88,6 +91,16 @@ pub enum DeploymentCommand {
         /// ID of deployment to get status for
         id: Uuid,
     },
+}
+
+#[derive(Parser)]
+pub enum ProjectCommand {
+    /// create an environment for this project on cyndra
+    New,
+    /// remove this project environment from cyndra
+    Rm,
+    /// show the status of this project's environment on cyndra
+    Status,
 }
 
 #[derive(Parser)]
