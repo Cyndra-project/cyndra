@@ -226,29 +226,36 @@ impl ToTokens for Wrapper {
             async fn __cyndra_wrapper(
                 #factory_ident: &mut dyn cyndra_service::Factory,
                 runtime: &cyndra_service::Runtime,
-                logger: Box<dyn cyndra_service::log::Log>,
+                logger: cyndra_service::logger::Logger,
             ) -> Result<Box<dyn cyndra_service::Service>, cyndra_service::Error> {
+                use cyndra_service::tracing_subscriber::prelude::*;
                 #extra_imports
 
                 runtime.spawn_blocking(move || {
-                    cyndra_service::log::set_boxed_logger(logger)
-                        .map(|()| cyndra_service::log::set_max_level(cyndra_service::log::LevelFilter::Info))
-                        .expect("logger set should succeed");
-                })
-                    .await
-                    .map_err(|e| {
-                        if e.is_panic() {
-                            let mes = e
-                                .into_panic()
-                                .downcast_ref::<&str>()
-                                .map(|x| x.to_string())
-                                .unwrap_or_else(|| "<no panic message>".to_string());
+                    let filter_layer =
+                        cyndra_service::tracing_subscriber::EnvFilter::try_from_default_env()
+                            .or_else(|_| cyndra_service::tracing_subscriber::EnvFilter::try_new("INFO"))
+                            .unwrap();
 
-                            cyndra_service::Error::BuildPanic(mes)
-                        } else {
-                            cyndra_service::Error::Custom(cyndra_service::error::CustomError::new(e))
-                        }
-                    })?;
+                    cyndra_service::tracing_subscriber::registry()
+                        .with(filter_layer)
+                        .with(logger)
+                        .init(); // this sets the subscriber as the global default and also adds a compatibility layer for capturing `log::Record`s
+                })
+                .await
+                .map_err(|e| {
+                    if e.is_panic() {
+                        let mes = e
+                            .into_panic()
+                            .downcast_ref::<&str>()
+                            .map(|x| x.to_string())
+                            .unwrap_or_else(|| "<no panic message>".to_string());
+
+                        cyndra_service::Error::BuildPanic(mes)
+                    } else {
+                        cyndra_service::Error::Custom(cyndra_service::error::CustomError::new(e))
+                    }
+                })?;
 
                 #(let #fn_inputs = #fn_inputs_builder::new()#fn_inputs_builder_options.build(#factory_ident, runtime).await?;)*
 
@@ -311,12 +318,19 @@ mod tests {
             async fn __cyndra_wrapper(
                 _factory: &mut dyn cyndra_service::Factory,
                 runtime: &cyndra_service::Runtime,
-                logger: Box<dyn cyndra_service::log::Log>,
+                logger: cyndra_service::logger::Logger,
             ) -> Result<Box<dyn cyndra_service::Service>, cyndra_service::Error> {
+                use cyndra_service::tracing_subscriber::prelude::*;
                 runtime.spawn_blocking(move || {
-                    cyndra_service::log::set_boxed_logger(logger)
-                        .map(|()| cyndra_service::log::set_max_level(cyndra_service::log::LevelFilter::Info))
-                        .expect("logger set should succeed");
+                    let filter_layer =
+                        cyndra_service::tracing_subscriber::EnvFilter::try_from_default_env()
+                            .or_else(|_| cyndra_service::tracing_subscriber::EnvFilter::try_new("INFO"))
+                            .unwrap();
+
+                    cyndra_service::tracing_subscriber::registry()
+                        .with(filter_layer)
+                        .with(logger)
+                        .init(); // this sets the subscriber as the global default and also adds a compatibility layer for capturing `log::Record`s
                 })
                 .await
                 .map_err(|e| {
@@ -416,14 +430,21 @@ mod tests {
             async fn __cyndra_wrapper(
                 factory: &mut dyn cyndra_service::Factory,
                 runtime: &cyndra_service::Runtime,
-                logger: Box<dyn cyndra_service::log::Log>,
+                logger: cyndra_service::logger::Logger,
             ) -> Result<Box<dyn cyndra_service::Service>, cyndra_service::Error> {
+                use cyndra_service::tracing_subscriber::prelude::*;
                 use cyndra_service::ResourceBuilder;
 
                 runtime.spawn_blocking(move || {
-                    cyndra_service::log::set_boxed_logger(logger)
-                        .map(|()| cyndra_service::log::set_max_level(cyndra_service::log::LevelFilter::Info))
-                        .expect("logger set should succeed");
+                    let filter_layer =
+                        cyndra_service::tracing_subscriber::EnvFilter::try_from_default_env()
+                            .or_else(|_| cyndra_service::tracing_subscriber::EnvFilter::try_new("INFO"))
+                            .unwrap();
+
+                    cyndra_service::tracing_subscriber::registry()
+                        .with(filter_layer)
+                        .with(logger)
+                        .init(); // this sets the subscriber as the global default and also adds a compatibility layer for capturing `log::Record`s
                 })
                 .await
                 .map_err(|e| {
