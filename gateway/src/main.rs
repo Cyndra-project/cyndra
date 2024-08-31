@@ -3,18 +3,16 @@ use futures::prelude::*;
 use cyndra_gateway::args::{Args, Commands, InitArgs};
 use cyndra_gateway::auth::Key;
 use cyndra_gateway::proxy::make_proxy;
-use cyndra_gateway::service::GatewayService;
+use cyndra_gateway::service::{GatewayService, MIGRATIONS};
 use cyndra_gateway::worker::Worker;
 use cyndra_gateway::{api::make_api, args::StartArgs};
-use sqlx::migrate::{MigrateDatabase, Migrator};
+use sqlx::migrate::MigrateDatabase;
 use sqlx::{query, Sqlite, SqlitePool};
 use std::io;
 use std::path::Path;
 use std::sync::Arc;
 use tracing::{error, info, trace};
 use tracing_subscriber::{fmt, prelude::*, EnvFilter};
-
-static MIGRATIONS: Migrator = sqlx::migrate!("./migrations");
 
 #[tokio::main]
 async fn main() -> io::Result<()> {
