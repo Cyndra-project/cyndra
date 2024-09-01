@@ -357,6 +357,10 @@ impl ProjectCreating {
                 "0.0.0.0:8000",
                 "--proxy-fqdn",
                 fqdn,
+                "--artifacts-path",
+                "/opt/cyndra",
+                "--state",
+                "/opt/cyndra/deployer.sqlite",
             ],
             "Env": [
                 "RUST_LOG=cyndra_deployer,cyndra_service,sqlx",
