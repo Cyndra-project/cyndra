@@ -48,3 +48,18 @@ impl From<State> for cyndra_common::deployment::State {
         }
     }
 }
+
+impl From<cyndra_common::deployment::State> for State {
+    fn from(state: cyndra_common::deployment::State) -> Self {
+        match state {
+            cyndra_common::deployment::State::Queued => Self::Queued,
+            cyndra_common::deployment::State::Building => Self::Building,
+            cyndra_common::deployment::State::Built => Self::Built,
+            cyndra_common::deployment::State::Running => Self::Running,
+            cyndra_common::deployment::State::Completed => Self::Completed,
+            cyndra_common::deployment::State::Stopped => Self::Stopped,
+            cyndra_common::deployment::State::Crashed => Self::Crashed,
+            cyndra_common::deployment::State::Unknown => Self::Unknown,
+        }
+    }
+}

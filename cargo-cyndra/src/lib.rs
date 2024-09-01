@@ -3,7 +3,6 @@ mod client;
 pub mod config;
 mod factory;
 mod init;
-mod logger;
 
 use std::collections::BTreeMap;
 use std::fs::{read_to_string, File};
@@ -26,12 +25,12 @@ use factory::LocalFactory;
 use futures::StreamExt;
 use cyndra_common::{deployment, secret};
 use cyndra_service::loader::{build_crate, Loader};
+use cyndra_service::Logger;
 use tracing::trace;
 use uuid::Uuid;
 
 use crate::args::{DeploymentCommand, ProjectCommand};
 use crate::client::Client;
-use crate::logger::Logger;
 
 pub struct Cyndra {
     ctx: RequestContext,
@@ -301,7 +300,15 @@ impl Cyndra {
             self.ctx.project_name(),
             addr
         );
-        let logger = Box::new(Logger::new());
+        let (tx, rx) = crossbeam_channel::bounded(0);
+
+        tokio::spawn(async move {
+            while let Ok(log) = rx.recv() {
+                println!("{log}");
+            }
+        });
+
+        let logger = Logger::new(tx, Default::default());
         let (handle, so) = loader.load(&mut factory, addr, logger).await?;
 
         handle.await??;

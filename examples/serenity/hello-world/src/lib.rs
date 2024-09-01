@@ -3,8 +3,8 @@ use serenity::async_trait;
 use serenity::model::channel::Message;
 use serenity::model::gateway::Ready;
 use serenity::prelude::*;
+use cyndra_secrets::SecretStore;
 use cyndra_service::error::CustomError;
-use cyndra_service::SecretStore;
 use sqlx::PgPool;
 
 struct Bot;
@@ -25,7 +25,7 @@ impl EventHandler for Bot {
 }
 
 #[cyndra_service::main]
-async fn serenity(#[shared::Postgres] pool: PgPool) -> cyndra_service::CyndraSerenity {
+async fn serenity(#[cyndra_shared_db::Postgres] pool: PgPool) -> cyndra_service::CyndraSerenity {
     // Get the discord token set in `Secrets.toml` from the shared Postgres database
     let token = pool
         .get_secret("DISCORD_TOKEN")

@@ -21,7 +21,7 @@ export default function AnnouncementBar() {
         ⭐️ If you like Cyndra,&nbsp;
         <ExternalLink
           className={styles.announcement__link}
-          href={"https://github.com/getsynth/cyndra"}
+          href={"https://github.com/cyndra-hq/cyndra"}
         >
           give it a star on GitHub
         </ExternalLink>

@@ -2,7 +2,7 @@ use anyhow::Result;
 use cargo_cyndra::{Args, CommandOutcome, Cyndra};
 use clap::Parser;
 
-#[tokio::main]
+#[tokio::main(flavor = "multi_thread")]
 async fn main() -> Result<()> {
     tracing_subscriber::fmt::init();
 

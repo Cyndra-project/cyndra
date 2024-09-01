@@ -73,7 +73,7 @@ impl From<Log> for cyndra_common::LogItem {
             file: log.file,
             line: log.line,
             target: log.target,
-            fields: log.fields,
+            fields: serde_json::to_vec(&log.fields).unwrap(),
         }
     }
 }
@@ -86,6 +86,18 @@ impl From<Level> for cyndra_common::log::Level {
             Level::Info => Self::Info,
             Level::Warn => Self::Warn,
             Level::Error => Self::Error,
+        }
+    }
+}
+
+impl From<cyndra_common::log::Level> for Level {
+    fn from(level: cyndra_common::log::Level) -> Self {
+        match level {
+            cyndra_common::log::Level::Trace => Self::Trace,
+            cyndra_common::log::Level::Debug => Self::Debug,
+            cyndra_common::log::Level::Info => Self::Info,
+            cyndra_common::log::Level::Warn => Self::Warn,
+            cyndra_common::log::Level::Error => Self::Error,
         }
     }
 }

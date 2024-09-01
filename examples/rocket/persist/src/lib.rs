@@ -6,7 +6,7 @@ use rocket::serde::json::Json;
 use rocket::State;
 use serde::{Deserialize, Serialize};
 
-use cyndra_service::PersistInstance;
+use cyndra_persist::PersistInstance;
 
 #[derive(Serialize, Deserialize, Clone)]
 struct Weather {
@@ -51,7 +51,9 @@ async fn retrieve(
 }
 
 #[cyndra_service::main]
-async fn rocket(#[persist::Persist] persist: PersistInstance) -> cyndra_service::CyndraRocket {
+async fn rocket(
+    #[cyndra_persist::Persist] persist: PersistInstance,
+) -> cyndra_service::CyndraRocket {
     let state = MyState { persist };
     let rocket = rocket::build()
         .mount("/", routes![retrieve, add])

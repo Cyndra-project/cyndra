@@ -33,6 +33,10 @@ In order to test local changes to the `cyndra-service` crate, you may want to ad
 ``` toml
 [patch.crates-io]
 cyndra-service = { path = "[base]/cyndra/service" }
+cyndra-aws-rds = { path = "[base]/cyndra/resources/aws-rds" }
+cyndra-persist = { path = "[base]/cyndra/resources/persist" }
+cyndra-shared-db = { path = "[base]/cyndra/resources/shared-db" }
+cyndra-secrets = { path = "[base]/cyndra/resources/secrets" }
 ```
 
 Login to cyndra service in a new terminal window from the main cyndra directory:

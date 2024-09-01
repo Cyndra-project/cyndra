@@ -1,12 +1,12 @@
 <p align="center">
-<img width="300" src="https://raw.githubusercontent.com/getsynth/cyndra/master/resources/logo-rectangle-transparent.png"/>
+<img width="300" src="https://raw.githubusercontent.com/cyndra-hq/cyndra/master/assets/logo-rectangle-transparent.png"/>
 </p>
 <br>
 <p align=center>
   <a href="https://docs.rs/cyndra-service">
     <img alt="docs" src="https://img.shields.io/badge/doc-reference-orange">
   </a>
-  <a href="https://github.com/getsynth/cyndra/search?l=rust">
+  <a href="https://github.com/cyndra-hq/cyndra/search?l=rust">
     <img alt="language" src="https://img.shields.io/badge/language-Rust-orange.svg">
   </a>
   <a href="https://circleci.com/gh/cyndra-hq/cyndra/">
@@ -21,7 +21,7 @@
 
 # cyndra
 
-[Cyndra](https://www.cyndra.rs/) is Rust-native cloud development platform that lets you deploy your Rust apps for free.
+[Cyndra](https://www.cyndra.rs/) is a Rust-native cloud development platform that lets you deploy your Rust apps for free.
 
 Cyndra is built for productivity, reliability and performance:
 - Zero-Configuration support for Rust using annotations
@@ -97,11 +97,19 @@ $ cargo cyndra deploy
         Database URI:       postgres://***:***@pg.cyndra.rs/db-hello-world
 ```
 
-For the full documentation, visit [docs.rs/cyndra-service](https://docs.rs/cyndra-service)
+For the full documentation, visit [docs.rs/cyndra-service](https://docs.rs/cyndra-service).
+
+For more examples, check out [cyndra examples](https://github.com/cyndra-hq/cyndra/tree/main/examples).
 
 ## Contributing to cyndra
 
-If you want to setup a local environment to test code changes to core `cyndra` packages, or want to contribute to the project see [CONTRIBUTING.md](./CONTRIBUTING.md)
+Contributing to cyndra is highly encouraged!
+
+If you want to setup a local environment to test code changes to core `cyndra` packages, or want to contribute to the project see [CONTRIBUTING.md](./CONTRIBUTING.md). 
+
+Even if you are not planning to submit any code; joining our [Discord server](https://discord.gg/cyndra) and providing feedback helps us a lot!
+
+You can also ⭐ this repo to show your interest & support.
 
 ## Roadmap
 
@@ -114,7 +122,7 @@ If you have any requests or suggestions feel free to open an issue.
 - [Community Forum](https://github.com/cyndra-hq/cyndra/discussions). Best for: help with building, discussion about best practices.
 - [GitHub Issues](https://github.com/cyndra-hq/cyndra/issues). Best for: bugs and errors you encounter using Cyndra.
 - [Discord](https://discord.gg/cyndra). Best for: sharing your applications and hanging out with the community.
-- [Twitter](https://twitter.com/cyndra_dev). Best for: keeping up with announcements and releases
+- [Twitter](https://twitter.com/cyndra_dev). Best for: keeping up with announcements and releases.
 
 ## Status
 
