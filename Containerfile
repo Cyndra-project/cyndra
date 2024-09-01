@@ -28,5 +28,9 @@ COPY --from=cache /build/ /usr/src/cyndra/
 
 FROM cyndra-common
 ARG crate
+SHELL ["/bin/bash", "-c"]
+RUN mkdir -p $CARGO_HOME; \
+echo $'[patch.crates-io] \n\
+cyndra-service = { path = "/usr/src/cyndra/service" }' > $CARGO_HOME/config.toml
 COPY --from=builder /build/target/debug/${crate} /usr/local/bin/service
 ENTRYPOINT ["/usr/local/bin/service"]

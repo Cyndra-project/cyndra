@@ -324,6 +324,7 @@ impl ProjectCreating {
             provisioner_host,
             network_name,
             network_id,
+            fqdn,
             ..
         } = ctx.container_settings();
 
@@ -355,7 +356,7 @@ impl ProjectCreating {
                 "--proxy-address",
                 "0.0.0.0:8000",
                 "--proxy-fqdn",
-                "cyndraapp.rs",
+                fqdn,
             ],
             "Env": [
                 "RUST_LOG=cyndra_deployer,cyndra_service,sqlx",
