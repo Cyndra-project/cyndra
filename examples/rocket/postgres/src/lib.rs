@@ -5,7 +5,6 @@ use rocket::response::status::BadRequest;
 use rocket::serde::json::Json;
 use rocket::State;
 use serde::{Deserialize, Serialize};
-use cyndra_secrets::SecretStore;
 use cyndra_service::error::CustomError;
 use sqlx::{Executor, FromRow, PgPool};
 

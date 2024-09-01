@@ -7,7 +7,6 @@ use poem::{
     EndpointExt, Result, Route,
 };
 use serde::{Deserialize, Serialize};
-use cyndra_secrets::SecretStore;
 use cyndra_service::error::CustomError;
 use sqlx::{Executor, FromRow, PgPool};
 
