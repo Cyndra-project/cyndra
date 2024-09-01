@@ -26,64 +26,41 @@
 Cyndra is built for productivity, reliability and performance:
 - Zero-Configuration support for Rust using annotations
 - Automatic resource provisioning (databases, caches, subdomains, etc.) via [Infrastructure-From-Code](https://www.cyndra.rs/blog/2022/05/09/ifc)
-- First-class support for popular Rust frameworks ([Rocket](https://github.com/cyndra-hq/cyndra/tree/main/examples/rocket/hello-world), [Axum](https://github.com/cyndra-hq/cyndra/tree/main/examples/axum/hello-world), 
-  [Tide](https://github.com/cyndra-hq/cyndra/tree/main/examples/tide/hello-world), [Poem](https://github.com/cyndra-hq/cyndra/tree/main/examples/poem/hello-world) and [Tower](https://github.com/cyndra-hq/cyndra/tree/main/examples/tower/hello-world))
-- Support for deploying Discord bots using [Serenity](https://github.com/cyndra-hq/cyndra/tree/main/examples/serenity/hello-world)
+- First-class support for popular Rust frameworks ([Rocket](https://docs.cyndra.rs/guide/rocket-examples.html), [Axum](https://docs.cyndra.rs/guide/axum-examples.html), 
+  [Tide](https://docs.cyndra.rs/guide/tide-examples.html), [Poem](https://docs.cyndra.rs/guide/poem-examples.html) and [Tower](https://docs.cyndra.rs/guide/tower-examples.html))
+- Support for deploying Discord bots using [Serenity](https://docs.cyndra.rs/guide/serenity-examples.html)
 - Scalable hosting (with optional self-hosting)
 
+📖 Check out our documentation to get started quickly: [docs.cyndra.rs](https://docs.cyndra.rs)
+
+⭐ If you find cyndra interesting, consider starring this repo to help spread the word.
+
+🙋‍♂️ If you have any questions, join our [Discord](https://discord.gg/cyndra) server.
 
 ## Getting Started
 
-First download the Cyndra cargo extension and login:
+Run the following command to install cyndra:
 
 ```bash
-$ cargo install cargo-cyndra
-$ cargo cyndra login
+cargo install cargo-cyndra
 ```
 
-Create your first cyndra app with the `axum` framework:
+And then login:
 
 ```bash
-$ cargo cyndra init --axum hello-world
+cargo cyndra login
 ```
 
-Your `Cargo.toml` should look like:
-
-```toml
-[package]
-name = "hello-world"
-version = "0.1.0"
-edition = "2021"
-
-[lib]
-
-[dependencies]
-axum = "0.5"
-cyndra-service = { version = "0.5.2", features = ["web-axum"] }
-sync_wrapper = "0.1"
+To initialize your project, simply write:
+```bash
+cargo cyndra init --axum hello-world
+```
+And to deploy it, write:
+```bash
+cargo cyndra deploy
 ```
 
-
-Your cyndra app in `lib.rs` should look like:
-
-```rust
-use axum::{routing::get, Router};
-use sync_wrapper::SyncWrapper;
-
-async fn hello_world() -> &'static str {
-    "Hello, world!"
-}
-
-#[cyndra_service::main]
-async fn axum() -> cyndra_service::CyndraAxum {
-    let router = Router::new().route("/hello", get(hello_world));
-    let sync_wrapper = SyncWrapper::new(router);
-
-    Ok(sync_wrapper)
-}
-```
-
-Deploy:
+And that's... it.
 
 ```bash
 $ cargo cyndra deploy
@@ -94,22 +71,18 @@ $ cargo cyndra deploy
         Deployment Status:  DEPLOYED
         Host:               hello-world.cyndraapp.rs
         Created At:         2022-04-01 08:32:34.412602556 UTC
-        Database URI:       postgres://***:***@pg.cyndra.rs/db-hello-world
 ```
 
-For the full documentation, visit [docs.rs/cyndra-service](https://docs.rs/cyndra-service).
+Feel free to build on-top of the generated `hello-world` boilerplate or take a stab at one of our [examples](https://docs.cyndra.rs/guide/axum-examples.html#hello-world).
 
-For more examples, check out [cyndra examples](https://github.com/cyndra-hq/cyndra/tree/main/examples).
-
+For the full documentation, visit [our docs](https://docs.cyndra.rs).
 ## Contributing to cyndra
 
 Contributing to cyndra is highly encouraged!
 
-If you want to setup a local environment to test code changes to core `cyndra` packages, or want to contribute to the project see [CONTRIBUTING.md](./CONTRIBUTING.md). 
+If you want to setup a local environment to test code changes to core `cyndra` packages, or want to contribute to the project check out [our docs](https://docs.cyndra.rs/guide/contribute.html). 
 
 Even if you are not planning to submit any code; joining our [Discord server](https://discord.gg/cyndra) and providing feedback helps us a lot!
-
-You can also ⭐ this repo to show your interest & support.
 
 ## Roadmap
 
