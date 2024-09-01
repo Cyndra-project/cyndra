@@ -15,4 +15,4 @@ export const GITHUB_URL = "https://github.com/cyndra-hq/cyndra";
 export const DISCORD_URL = "https://discord.gg/cyndra";
 export const TWITTER_URL = "https://twitter.com/cyndra_dev";
 export const cyndra_DOCS_URL =
-  "https://docs.rs/cyndra-service/latest/cyndra_service/";
+  "https://docs.cyndra.rs/";
