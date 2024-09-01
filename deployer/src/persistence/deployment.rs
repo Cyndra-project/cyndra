@@ -40,9 +40,9 @@ impl FromRow<'_, SqliteRow> for Deployment {
     }
 }
 
-impl From<Deployment> for cyndra_common::deployment::Response {
+impl From<Deployment> for cyndra_common::models::deployment::Response {
     fn from(deployment: Deployment) -> Self {
-        cyndra_common::deployment::Response {
+        cyndra_common::models::deployment::Response {
             id: deployment.id,
             service_id: deployment.service_id,
             state: deployment.state.into(),

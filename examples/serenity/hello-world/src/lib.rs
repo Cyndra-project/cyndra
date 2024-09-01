@@ -27,7 +27,7 @@ impl EventHandler for Bot {
 async fn serenity(
     #[cyndra_secrets::Secrets] secret_store: SecretStore,
 ) -> cyndra_service::CyndraSerenity {
-    // Get the discord token set in `Secrets.toml` from the shared Postgres database
+    // Get the discord token set in `Secrets.toml`
     let token = if let Some(token) = secret_store.get("DISCORD_TOKEN") {
         token
     } else {

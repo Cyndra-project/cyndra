@@ -1,4 +1,4 @@
-use cyndra_common::service;
+use cyndra_common::models::service;
 use uuid::Uuid;
 
 #[derive(Clone, Debug, Eq, PartialEq, sqlx::FromRow)]
