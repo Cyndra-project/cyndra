@@ -363,7 +363,7 @@ impl ProjectCreating {
                 "/opt/cyndra/deployer.sqlite",
             ],
             "Env": [
-                "RUST_LOG=cyndra_deployer,cyndra_service,sqlx",
+                "RUST_LOG=debug",
             ],
             "Healthcheck": {
                 "Interval": 5_000_000_000i64,

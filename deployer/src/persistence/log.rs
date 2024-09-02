@@ -36,6 +36,7 @@ impl Log {
                     State::Queued => Some((cyndra_common::deployment::State::Queued, None)),
                     State::Building => Some((cyndra_common::deployment::State::Building, None)),
                     State::Built => Some((cyndra_common::deployment::State::Built, None)),
+                    State::Loading => Some((cyndra_common::deployment::State::Loading, None)),
                     State::Running => Some((cyndra_common::deployment::State::Running, None)),
                     State::Completed => Some((cyndra_common::deployment::State::Completed, None)),
                     State::Stopped => Some((cyndra_common::deployment::State::Stopped, None)),
