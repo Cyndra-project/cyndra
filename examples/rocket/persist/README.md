@@ -20,6 +20,7 @@ Pick a project name that is something unique - in cyndra,
 projects are globally unique. Then run
 
 ```bash
+$ cargo cyndra project new --name=$PROJECT_NAME
 $ cargo cyndra deploy --name=$PROJECT_NAME
 ```
 
