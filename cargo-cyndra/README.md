@@ -50,27 +50,24 @@ Run `cargo-cyndra --help` to see the basic usage:
 USAGE:
     cargo-cyndra [OPTIONS] <SUBCOMMAND>
 
-FLAGS:
-    -h, --help       Prints help information
-    -V, --version    Prints version information
-
 OPTIONS:
-        --api-url <api-url>
-            Run this command against the api at the supplied url [env: cyndra_API=]
-
-        --name <name>                              Specify the name of the project (overrides crate name)
-        --working-directory <working-directory>    Specify the working directory [default: .]
+        --api-url <API_URL>                        run this command against the api at the supplied url (allows targeting a custom deployed instance for this command only) [env: cyndra_API=]
+    -h, --help                                     Print help information
+        --name <NAME>                              Specify the name of the project (overrides crate name)
+    -V, --version                                  Print version information
+        --working-directory <WORKING_DIRECTORY>    Specify the working directory [default: .]
 
 SUBCOMMANDS:
-    auth      create user credentials for the cyndra platform
-    delete    delete the latest deployment for a cyndra project
-    deploy    deploy a cyndra project
-    help      Prints this message or the help of the given subcommand(s)
-    init      create a new cyndra project
-    login     login to the cyndra platform
-    logs      view the logs of a cyndra project
-    run       run a cyndra project locally
-    status    view the status of a cyndra project
+    auth          create user credentials for the cyndra platform
+    delete        delete this cyndra service
+    deploy        deploy a cyndra service
+    deployment    manage deployments of a cyndra service
+    help          Print this message or the help of the given subcommand(s)
+    init          create a new cyndra service
+    login         login to the cyndra platform
+    logs          view the logs of a deployment in this cyndra service
+    run           run a cyndra service locally
+    status        view the status of a cyndra service
 ```
 
 ### Subcommand: `init`
@@ -93,7 +90,7 @@ $ cargo cyndra init --rocket my-rocket-app
 
 This should generate the following dependency in `Cargo.toml`:
 ```toml
-cyndra-service = { version = "0.5.2", features = ["web-rocket"] }
+cyndra-service = { version = "0.6.0", features = ["web-rocket"] }
 ```
 
 The following boilerplate code should be generated into `src/lib.rs`:
@@ -153,6 +150,7 @@ $ cargo cyndra login --api-key your-api-key-from-browser
 To deploy your cyndra project to the cloud, run:
 
 ```sh
+$ cargo cyndra project new
 $ cargo cyndra deploy
 ```
 

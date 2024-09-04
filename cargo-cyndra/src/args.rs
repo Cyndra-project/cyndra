@@ -7,9 +7,12 @@ use std::{
 
 use clap::Parser;
 use cyndra_common::project::ProjectName;
+use uuid::Uuid;
 
 #[derive(Parser)]
 #[clap(
+    version,
+    about,
     // Cargo passes in the subcommand name to the invoked executable. Use a
     // hidden, optional positional argument to deal with it.
     arg(clap::Arg::with_name("dummy")
@@ -46,22 +49,58 @@ pub struct ProjectArgs {
 
 #[derive(Parser)]
 pub enum Command {
-    /// deploy a cyndra project
+    /// deploy a cyndra service
     Deploy(DeployArgs),
-    /// create a new cyndra project
+    /// manage deployments of a cyndra service
+    #[clap(subcommand)]
+    Deployment(DeploymentCommand),
+    /// create a new cyndra service
     Init(InitArgs),
-    /// view the status of a cyndra project
+    /// view the status of a cyndra service
     Status,
-    /// view the logs of a cyndra project
-    Logs,
-    /// delete the latest deployment for a cyndra project
+    /// view the logs of a deployment in this cyndra service
+    Logs {
+        /// Deployment ID to get logs for. Defaults to currently running deployment
+        id: Option<Uuid>,
+
+        #[clap(short, long)]
+        /// Follow log output
+        follow: bool,
+    },
+    /// delete this cyndra service
     Delete,
+    /// manage secrets for this cyndra service
+    Secrets,
     /// create user credentials for the cyndra platform
     Auth(AuthArgs),
     /// login to the cyndra platform
     Login(LoginArgs),
-    /// run a cyndra project locally
+    /// run a cyndra service locally
     Run(RunArgs),
+    /// manage a project on cyndra
+    #[clap(subcommand)]
+    Project(ProjectCommand),
+}
+
+#[derive(Parser)]
+pub enum DeploymentCommand {
+    /// list all the deployments for a service
+    List,
+    /// view status of a deployment
+    Status {
+        /// ID of deployment to get status for
+        id: Uuid,
+    },
+}
+
+#[derive(Parser)]
+pub enum ProjectCommand {
+    /// create an environment for this project on cyndra
+    New,
+    /// remove this project environment from cyndra
+    Rm,
+    /// show the status of this project's environment on cyndra
+    Status,
 }
 
 #[derive(Parser)]
@@ -100,7 +139,7 @@ pub struct InitArgs {
     /// Initialize with axum framework
     #[clap(long, conflicts_with_all = &["rocket", "tide", "tower", "poem", "serenity", "warp", "salvo"])]
     pub axum: bool,
-    /// Initialize with actix-web framework
+    /// Initialize with rocket framework
     #[clap(long, conflicts_with_all = &["axum", "tide", "tower", "poem", "serenity", "warp", "salvo"])]
     pub rocket: bool,
     /// Initialize with tide framework

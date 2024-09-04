@@ -57,6 +57,8 @@ cargo cyndra init --axum hello-world
 ```
 And to deploy it, write:
 ```bash
+cargo cyndra project new
+cargo cyndra project status // until the project is "ready"
 cargo cyndra deploy
 ```
 

@@ -1,43 +1,12 @@
 version: "3"
 
 services:
-  api:
-    entrypoint:
-      - /bin/bash
-      - -c
-      - |
-        mkdir -p /var/lib/cyndra/crates
-
-        cat<<EOF > /var/lib/cyndra/users.toml
-        [test-key]
-        name = "tester"
-        projects = []
-        EOF
-
-        mkdir -p $$CARGO_HOME
-        cat<<EOF > $$CARGO_HOME/config.toml
-        [patch.crates-io]
-        cyndra-service = { path = "/usr/src/cyndra/service" }
-        cyndra-aws-rds = { path = "/usr/src/cyndra/resources/aws-rds" }
-        cyndra-persist = { path = "/usr/src/cyndra/resources/persist" }
-        cyndra-shared-db = { path = "/usr/src/cyndra/resources/shared-db" }
-        cyndra-secrets = { path = "/usr/src/cyndra/resources/secrets" }
-        EOF
-
-        until </dev/tcp/provisioner/8000
-        do
-          >&2 echo "provisioner is not available yet - sleeping"
-          sleep 1
-        done
-
-        exec /usr/local/bin/service "$${@:0}"
-
   provisioner:
     entrypoint:
       - /bin/bash
       - -c
       - |
-        until </dev/tcp/pg/5432
+        until </dev/tcp/postgres/5432
         do
           >&2 echo "PG is not available yet - sleeping"
           sleep 1

@@ -1,11 +1,10 @@
-use log::{error, info};
+use anyhow::anyhow;
 use serenity::async_trait;
 use serenity::model::channel::Message;
 use serenity::model::gateway::Ready;
 use serenity::prelude::*;
 use cyndra_secrets::SecretStore;
-use cyndra_service::error::CustomError;
-use sqlx::PgPool;
+use tracing::{error, info};
 
 struct Bot;
 
@@ -25,12 +24,15 @@ impl EventHandler for Bot {
 }
 
 #[cyndra_service::main]
-async fn serenity(#[cyndra_shared_db::Postgres] pool: PgPool) -> cyndra_service::CyndraSerenity {
-    // Get the discord token set in `Secrets.toml` from the shared Postgres database
-    let token = pool
-        .get_secret("DISCORD_TOKEN")
-        .await
-        .map_err(CustomError::new)?;
+async fn serenity(
+    #[cyndra_secrets::Secrets] secret_store: SecretStore,
+) -> cyndra_service::CyndraSerenity {
+    // Get the discord token set in `Secrets.toml`
+    let token = if let Some(token) = secret_store.get("DISCORD_TOKEN") {
+        token
+    } else {
+        return Err(anyhow!("'DISCORD_TOKEN' was not found").into());
+    };
 
     // Set gateway intents, which decides what events the bot will be notified about
     let intents = GatewayIntents::GUILD_MESSAGES | GatewayIntents::MESSAGE_CONTENT;
