@@ -10,7 +10,7 @@ async fn cargo_cyndra_run(working_directory: &str) -> u16 {
     let port = pick_unused_port().unwrap();
     let run_args = RunArgs { port };
 
-    let runner = Cyndra::new().run(Args {
+    let runner = Cyndra::new().unwrap().run(Args {
         api_url: Some("http://cyndra.invalid:80".to_string()),
         project_args: ProjectArgs {
             working_directory: working_directory.clone(),

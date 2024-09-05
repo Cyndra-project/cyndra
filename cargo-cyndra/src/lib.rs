@@ -37,16 +37,10 @@ pub struct Cyndra {
     ctx: RequestContext,
 }
 
-impl Default for Cyndra {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl Cyndra {
-    pub fn new() -> Self {
-        let ctx = RequestContext::load_global().unwrap();
-        Self { ctx }
+    pub fn new() -> Result<Self> {
+        let ctx = RequestContext::load_global()?;
+        Ok(Self { ctx })
     }
 
     pub async fn run(mut self, mut args: Args) -> Result<CommandOutcome> {
@@ -479,7 +473,7 @@ mod tests {
             name: None,
         };
 
-        let mut cyndra = Cyndra::new();
+        let mut cyndra = Cyndra::new().unwrap();
         Cyndra::load_project(&mut cyndra, &mut project_args).unwrap();
 
         assert_eq!(
