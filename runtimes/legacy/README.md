@@ -1,4 +1,4 @@
-## cyndra-next runtime-wrapper
+## cyndra-legacy
 
 Load and run an .so library that implements `cyndra_service::Service`. 
 

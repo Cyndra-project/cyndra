@@ -1,4 +1,4 @@
-# `cyndra-runtime`
+# `cyndra-next`
 
 ## How to run
 
