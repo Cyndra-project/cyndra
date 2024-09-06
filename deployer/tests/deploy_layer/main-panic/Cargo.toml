@@ -11,4 +11,4 @@ crate-type = ["cdylib"]
 [workspace]
 
 [dependencies]
-cyndra-service = "0.7.0"
+cyndra-service = "0.7.1"

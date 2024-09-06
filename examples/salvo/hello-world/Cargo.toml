@@ -7,4 +7,4 @@ edition = "2021"
 
 [dependencies]
 salvo = "0.34.3"
-cyndra-service = { version = "0.7.0", features = ["web-salvo"] }
+cyndra-service = { version = "0.7.1", features = ["web-salvo"] }
