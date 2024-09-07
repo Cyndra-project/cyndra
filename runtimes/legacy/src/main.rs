@@ -3,7 +3,7 @@ use std::{collections::BTreeMap, net::SocketAddr, path::PathBuf, str::FromStr};
 use async_trait::async_trait;
 use clap::Parser;
 use cyndra_common::{database, LogItem};
-use cyndra_next::args::Args;
+use cyndra_legacy::args::Args;
 use cyndra_service::{
     loader::{LoadedService, Loader},
     Factory, Logger, ServiceName,
@@ -59,7 +59,7 @@ async fn load_service(
     so_path: PathBuf,
     factory: &mut dyn Factory,
     logger: Logger,
-) -> cyndra_next::error::Result<LoadedService> {
+) -> cyndra_legacy::error::Result<LoadedService> {
     let loader = Loader::from_so_file(so_path)?;
 
     Ok(loader.load(factory, addr, logger).await?)
