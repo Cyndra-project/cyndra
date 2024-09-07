@@ -1,5 +1,3 @@
-pub mod args;
-
 use std::env;
 use std::fs::File;
 use std::io::{Read, Write};
@@ -10,8 +8,8 @@ use std::sync::Arc;
 use async_trait::async_trait;
 use cap_std::os::unix::net::UnixStream;
 use serenity::{model::prelude::*, prelude::*};
-use cyndra_runtime_proto::runtime::runtime_server::Runtime;
-use cyndra_runtime_proto::runtime::{LoadRequest, LoadResponse, StartRequest, StartResponse};
+use cyndra_proto::runtime::runtime_server::Runtime;
+use cyndra_proto::runtime::{LoadRequest, LoadResponse, StartRequest, StartResponse};
 use tonic::{Request, Response, Status};
 use tracing::trace;
 use wasi_common::file::FileCaps;

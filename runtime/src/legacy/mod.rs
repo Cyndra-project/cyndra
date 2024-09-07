@@ -9,7 +9,7 @@ use std::{
 use anyhow::anyhow;
 use async_trait::async_trait;
 use cyndra_common::{database, LogItem};
-use cyndra_runtime_proto::runtime::{
+use cyndra_proto::runtime::{
     runtime_server::Runtime, LoadRequest, LoadResponse, StartRequest, StartResponse,
 };
 use cyndra_service::{
@@ -20,8 +20,7 @@ use tokio::sync::mpsc::{self, UnboundedReceiver};
 use tonic::{Request, Response, Status};
 use tracing::{info, instrument, trace};
 
-pub mod args;
-pub mod error;
+mod error;
 
 pub struct Legacy {
     // Mutexes are for interior mutability
