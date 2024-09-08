@@ -52,7 +52,7 @@
 //! ```
 //!
 //! See the [cyndra_service::main][main] macro for more information on supported services - such as `axum`.
-//! Or look at more complete examples [in the repository](https://github.com/cyndra-hq/cyndra/tree/main/examples), but
+//! Or look at [more complete examples](https://github.com/cyndra-hq/examples), but
 //! take note that the examples may update before official releases.
 //!
 //! ## Running locally
@@ -256,13 +256,13 @@ extern crate cyndra_codegen;
 ///
 /// | Return type                           | Feature flag | Service                                     | Version    | Example                                                                               |
 /// | ------------------------------------- | ------------ | ------------------------------------------- | ---------- | -----------------------------------------------------------------------------------   |
-/// | `CyndraRocket`                       | web-rocket   | [rocket](https://docs.rs/rocket/0.5.0-rc.2) | 0.5.0-rc.2 | [GitHub](https://github.com/cyndra-hq/cyndra/tree/main/examples/rocket/hello-world)   |
-/// | `CyndraAxum`                         | web-axum     | [axum](https://docs.rs/axum/0.5)            | 0.5        | [GitHub](https://github.com/cyndra-hq/cyndra/tree/main/examples/axum/hello-world)     |
-/// | `CyndraSalvo`                        | web-salvo    | [salvo](https://docs.rs/salvo/0.34.3)       | 0.34.3     | [GitHub](https://github.com/cyndra-hq/cyndra/tree/main/examples/salvo/hello-world)    |
-/// | `CyndraTide`                         | web-tide     | [tide](https://docs.rs/tide/0.16.0)         | 0.16.0     | [GitHub](https://github.com/cyndra-hq/cyndra/tree/main/examples/tide/hello-world)     |
-/// | `CyndraPoem`                         | web-poem     | [poem](https://docs.rs/poem/1.3.35)         | 1.3.35     | [GitHub](https://github.com/cyndra-hq/cyndra/tree/main/examples/poem/hello-world)     |
-/// | `Result<T, cyndra_service::Error>`   | web-tower    | [tower](https://docs.rs/tower/0.4.12)       | 0.14.12    | [GitHub](https://github.com/cyndra-hq/cyndra/tree/main/examples/tower/hello-world)    |
-/// | `CyndraSerenity`                     | bot-serenity | [serenity](https://docs.rs/serenity/0.11.5) | 0.11.5     | [GitHub](https://github.com/cyndra-hq/cyndra/tree/main/examples/serenity/hello-world) |
+/// | `CyndraRocket`                       | web-rocket   | [rocket](https://docs.rs/rocket/0.5.0-rc.2) | 0.5.0-rc.2 | [GitHub](https://github.com/cyndra-hq/examples/tree/main/rocket/hello-world)         |
+/// | `CyndraAxum`                         | web-axum     | [axum](https://docs.rs/axum/0.5)            | 0.5        | [GitHub](https://github.com/cyndra-hq/examples/tree/main/axum/hello-world)           |
+/// | `CyndraSalvo`                        | web-salvo    | [salvo](https://docs.rs/salvo/0.34.3)       | 0.34.3     | [GitHub](https://github.com/cyndra-hq/examples/tree/main/salvo/hello-world)          |
+/// | `CyndraTide`                         | web-tide     | [tide](https://docs.rs/tide/0.16.0)         | 0.16.0     | [GitHub](https://github.com/cyndra-hq/examples/tree/main/tide/hello-world)           |
+/// | `CyndraPoem`                         | web-poem     | [poem](https://docs.rs/poem/1.3.35)         | 1.3.35     | [GitHub](https://github.com/cyndra-hq/examples/tree/main/poem/hello-world)           |
+/// | `Result<T, cyndra_service::Error>`   | web-tower    | [tower](https://docs.rs/tower/0.4.12)       | 0.14.12    | [GitHub](https://github.com/cyndra-hq/examples/tree/main/tower/hello-world)          |
+/// | `CyndraSerenity`                     | bot-serenity | [serenity](https://docs.rs/serenity/0.11.5) | 0.11.5     | [GitHub](https://github.com/cyndra-hq/examples/tree/main/serenity/hello-world)       |
 ///
 /// # Getting cyndra managed resources
 /// Cyndra is able to manage resource dependencies for you. These resources are passed in as inputs to your `#[cyndra_service::main]` function and are configured using attributes:

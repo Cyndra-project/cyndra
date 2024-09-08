@@ -13,5 +13,5 @@ Add `cyndra-aws-rds` to the dependencies for your service. Every engine is behin
 | MySql    | mysql        | cyndra_aws_rds::MySql    |
 | MariaDB  | mariadb      | cyndra_aws_rds::MariaDB  |
 
-An example using the Tide framework can be found on [GitHub](https://github.com/cyndra-hq/cyndra/tree/main/examples/tide/postgres)
+An example using the Tide framework can be found on [GitHub](https://github.com/cyndra-hq/examples/tree/main/tide/postgres)
 
