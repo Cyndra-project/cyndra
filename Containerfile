@@ -18,8 +18,8 @@ FROM cyndra-build AS builder
 COPY --from=planner /build/recipe.json recipe.json
 RUN cargo chef cook --recipe-path recipe.json
 COPY --from=cache /build .
-ARG crate
-RUN cargo build --bin ${crate}
+ARG folder
+RUN cargo build --bin cyndra-${folder}
 
 FROM rust:1.63.0-buster as cyndra-common
 RUN apt-get update &&\
@@ -28,14 +28,8 @@ RUN rustup component add rust-src
 COPY --from=cache /build/ /usr/src/cyndra/
 
 FROM cyndra-common
-ARG crate
-SHELL ["/bin/bash", "-c"]
-RUN mkdir -p $CARGO_HOME; \
-echo $'[patch.crates-io] \n\
-cyndra-service = { path = "/usr/src/cyndra/service" } \n\
-cyndra-aws-rds = { path = "/usr/src/cyndra/resources/aws-rds" } \n\
-cyndra-persist = { path = "/usr/src/cyndra/resources/persist" } \n\
-cyndra-shared-db = { path = "/usr/src/cyndra/resources/shared-db" } \n\
-cyndra-secrets = { path = "/usr/src/cyndra/resources/secrets" }' > $CARGO_HOME/config.toml
-COPY --from=builder /build/target/debug/${crate} /usr/local/bin/service
+ARG folder
+COPY ${folder}/prepare.sh /prepare.sh
+RUN /prepare.sh
+COPY --from=builder /build/target/debug/cyndra-${folder} /usr/local/bin/service
 ENTRYPOINT ["/usr/local/bin/service"]
