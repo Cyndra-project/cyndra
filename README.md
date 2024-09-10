@@ -82,7 +82,7 @@ For the full documentation, visit [our docs](https://docs.cyndra.rs).
 
 Contributing to cyndra is highly encouraged!
 
-If you want to setup a local environment to test code changes to core `cyndra` packages, or want to contribute to the project check out [our docs](https://docs.cyndra.rs/guide/contribute.html). 
+If you want to setup a local environment to test code changes to core `cyndra` packages, or want to contribute to the project check out [our docs](https://docs.cyndra.rs/community/contribute). 
 
 Even if you are not planning to submit any code; joining our [Discord server](https://discord.gg/cyndra) and providing feedback helps us a lot!
 
