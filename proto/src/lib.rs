@@ -65,5 +65,52 @@ pub mod provisioner {
 }
 
 pub mod runtime {
+    use std::time::SystemTime;
+
+    use prost_types::Timestamp;
+
     tonic::include_proto!("runtime");
+
+    impl From<cyndra_common::LogItem> for LogItem {
+        fn from(log: cyndra_common::LogItem) -> Self {
+            Self {
+                id: log.id.into_bytes().to_vec(),
+                timestamp: Some(Timestamp::from(SystemTime::from(log.timestamp))),
+                state: LogState::from(log.state) as i32,
+                level: LogLevel::from(log.level) as i32,
+                file: log.file,
+                line: log.line,
+                target: log.target,
+                fields: log.fields,
+            }
+        }
+    }
+
+    impl From<cyndra_common::deployment::State> for LogState {
+        fn from(state: cyndra_common::deployment::State) -> Self {
+            match state {
+                cyndra_common::deployment::State::Queued => Self::Queued,
+                cyndra_common::deployment::State::Building => Self::Building,
+                cyndra_common::deployment::State::Built => Self::Built,
+                cyndra_common::deployment::State::Loading => Self::Loading,
+                cyndra_common::deployment::State::Running => Self::Running,
+                cyndra_common::deployment::State::Completed => Self::Completed,
+                cyndra_common::deployment::State::Stopped => Self::Stopped,
+                cyndra_common::deployment::State::Crashed => Self::Crashed,
+                cyndra_common::deployment::State::Unknown => Self::Unknown,
+            }
+        }
+    }
+
+    impl From<cyndra_common::log::Level> for LogLevel {
+        fn from(level: cyndra_common::log::Level) -> Self {
+            match level {
+                cyndra_common::log::Level::Trace => Self::Trace,
+                cyndra_common::log::Level::Debug => Self::Debug,
+                cyndra_common::log::Level::Info => Self::Info,
+                cyndra_common::log::Level::Warn => Self::Warn,
+                cyndra_common::log::Level::Error => Self::Error,
+            }
+        }
+    }
 }
