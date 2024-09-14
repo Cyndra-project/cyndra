@@ -47,7 +47,7 @@ DD_ENV=production
 USE_TLS=enable
 else
 DOCKER_COMPOSE_FILES=-f docker-compose.yml -f docker-compose.dev.yml
-STACK=cyndra-dev
+STACK?=cyndra-dev
 APPS_FQDN=unstable.cyndraapp.rs
 DB_FQDN=db.unstable.cyndra.rs
 CONTAINER_REGISTRY=public.ecr.aws/cyndra-dev
