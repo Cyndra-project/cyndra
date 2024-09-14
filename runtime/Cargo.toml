@@ -27,6 +27,7 @@ wasmtime-wasi = "2.0.0"
 [dependencies.cyndra-common]
 version = "0.7.0"
 path = "../common"
+features = ["axum-wasm"]
 
 [dependencies.cyndra-proto]
 version = "0.7.0"
@@ -37,7 +38,3 @@ version = "0.7.0"
 default-features = false
 features = ["loader"]
 path = "../service"
-
-[features]
-cyndra-axum = ["cyndra-common/axum-wasm"]
-
