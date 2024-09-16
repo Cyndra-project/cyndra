@@ -188,6 +188,7 @@ publish: publish-resources publish-cargo-cyndra
 publish-resources: publish-resources/aws-rds \
 	publish-resources/persist \
 	publish-resources/shared-db
+	publish-resources/static-folder
 
 publish-cargo-cyndra: publish-resources/secrets
 	cd cargo-cyndra; cargo publish

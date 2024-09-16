@@ -49,6 +49,7 @@ cyndra-aws-rds = { path = "[base]/cyndra/resources/aws-rds" }
 cyndra-persist = { path = "[base]/cyndra/resources/persist" }
 cyndra-shared-db = { path = "[base]/cyndra/resources/shared-db" }
 cyndra-secrets = { path = "[base]/cyndra/resources/secrets" }
+cyndra-static-folder = { path = "[base]/cyndra/resources/static-folder" }
 ```
 
 Prime gateway database with an admin user:

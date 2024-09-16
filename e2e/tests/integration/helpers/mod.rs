@@ -42,12 +42,17 @@ cyndra-service = {{ path = "{}" }}
 cyndra-aws-rds = {{ path = "{}" }}
 cyndra-persist = {{ path = "{}" }}
 cyndra-shared-db = {{ path = "{}" }}
-cyndra-secrets = {{ path = "{}" }}"#,
+cyndra-secrets = {{ path = "{}" }}
+cyndra-static-folder = {{ path = "{}" }}"#,
                     WORKSPACE_ROOT.join("service").display(),
                     WORKSPACE_ROOT.join("resources").join("aws-rds").display(),
                     WORKSPACE_ROOT.join("resources").join("persist").display(),
                     WORKSPACE_ROOT.join("resources").join("shared-db").display(),
                     WORKSPACE_ROOT.join("resources").join("secrets").display(),
+                    WORKSPACE_ROOT
+                        .join("resources")
+                        .join("static-folder")
+                        .display(),
                 )
                 .unwrap();
 

@@ -12,7 +12,8 @@ cyndra-service = { path = "/usr/src/cyndra/service" }
 cyndra-aws-rds = { path = "/usr/src/cyndra/resources/aws-rds" }
 cyndra-persist = { path = "/usr/src/cyndra/resources/persist" }
 cyndra-shared-db = { path = "/usr/src/cyndra/resources/shared-db" }
-cyndra-secrets = { path = "/usr/src/cyndra/resources/secrets" }' > $CARGO_HOME/config.toml
+cyndra-secrets = { path = "/usr/src/cyndra/resources/secrets" }
+cyndra-static-folder = { path = "/usr/src/cyndra/resources/static-folder" }' > $CARGO_HOME/config.toml
 
 # Prefetch crates.io index
 cd /usr/src/cyndra/service
