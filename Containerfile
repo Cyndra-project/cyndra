@@ -1,5 +1,5 @@
 #syntax=docker/dockerfile-upstream:1.4.0-rc1
-FROM rust:1.63.0-buster as cyndra-build
+FROM rust:1.64.0-buster as cyndra-build
 RUN apt-get update &&\
     apt-get install -y curl protobuf-compiler
 RUN cargo install cargo-chef
@@ -21,7 +21,7 @@ COPY --from=cache /build .
 ARG folder
 RUN cargo build --bin cyndra-${folder}
 
-FROM rust:1.63.0-buster as cyndra-common
+FROM rust:1.64.0-buster as cyndra-common
 RUN apt-get update &&\
     apt-get install -y curl
 RUN rustup component add rust-src
