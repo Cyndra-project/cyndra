@@ -49,7 +49,7 @@ cyndra-secrets = { path = "[base]/cyndra/resources/secrets" }
 Prime gateway database with an admin user:
 
 ```bash
-docker compose --file docker-compose.rendered.yml --project-name cyndra-dev exec gateway /usr/local/bin/service --state=/var/lib/cyndra/gateway.sqlite init --name admin --key test-key
+docker compose --file docker-compose.rendered.yml --project-name cyndra-dev exec gateway /usr/local/bin/service --state=/var/lib/cyndra init --name admin --key test-key
 ```
 
 Login to cyndra service in a new terminal window from the main cyndra directory:

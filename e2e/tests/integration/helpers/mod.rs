@@ -125,7 +125,7 @@ CARGO_HOME: {}
                 "exec",
                 "gateway",
                 "/usr/local/bin/service",
-                "--state=/var/lib/cyndra/gateway.sqlite",
+                "--state=/var/lib/cyndra",
                 "init",
                 "--name",
                 "test",
