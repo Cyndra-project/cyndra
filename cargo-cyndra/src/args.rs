@@ -112,7 +112,11 @@ pub enum ProjectCommand {
     /// remove this project environment from cyndra
     Rm,
     /// show the status of this project's environment on cyndra
-    Status,
+    Status {
+        #[clap(short, long)]
+        /// Follow status of project command
+        follow: bool,
+    },
 }
 
 #[derive(Parser, Clone, Debug)]
