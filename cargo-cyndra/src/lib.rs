@@ -173,7 +173,7 @@ impl Cyndra {
 
         // 5. Initialize locally
         init::cargo_init(path.clone())?;
-        init::cargo_cyndra_init(path, framework)?;
+        init::cargo_cyndra_init(path.clone(), framework)?;
         println!();
 
         // 6. Confirm that the user wants to create the project environment on Cyndra
@@ -182,12 +182,20 @@ impl Cyndra {
         } else if args.new {
             true
         } else {
-            Confirm::with_theme(&theme)
+            let should_create = Confirm::with_theme(&theme)
                 .with_prompt("Do you want to create the project environment on Cyndra?")
                 .default(true)
-                .interact()?
+                .interact()?;
+
+            println!();
+            should_create
         };
+
         if should_create_environment {
+            // Set the project working directory path to the init path,
+            // so `load_project` is ran with the correct project path
+            project_args.working_directory = path;
+
             self.load_project(&mut project_args)?;
             let mut client = Client::new(self.ctx.api_url());
             client.set_api_key(self.ctx.api_key()?);
