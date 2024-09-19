@@ -85,18 +85,19 @@ impl CyndraInit for CyndraInitActixWeb {
 
     fn get_boilerplate_code_for_framework(&self) -> &'static str {
         indoc! {r#"
-        use actix_web::web::{resource, ServiceConfig};
+        use actix_web::{get, web::ServiceConfig};
         use cyndra_service::CyndraActixWeb;
 
+        #[get("/hello")]
         async fn hello_world() -> &'static str {
             "Hello World!"
         }
 
         #[cyndra_service::main]
         async fn actix_web(
-        ) -> CyndraActixWeb<impl FnOnce(&mut ServiceConfig) + Sync + Send + Copy + Clone + 'static> {
+        ) -> CyndraActixWeb<impl FnOnce(&mut ServiceConfig) + Sync + Send + Clone + 'static> {
             Ok(move |cfg: &mut ServiceConfig| {
-                cfg.service(resource("/hello").to(hello_world));
+                cfg.service(hello_world);
             })
         }"#}
     }
