@@ -12,6 +12,7 @@ async fn cargo_cyndra_command(
     let working_directory = Path::new(working_directory).to_path_buf();
 
     Cyndra::new()
+        .unwrap()
         .run(Args {
             api_url: Some("http://cyndra.invalid:80".to_string()),
             project_args: ProjectArgs {

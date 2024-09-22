@@ -29,3 +29,10 @@ e2e/users.toml
 
 .cyndra-*
 docker-compose.rendered.yml
+
+.env
+node_modules/
+package.json
+yarn.lock
+
+*.wasm
