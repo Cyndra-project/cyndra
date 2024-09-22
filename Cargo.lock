@@ -6380,7 +6380,6 @@ dependencies = [
  "clap 4.0.27",
  "hyper",
  "rmp-serde",
- "serenity",
  "cyndra-common",
  "cyndra-proto",
  "cyndra-service",
@@ -8747,15 +8746,3 @@ dependencies = [
  "cc",
  "libc",
 ]
-
-[[patch.unused]]
-name = "cyndra-aws-rds"
-version = "0.8.0"
-
-[[patch.unused]]
-name = "cyndra-persist"
-version = "0.8.0"
-
-[[patch.unused]]
-name = "cyndra-shared-db"
-version = "0.8.0"
