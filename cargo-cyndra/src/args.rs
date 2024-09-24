@@ -85,8 +85,6 @@ pub enum Command {
     Delete,
     /// manage secrets for this cyndra service
     Secrets,
-    /// create user credentials for the cyndra platform
-    Auth(AuthArgs),
     /// login to the cyndra platform
     Login(LoginArgs),
     /// run a cyndra service locally
@@ -126,13 +124,6 @@ pub struct LoginArgs {
     /// api key for the cyndra platform
     #[clap(long)]
     pub api_key: Option<String>,
-}
-
-#[derive(Parser)]
-pub struct AuthArgs {
-    /// the desired username for the cyndra platform
-    #[clap()]
-    pub username: String,
 }
 
 #[derive(Parser)]
