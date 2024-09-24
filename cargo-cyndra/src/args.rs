@@ -109,6 +109,8 @@ pub enum DeploymentCommand {
 pub enum ProjectCommand {
     /// create an environment for this project on cyndra
     New,
+    /// list all projects belonging to the calling account
+    List,
     /// remove this project environment from cyndra
     Rm,
     /// show the status of this project's environment on cyndra
