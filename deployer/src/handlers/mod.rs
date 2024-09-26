@@ -16,6 +16,7 @@ use opentelemetry_http::HeaderExtractor;
 use cyndra_common::backends::metrics::Metrics;
 use cyndra_common::models::secret;
 use cyndra_common::project::ProjectName;
+use cyndra_common::storage_manager::StorageManager;
 use cyndra_common::LogItem;
 use cyndra_service::loader::clean_crate;
 use tower_http::auth::RequireAuthorizationLayer;
