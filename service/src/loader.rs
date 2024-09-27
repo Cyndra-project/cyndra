@@ -320,7 +320,7 @@ fn check_version(summary: &Summary) -> anyhow::Result<()> {
     {
         cyndra.version_req()
     } else {
-        return Err(anyhow!("this crate does not use the shutte service"));
+        return Err(anyhow!("this crate does not use the cyndra service"));
     };
 
     if version_req.matches(&valid_version) {

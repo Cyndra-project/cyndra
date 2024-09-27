@@ -77,10 +77,15 @@ To initialize a cyndra project with boilerplates, run `cargo cyndra init [OPTION
 Currently, `cargo cyndra init` supports the following frameworks:
 
 - `--axum`: for [axum](https://github.com/tokio-rs/axum) framework
+- `--actix-web`: for [actix web](https://actix.rs/) framework
 - `--poem`: for [poem](https://github.com/poem-web/poem) framework
 - `--rocket`: for [rocket](https://rocket.rs/) framework
+- `--salvo`: for [salvo](https://salvo.rs/) framework
+- `--serenity`: for [serenity](https://serenity.rs/) discord bot framework
+- `--thruster`: for [thruster](https://github.com/thruster-rs/Thruster) framework
 - `--tide`: for [tide](https://github.com/http-rs/tide) framework
 - `--tower`: for [tower](https://github.com/tower-rs/tower) library
+- `--warp`: for [warp](https://github.com/seanmonstar/warp) framework
 
 For example, running the following command will initialize a project for [rocket](https://rocket.rs/):
 
@@ -175,14 +180,6 @@ Check the logs of your deployed cyndra project with:
 
 ```sh
 $ cargo cyndra logs
-```
-
-### Subcommand: `auth`
-
-Run the following to create user credentials for cyndra platform:
-
-```sh
-$ cargo cyndra auth your-desired-username
 ```
 
 ### Subcommand: `delete`
