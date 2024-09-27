@@ -20,6 +20,7 @@ pub enum Framework {
     Poem,
     Salvo,
     Serenity,
+    Poise,
     Warp,
     Thruster,
     None,
@@ -39,6 +40,7 @@ impl Framework {
             Framework::Poem => Box::new(CyndraInitPoem),
             Framework::Salvo => Box::new(CyndraInitSalvo),
             Framework::Serenity => Box::new(CyndraInitSerenity),
+            Framework::Poise => Box::new(CyndraInitPoise),
             Framework::Warp => Box::new(CyndraInitWarp),
             Framework::Thruster => Box::new(CyndraInitThruster),
             Framework::None => Box::new(CyndraInitNoOp),
@@ -443,6 +445,106 @@ impl CyndraInit for CyndraInitSerenity {
 
             Ok(client)
         }"#}
+    }
+}
+
+pub struct CyndraInitPoise;
+
+impl CyndraInit for CyndraInitPoise {
+    fn set_cargo_dependencies(
+        &self,
+        dependencies: &mut Table,
+        manifest_path: &Path,
+        url: &Url,
+        get_dependency_version_fn: GetDependencyVersionFn,
+    ) {
+        set_inline_table_dependency_features(
+            "cyndra-service",
+            dependencies,
+            vec!["bot-poise".to_string()],
+        );
+
+        set_key_value_dependency_version(
+            "anyhow",
+            dependencies,
+            manifest_path,
+            url,
+            false,
+            get_dependency_version_fn,
+        );
+
+        set_key_value_dependency_version(
+            "poise",
+            dependencies,
+            manifest_path,
+            url,
+            false,
+            get_dependency_version_fn,
+        );
+
+        set_key_value_dependency_version(
+            "cyndra-secrets",
+            dependencies,
+            manifest_path,
+            url,
+            false,
+            get_dependency_version_fn,
+        );
+
+        set_key_value_dependency_version(
+            "tracing",
+            dependencies,
+            manifest_path,
+            url,
+            false,
+            get_dependency_version_fn,
+        );
+    }
+
+    fn get_boilerplate_code_for_framework(&self) -> &'static str {
+        indoc! {r#"
+        use anyhow::Context as _;
+		use poise::serenity_prelude as serenity;
+		use cyndra_secrets::SecretStore;
+		use cyndra_service::CyndraPoise;
+
+		struct Data {} // User data, which is stored and accessible in all command invocations
+		type Error = Box<dyn std::error::Error + Send + Sync>;
+		type Context<'a> = poise::Context<'a, Data, Error>;
+
+		/// Responds with "world!"
+		#[poise::command(slash_command)]
+		async fn hello(ctx: Context<'_>) -> Result<(), Error> {
+			ctx.say("world!").await?;
+			Ok(())
+		}
+
+		#[cyndra_service::main]
+		async fn poise(#[cyndra_secrets::Secrets] secret_store: SecretStore) -> CyndraPoise<Data, Error> {
+			// Get the discord token set in `Secrets.toml`
+			let discord_token = secret_store
+				.get("DISCORD_TOKEN")
+				.context("'DISCORD_TOKEN' was not found")?;
+
+			let framework = poise::Framework::builder()
+				.options(poise::FrameworkOptions {
+					commands: vec![hello()],
+					..Default::default()
+				})
+				.token(discord_token)
+				.intents(serenity::GatewayIntents::non_privileged())
+				.setup(|ctx, _ready, framework| {
+					Box::pin(async move {
+						poise::builtins::register_globally(ctx, &framework.options().commands).await?;
+						Ok(Data {})
+					})
+				})
+				.build()
+				.await
+				.map_err(cyndra_service::error::CustomError::new)?;
+
+			Ok(framework)
+		}"#}
     }
 }
 
@@ -1121,6 +1223,41 @@ mod cyndra_init_tests {
             cyndra-secrets = "1.0"
             tracing = "1.0"
         "#};
+
+        assert_eq!(cargo_toml.to_string(), expected);
+    }
+
+    #[test]
+    fn test_set_cargo_dependencies_poise() {
+        let mut cargo_toml = cargo_toml_factory();
+        let dependencies = cargo_toml["dependencies"].as_table_mut().unwrap();
+        let manifest_path = PathBuf::new();
+        let url = Url::parse("https://cyndra.rs").unwrap();
+
+        set_inline_table_dependency_version(
+            "cyndra-service",
+            dependencies,
+            &manifest_path,
+            &url,
+            false,
+            mock_get_latest_dependency_version,
+        );
+
+        CyndraInitPoise.set_cargo_dependencies(
+            dependencies,
+            &manifest_path,
+            &url,
+            mock_get_latest_dependency_version,
+        );
+
+        let expected = indoc! {r#"
+			[dependencies]
+			cyndra-service = { version = "1.0", features = ["bot-poise"] }
+			anyhow = "1.0"
+			poise = "1.0"
+			cyndra-secrets = "1.0"
+			tracing = "1.0"
+		"#};
 
         assert_eq!(cargo_toml.to_string(), expected);
     }
