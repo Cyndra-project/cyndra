@@ -680,3 +680,4 @@ pub type CyndraPoise<T, E> = Result<std::sync::Arc<poise::Framework<T, E>>, Erro
 
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 pub const NAME: &str = env!("CARGO_PKG_NAME");
+pub const NEXT_NAME: &str = "cyndra-next";
