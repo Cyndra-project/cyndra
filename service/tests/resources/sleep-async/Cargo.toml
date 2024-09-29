@@ -10,4 +10,4 @@ crate-type = ["cdylib"]
 
 [dependencies]
 tokio = { version = "1.22.0", features = ["time"] }
-cyndra-service = { path = "../../../", features = ["codegen"] }
+cyndra-service = { path = "../../../" }
