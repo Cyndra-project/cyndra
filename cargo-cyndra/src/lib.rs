@@ -39,8 +39,6 @@ use uuid::Uuid;
 use crate::args::{DeploymentCommand, ProjectCommand};
 use crate::client::Client;
 
-const BINARY_BYTES: &[u8] = include_bytes!(concat!(env!("OUT_DIR"), "/release/cyndra-runtime"));
-
 pub struct Cyndra {
     ctx: RequestContext,
 }
@@ -412,7 +410,6 @@ impl Cyndra {
             run_args.port + 1,
         ));
         let (mut runtime, mut runtime_client) = runtime::start(
-            BINARY_BYTES,
             is_wasm,
             runtime::StorageManagerType::WorkingDir(working_directory.to_path_buf()),
             &format!("http://localhost:{}", run_args.port + 1),

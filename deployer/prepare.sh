@@ -15,6 +15,9 @@ cyndra-shared-db = { path = "/usr/src/cyndra/resources/shared-db" }
 cyndra-secrets = { path = "/usr/src/cyndra/resources/secrets" }
 cyndra-static-folder = { path = "/usr/src/cyndra/resources/static-folder" }' > $CARGO_HOME/config.toml
 
+# Install the cyndra runtime
+cargo install cyndra-runtime --path "/usr/src/cyndra/runtime" 
+
 # Make future crates requests to our own mirror
 echo '
 [source.cyndra-crates-io-mirror]
