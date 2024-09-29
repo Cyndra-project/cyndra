@@ -88,6 +88,7 @@ commands:
             cyndra-service = { path = "$PWD/service" }
             cyndra-aws-rds = { path = "$PWD/resources/aws-rds" }
             cyndra-persist = { path = "$PWD/resources/persist" }
+            cyndra-next = { path = "$PWD/next" }
             cyndra-shared-db = { path = "$PWD/resources/shared-db" }
             cyndra-secrets = { path = "$PWD/resources/secrets" }
             cyndra-static-folder = { path = "$PWD/resources/static-folder" }
@@ -97,7 +98,7 @@ commands:
       - run:
           name: Install Rust
           command: |
-            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --target add wasm32-wasi
             sudo apt update && sudo apt install -y libssl1.1
   install-protoc:
     steps:
