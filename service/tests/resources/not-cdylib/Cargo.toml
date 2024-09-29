@@ -10,4 +10,4 @@ crate-type = ["staticlib"]
 
 [dependencies]
 rocket = "0.5.0-rc.2"
-cyndra-service = { path = "../../../", features = ["codegen", "web-rocket"] }
+cyndra-service = { path = "../../../", features = ["web-rocket"] }

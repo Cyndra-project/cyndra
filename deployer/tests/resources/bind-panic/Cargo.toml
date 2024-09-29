@@ -11,4 +11,4 @@ crate-type = ["cdylib"]
 [workspace]
 
 [dependencies]
-cyndra-service = { path = "../../../../service", features = ["codegen"] }
+cyndra-service = { path = "../../../../service" }
