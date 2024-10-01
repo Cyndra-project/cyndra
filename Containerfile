@@ -22,10 +22,12 @@ RUN cargo chef prepare --recipe-path recipe.json
 
 FROM cyndra-build AS builder
 COPY --from=planner /build/recipe.json recipe.json
-RUN cargo chef cook --recipe-path recipe.json
+RUN cargo chef cook $(if [ "$CARGO_PROFILE" = "release" ]; then echo --${CARGO_PROFILE}; fi) --recipe-path recipe.json
 COPY --from=cache /build .
 ARG folder
-RUN cargo build --bin cyndra-${folder}
+ARG CARGO_PROFILE
+# if CARGO_PROFILE is release, pass --release, else use default debug profile
+RUN cargo build --bin cyndra-${folder} $(if [ "$CARGO_PROFILE" = "release" ]; then echo --${CARGO_PROFILE}; fi)
 
 ARG RUSTUP_TOOLCHAIN
 FROM rust:${RUSTUP_TOOLCHAIN}-buster as cyndra-common
@@ -43,7 +45,8 @@ FROM cyndra-common
 ARG folder
 COPY ${folder}/prepare.sh /prepare.sh
 RUN /prepare.sh
-COPY --from=builder /build/target/debug/cyndra-${folder} /usr/local/bin/service
+ARG CARGO_PROFILE
+COPY --from=builder /build/target/${CARGO_PROFILE}/cyndra-${folder} /usr/local/bin/service
 ARG RUSTUP_TOOLCHAIN
 ENV RUSTUP_TOOLCHAIN=${RUSTUP_TOOLCHAIN}
 ENTRYPOINT ["/usr/local/bin/service"]

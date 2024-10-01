@@ -15,6 +15,9 @@ cyndra-shared-db = { path = "/usr/src/cyndra/resources/shared-db" }
 cyndra-secrets = { path = "/usr/src/cyndra/resources/secrets" }
 cyndra-static-folder = { path = "/usr/src/cyndra/resources/static-folder" }' > $CARGO_HOME/config.toml
 
+# Add the wasm32-wasi target
+rustup target add wasm32-wasi
+
 # Install the cyndra runtime
 cargo install cyndra-runtime --path "/usr/src/cyndra/runtime" 
 

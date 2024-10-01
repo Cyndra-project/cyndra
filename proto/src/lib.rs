@@ -98,7 +98,6 @@ pub mod runtime {
     use std::{
         convert::TryFrom,
         path::PathBuf,
-        process::Command,
         time::{Duration, SystemTime},
     };
 
@@ -246,6 +245,7 @@ pub mod runtime {
         storage_manager_type: StorageManagerType,
         provisioner_address: &str,
         port: u16,
+        get_runtime_executable: impl FnOnce() -> PathBuf,
     ) -> anyhow::Result<(process::Child, runtime_client::RuntimeClient<Channel>)> {
         let runtime_flag = if wasm { "--axum" } else { "--legacy" };
 
@@ -285,42 +285,5 @@ pub mod runtime {
             .context("connecting runtime client")?;
 
         Ok((runtime, runtime_client))
-    }
-
-    fn get_runtime_executable() -> PathBuf {
-        // When this library is compiled in debug mode with `cargo run --bin cargo-cyndra`,
-        // install the checked-out local version of `cyndra-runtime
-        if cfg!(debug_assertions) {
-            // Path to cargo-cyndra
-            let manifest_dir = env!("CARGO_MANIFEST_DIR");
-
-            // Canonicalized path to cyndra-runtime
-            let path = std::fs::canonicalize(format!("{manifest_dir}/../runtime"))
-                .expect("failed to canonicalize path to runtime");
-
-            Command::new("cargo")
-                .arg("install")
-                .arg("cyndra-runtime")
-                .arg("--path")
-                .arg(path)
-                .output()
-                .expect("failed to install the cyndra runtime");
-        // When this library is compiled in release mode with `cargo install cargo-cyndra`,
-        // install the latest released `cyndra-runtime`
-        } else {
-            Command::new("cargo")
-                .arg("install")
-                .arg("cyndra-runtime")
-                .arg("--git")
-                .arg("https://github.com/cyndra-hq/cyndra")
-                .arg("--branch")
-                .arg("production")
-                .output()
-                .expect("failed to install the cyndra runtime");
-        }
-
-        let cargo_home = home::cargo_home().expect("failed to find cargo home directory");
-
-        cargo_home.join("bin/cyndra-runtime")
     }
 }
