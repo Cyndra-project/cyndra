@@ -85,6 +85,8 @@ pub enum Command {
     Login(LoginArgs),
     /// run a cyndra service locally
     Run(RunArgs),
+    /// Open an issue on github and provide feedback.
+    Feedback,
     /// manage a project on cyndra
     #[command(subcommand)]
     Project(ProjectCommand),
