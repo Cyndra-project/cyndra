@@ -148,6 +148,10 @@ mod tests {
             panic!("no static folder test should try to get the service name")
         }
 
+        fn get_environment(&self) -> cyndra_service::Environment {
+            panic!("no static folder test should try to get the environment")
+        }
+
         fn get_build_path(&self) -> Result<std::path::PathBuf, cyndra_service::Error> {
             Ok(self.build_path())
         }
