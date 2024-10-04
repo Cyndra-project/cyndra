@@ -83,6 +83,8 @@ pub enum Command {
     Secrets,
     /// login to the cyndra platform
     Login(LoginArgs),
+    /// log out of the cyndra platform
+    Logout,
     /// run a cyndra service locally
     Run(RunArgs),
     /// Open an issue on github and provide feedback.
