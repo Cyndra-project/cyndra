@@ -11,7 +11,7 @@ use crossterm::style::{Color, Stylize};
 use reqwest::blocking::RequestBuilder;
 
 use lazy_static::lazy_static;
-use tempdir::TempDir;
+use tempfile::{Builder, TempDir};
 
 /// The directory given to `cargo cyndra` run in the context of E2E
 /// testing
@@ -31,7 +31,7 @@ impl TempCargoHome {
         match env::var("cyndra_CARGO_HOME") {
             Ok(path) => Self::User(path.into()),
             Err(_) => {
-                let dir = TempDir::new("cyndra-tests").unwrap();
+                let dir = Builder::new().prefix("cyndra-tests").tempdir().unwrap();
 
                 // Apply the `patch.crates-io` for `cyndra-service`
                 let mut config = std::fs::File::create(dir.path().join("config.toml")).unwrap();

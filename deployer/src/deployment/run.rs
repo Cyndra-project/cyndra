@@ -289,7 +289,7 @@ mod tests {
 
     use cyndra_common::database;
     use cyndra_service::{Factory, Logger};
-    use tempdir::TempDir;
+    use tempfile::Builder;
     use tokio::{
         sync::{broadcast, mpsc, oneshot},
         task::JoinError,
@@ -338,7 +338,7 @@ mod tests {
     }
 
     fn get_storage_manager() -> StorageManager {
-        let tmp_dir = TempDir::new("cyndra_run_test").unwrap();
+        let tmp_dir = Builder::new().prefix("cyndra_run_test").tempdir().unwrap();
         let path = tmp_dir.into_path();
 
         StorageManager::new(path)
