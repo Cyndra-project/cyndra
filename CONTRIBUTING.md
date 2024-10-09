@@ -61,7 +61,7 @@ Before we can login to our local instance of cyndra, we need to create a user.
 The following command inserts a user into the gateway state with admin privileges:
 
 ```bash
-docker compose --file docker-compose.rendered.yml --project-name cyndra-dev exec gateway /usr/local/bin/service --state=/var/lib/cyndra init --name admin --key test-key
+docker compose --file docker-compose.rendered.yml --project-name cyndra-dev exec auth /usr/local/bin/service --state=/var/lib/cyndra-auth init --name admin --key test-key
 ```
 
 Login to cyndra service in a new terminal window from the root of the cyndra directory:

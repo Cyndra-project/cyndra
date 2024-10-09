@@ -77,7 +77,7 @@ clean:
 	rm .cyndra-*
 	rm docker-compose.rendered.yml
 
-images: cyndra-provisioner cyndra-deployer cyndra-gateway postgres panamax
+images: cyndra-provisioner cyndra-deployer cyndra-gateway cyndra-auth postgres panamax
 
 postgres:
 	docker buildx build \

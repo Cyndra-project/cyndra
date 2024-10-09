@@ -631,6 +631,7 @@ impl ProjectCreating {
             image: default_image,
             prefix,
             provisioner_host,
+            auth_uri,
             fqdn: public,
             ..
         } = ctx.container_settings();
@@ -678,9 +679,11 @@ impl ProjectCreating {
                         "/opt/cyndra",
                         "--state",
                         "/opt/cyndra/deployer.sqlite",
+                        "--auth-uri",
+                        auth_uri,
                     ],
                     "Env": [
-                        "RUST_LOG=debug",
+                        "RUST_LOG=debug,cyndra=trace",
                     ]
                 })
             });
