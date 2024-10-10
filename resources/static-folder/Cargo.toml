@@ -1,6 +1,6 @@
 [package]
 name = "cyndra-static-folder"
-version = "0.10.0"
+version = "0.11.0"
 edition = "2021"
 license = "Apache-2.0"
 description = "Plugin to get a static folder at runtime on cyndra"
@@ -9,7 +9,7 @@ keywords = ["cyndra-service", "static-folder"]
 
 [dependencies]
 async-trait = "0.1.56"
-cyndra-service = { path = "../../service", version = "0.10.0", default-features = false }
+cyndra-service = { path = "../../service", version = "0.11.0", default-features = false }
 tokio = { version = "1.19.2", features = ["rt"] }
 
 [dev-dependencies]
