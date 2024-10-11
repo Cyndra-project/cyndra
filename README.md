@@ -1,10 +1,11 @@
+<!-- markdownlint-disable -->
 <p align="center">
 <img width="300" src="https://raw.githubusercontent.com/cyndra-hq/cyndra/master/assets/logo-rectangle-transparent.png"/>
 </p>
 <br>
 <p align=center>
   <a href="https://docs.rs/cyndra-service">
-    <img alt="docs" src="https://img.shields.io/badge/doc-reference-orange">
+    <img alt="docs" src="https://img.shields.io/badge/docs-reference-orange">
   </a>
   <a href="https://github.com/cyndra-hq/cyndra/search?l=rust">
     <img alt="language" src="https://img.shields.io/badge/language-Rust-orange.svg">
@@ -16,6 +17,7 @@
     <img alt="discord" src="https://img.shields.io/discord/803236282088161321?logo=discord"/>
   </a>
 </p>
+<!-- markdownlint-restore -->
 
 ---
 
@@ -24,9 +26,10 @@
 [Cyndra](https://www.cyndra.rs/) is a Rust-native cloud development platform that lets you deploy your Rust apps for free.
 
 Cyndra is built for productivity, reliability and performance:
+
 - Zero-Configuration support for Rust using annotations
 - Automatic resource provisioning (databases, caches, subdomains, etc.) via [Infrastructure-From-Code](https://www.cyndra.rs/blog/2022/05/09/ifc)
-- First-class support for popular Rust frameworks ([Actix](https://docs.cyndra.rs/examples/actix), [Rocket](https://docs.cyndra.rs/examples/rocket), [Axum](https://docs.cyndra.rs/examples/axum), 
+- First-class support for popular Rust frameworks ([Actix](https://docs.cyndra.rs/examples/actix), [Rocket](https://docs.cyndra.rs/examples/rocket), [Axum](https://docs.cyndra.rs/examples/axum),
   [Tide](https://docs.cyndra.rs/examples/tide), [Poem](https://docs.cyndra.rs/examples/poem) and [Tower](https://docs.cyndra.rs/examples/tower))
 - Support for deploying Discord bots using [Serenity](https://docs.cyndra.rs/examples/serenity)
 - Scalable hosting (with optional self-hosting)
@@ -52,10 +55,13 @@ cargo cyndra login
 ```
 
 To initialize your project, simply write:
+
 ```bash
 cargo cyndra init --axum hello-world
 ```
+
 And to deploy it, write:
+
 ```bash
 cargo cyndra project new
 cargo cyndra project status // until the project is "ready"
@@ -75,14 +81,15 @@ $ cargo cyndra deploy
         Created At:         2022-04-01 08:32:34.412602556 UTC
 ```
 
-Feel free to build on-top of the generated `hello-world` boilerplate or take a stab at one of our [examples](https://docs.cyndra.rs/guide/axum-examples.html#hello-world).
+Feel free to build on-top of the generated `hello-world` boilerplate or take a stab at one of our [examples](https://docs.cyndra.rs/examples/axum).
 
 For the full documentation, visit [our docs](https://docs.cyndra.rs).
+
 ## Contributing to cyndra
 
 Contributing to cyndra is highly encouraged!
 
-If you want to setup a local environment to test code changes to core `cyndra` packages, or want to contribute to the project check out [our docs](https://docs.cyndra.rs/community/contribute). 
+If you want to setup a local environment to test code changes to core `cyndra` packages, or want to contribute to the project check out [our docs](https://docs.cyndra.rs/community/contribute).
 
 Even if you are not planning to submit any code; joining our [Discord server](https://discord.gg/cyndra) and providing feedback helps us a lot!
 
@@ -102,12 +109,12 @@ If you have any requests or suggestions feel free to open an issue.
 ## Status
 
 - [x] Alpha: We are testing Cyndra, API and deployments may be unstable
-- [x] Public Alpha: Anyone can sign up, but go easy on us, 
+- [x] Public Alpha: Anyone can sign up, but go easy on us,
   there are a few kinks
 - [ ] Public Beta: Stable enough for most non-enterprise use-cases
 - [ ] Public: Production-ready!
 
-We are currently in Public Alpha. Watch "releases" of this repo to get 
+We are currently in Public Alpha. Watch "releases" of this repo to get
 notified of major updates!
 
 ## Contributors ✨
