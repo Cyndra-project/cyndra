@@ -24,6 +24,9 @@ git clone git@github.com:cyndra-hq/cyndra.git
 cd cyndra
 ```
 
+> Note: We need the git tags for the local development workflow, but they may not be included when you clone the repository.
+To make sure you have them, run `git fetch upstream --tags`, where upstream is the name of the cyndra remote repository.
+
 You should now be ready to setup a local environment to test code changes to core `cyndra` packages as follows:
 
 From the root of the cyndra repo, build the required images with:
