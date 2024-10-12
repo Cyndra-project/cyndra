@@ -18,7 +18,7 @@ use cyndra_common::models::secret;
 use cyndra_common::project::ProjectName;
 use cyndra_common::storage_manager::StorageManager;
 use cyndra_common::LogItem;
-use cyndra_service::loader::clean_crate;
+use cyndra_service::builder::clean_crate;
 use tower_http::auth::RequireAuthorizationLayer;
 use tower_http::trace::TraceLayer;
 use tracing::{debug, debug_span, error, field, instrument, trace, Span};
