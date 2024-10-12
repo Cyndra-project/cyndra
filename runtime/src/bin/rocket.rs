@@ -6,6 +6,7 @@ async fn main() {
 
 async fn loader<S: cyndra_common::storage_manager::StorageManager>(
     mut factory: cyndra_runtime::ProvisionerFactory<S>,
+    logger: cyndra_runtime::Logger,
 ) -> cyndra_service::CyndraRocket {
     use cyndra_service::ResourceBuilder;
 
