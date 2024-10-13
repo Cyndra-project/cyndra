@@ -10,3 +10,4 @@ pub use logger::Logger;
 pub use next::{AxumWasm, NextArgs};
 pub use provisioner_factory::ProvisionerFactory;
 pub use cyndra_common::storage_manager::StorageManager;
+pub use cyndra_service::{main, Error, Service};
