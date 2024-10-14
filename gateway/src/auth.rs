@@ -4,7 +4,7 @@ use std::str::FromStr;
 use axum::extract::{FromRef, FromRequestParts, Path};
 use axum::http::request::Parts;
 use serde::{Deserialize, Serialize};
-use cyndra_common::backends::auth::{Claim, Scope};
+use cyndra_common::claims::{Claim, Scope};
 use tracing::{trace, Span};
 
 use crate::api::latest::RouterState;

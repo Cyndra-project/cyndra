@@ -11,7 +11,7 @@ use chrono::Utc;
 use crossbeam_channel::Sender;
 use opentelemetry::global;
 use serde_json::json;
-use cyndra_common::backends::auth::Claim;
+use cyndra_common::claims::Claim;
 use cyndra_service::builder::{build_crate, get_config, Runtime};
 use tokio::time::{sleep, timeout};
 use tracing::{debug, debug_span, error, info, instrument, trace, warn, Instrument, Span};

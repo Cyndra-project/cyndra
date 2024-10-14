@@ -8,6 +8,6 @@ impl cyndra_runtime::Service for MyService {
 }
 
 #[cyndra_runtime::main]
-async fn self_stop() -> Result<MyService, cyndra_service::Error> {
+async fn self_stop() -> Result<MyService, cyndra_runtime::Error> {
     Ok(MyService)
 }

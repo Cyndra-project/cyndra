@@ -104,7 +104,7 @@ pub mod runtime {
     use anyhow::Context;
     use chrono::DateTime;
     use prost_types::Timestamp;
-    use cyndra_common::models::ParseError;
+    use cyndra_common::ParseError;
     use tokio::process;
     use tonic::transport::{Channel, Endpoint};
     use tracing::info;

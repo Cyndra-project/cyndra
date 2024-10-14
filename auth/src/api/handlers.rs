@@ -9,7 +9,7 @@ use axum::{
 use axum_sessions::extractors::{ReadableSession, WritableSession};
 use http::StatusCode;
 use serde::{Deserialize, Serialize};
-use cyndra_common::{backends::auth::Claim, models::user};
+use cyndra_common::{claims::Claim, models::user};
 use tracing::instrument;
 
 use super::{

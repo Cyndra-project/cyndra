@@ -1,7 +1,7 @@
-error: cyndra_service::main functions need to return a first class service or 'Result<impl Service, cyndra_service::Error>
+error: cyndra_runtime::main functions need to return a first class service or 'Result<impl Service, cyndra_runtime::Error>
 
          = help: See the docs for services with first class support
-         = note: https://docs.rs/cyndra-service/latest/cyndra_service/attr.main.html#cyndra-supported-services
+         = note: https://docs.rs/cyndra-service/latest/cyndra_runtime/attr.main.html#cyndra-supported-services
 
  --> tests/ui/main/return-tuple.rs:2:28
   |

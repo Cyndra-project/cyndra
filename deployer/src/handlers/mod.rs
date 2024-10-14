@@ -13,10 +13,11 @@ use fqdn::FQDN;
 use futures::StreamExt;
 use hyper::Uri;
 use cyndra_common::backends::auth::{
-    AdminSecretLayer, AuthPublicKey, Claim, JwtAuthenticationLayer, Scope, ScopedLayer,
+    AdminSecretLayer, AuthPublicKey, JwtAuthenticationLayer, ScopedLayer,
 };
 use cyndra_common::backends::headers::XCyndraAccountName;
 use cyndra_common::backends::metrics::{Metrics, TraceLayer};
+use cyndra_common::claims::{Claim, Scope};
 use cyndra_common::models::secret;
 use cyndra_common::project::ProjectName;
 use cyndra_common::storage_manager::StorageManager;
