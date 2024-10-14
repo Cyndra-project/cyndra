@@ -14,19 +14,27 @@ cyndra-persist = { path = "/usr/src/cyndra/resources/persist" }
 cyndra-shared-db = { path = "/usr/src/cyndra/resources/shared-db" }
 cyndra-secrets = { path = "/usr/src/cyndra/resources/secrets" }
 cyndra-static-folder = { path = "/usr/src/cyndra/resources/static-folder" }' > $CARGO_HOME/config.toml
-
+#
 # Add the wasm32-wasi target
 rustup target add wasm32-wasi
 
 # Install the cyndra runtime
-cargo install cyndra-runtime --path "/usr/src/cyndra/runtime" 
+cargo install cyndra-runtime --path "/usr/src/cyndra/runtime"
 
-# Make future crates requests to our own mirror
-echo '
+while getopts "p," o; do
+    case $o in
+        "p")
+            # Make future crates requests to our own mirror
+            echo '
 [source.cyndra-crates-io-mirror]
 registry = "http://panamax:8080/git/crates.io-index"
 [source.crates-io]
 replace-with = "cyndra-crates-io-mirror"' >> $CARGO_HOME/config.toml
+            ;;
+        *)
+            ;;
+    esac
+done
 
 # Prefetch crates.io index from our mirror
 # TODO: restore when we know how to prefetch from our mirror
