@@ -9,17 +9,18 @@
 mkdir -p $CARGO_HOME; \
 echo '[patch.crates-io]
 cyndra-service = { path = "/usr/src/cyndra/service" }
+cyndra-runtime = { path = "/usr/src/cyndra/runtime" }
 cyndra-aws-rds = { path = "/usr/src/cyndra/resources/aws-rds" }
 cyndra-persist = { path = "/usr/src/cyndra/resources/persist" }
 cyndra-shared-db = { path = "/usr/src/cyndra/resources/shared-db" }
 cyndra-secrets = { path = "/usr/src/cyndra/resources/secrets" }
 cyndra-static-folder = { path = "/usr/src/cyndra/resources/static-folder" }' > $CARGO_HOME/config.toml
-#
+
 # Add the wasm32-wasi target
 rustup target add wasm32-wasi
 
 # Install the cyndra runtime
-cargo install cyndra-runtime --path "/usr/src/cyndra/runtime"
+cargo install cyndra-runtime --path "/usr/src/cyndra/runtime" --bin cyndra-next --features next
 
 while getopts "p," o; do
     case $o in

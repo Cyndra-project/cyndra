@@ -89,6 +89,7 @@ commands:
             cyndra-aws-rds = { path = "$PWD/resources/aws-rds" }
             cyndra-persist = { path = "$PWD/resources/persist" }
             cyndra-next = { path = "$PWD/next" }
+            cyndra-runtime = { path = "$PWD/runtime" }
             cyndra-shared-db = { path = "$PWD/resources/shared-db" }
             cyndra-secrets = { path = "$PWD/resources/secrets" }
             cyndra-static-folder = { path = "$PWD/resources/static-folder" }

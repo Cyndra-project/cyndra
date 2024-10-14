@@ -239,8 +239,8 @@ impl ToTokens for Loader {
         };
 
         let loader = quote! {
-            async fn loader<S: cyndra_runtime::StorageManager>(
-                mut #factory_ident: cyndra_runtime::ProvisionerFactory<S>,
+            async fn loader(
+                mut #factory_ident: cyndra_runtime::ProvisionerFactory,
                 logger: cyndra_runtime::Logger,
             ) -> #return_type {
                 use cyndra_service::Context;
@@ -299,8 +299,8 @@ mod tests {
 
         let actual = quote!(#input);
         let expected = quote! {
-            async fn loader<S: cyndra_runtime::StorageManager>(
-                mut _factory: cyndra_runtime::ProvisionerFactory<S>,
+            async fn loader(
+                mut _factory: cyndra_runtime::ProvisionerFactory,
                 logger: cyndra_runtime::Logger,
             ) -> CyndraSimple {
                 use cyndra_service::Context;
@@ -379,8 +379,8 @@ mod tests {
 
         let actual = quote!(#input);
         let expected = quote! {
-            async fn loader<S: cyndra_runtime::StorageManager>(
-                mut factory: cyndra_runtime::ProvisionerFactory<S>,
+            async fn loader(
+                mut factory: cyndra_runtime::ProvisionerFactory,
                 logger: cyndra_runtime::Logger,
             ) -> CyndraComplex {
                 use cyndra_service::Context;
@@ -494,8 +494,8 @@ mod tests {
 
         let actual = quote!(#input);
         let expected = quote! {
-            async fn loader<S: cyndra_runtime::StorageManager>(
-                mut factory: cyndra_runtime::ProvisionerFactory<S>,
+            async fn loader(
+                mut factory: cyndra_runtime::ProvisionerFactory,
                 logger: cyndra_runtime::Logger,
             ) -> CyndraComplex {
                 use cyndra_service::Context;
