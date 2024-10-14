@@ -27,7 +27,7 @@
 //! be a library crate with a `cyndra-service` dependency with the `web-rocket` feature on the `cyndra-service` dependency.
 //!
 //! ```toml
-//! cyndra-service = { version = "0.11.0", features = ["web-rocket"] }
+//! cyndra-service = { version = "0.12.0-rc1", features = ["web-rocket"] }
 //! ```
 //!
 //! A boilerplate code for your rocket project can also be found in `src/lib.rs`:
@@ -107,7 +107,7 @@
 //! Add `cyndra-shared-db` as a dependency with the `postgres` feature, and add `sqlx` as a dependency with the `runtime-tokio-native-tls` and `postgres` features inside `Cargo.toml`:
 //!
 //! ```toml
-//! cyndra-shared-db = { version = "0.11.0", features = ["postgres"] }
+//! cyndra-shared-db = { version = "0.12.0-rc1", features = ["postgres"] }
 //! sqlx = { version = "0.6.2", features = ["runtime-tokio-native-tls", "postgres"] }
 //! ```
 //!
