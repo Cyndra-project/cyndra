@@ -37,7 +37,7 @@ struct Input {
     /// The identifier for a resource input
     ident: Ident,
 
-    /// The cyndra_service builder for this resource
+    /// The cyndra_runtime builder for this resource
     builder: Builder,
 }
 
@@ -134,9 +134,9 @@ fn check_return_type(signature: Signature) -> Option<TypePath> {
         ReturnType::Default => {
             emit_error!(
                 signature,
-                "cyndra_service::main functions need to return a service";
+                "cyndra_runtime::main functions need to return a service";
                 hint = "See the docs for services with first class support";
-                doc = "https://docs.rs/cyndra-service/latest/cyndra_service/attr.main.html#cyndra-supported-services"
+                doc = "https://docs.rs/cyndra-service/latest/cyndra_runtime/attr.main.html#cyndra-supported-services"
             );
             None
         }
@@ -145,9 +145,9 @@ fn check_return_type(signature: Signature) -> Option<TypePath> {
             _ => {
                 emit_error!(
                     r#type,
-                    "cyndra_service::main functions need to return a first class service or 'Result<impl Service, cyndra_service::Error>";
+                    "cyndra_runtime::main functions need to return a first class service or 'Result<impl Service, cyndra_runtime::Error>";
                     hint = "See the docs for services with first class support";
-                    doc = "https://docs.rs/cyndra-service/latest/cyndra_service/attr.main.html#cyndra-supported-services"
+                    doc = "https://docs.rs/cyndra-service/latest/cyndra_runtime/attr.main.html#cyndra-supported-services"
                 );
                 None
             }
@@ -204,7 +204,7 @@ impl ToTokens for Loader {
                             lit: Lit::Str(str), ..
                         }) => {
                             needs_vars = true;
-                            quote!(&cyndra_service::strfmt(#str, &vars)?)
+                            quote!(&cyndra_runtime::strfmt(#str, &vars)?)
                         }
                         other => quote!(#other),
                     };
@@ -226,7 +226,7 @@ impl ToTokens for Loader {
             None
         } else {
             Some(parse_quote!(
-                use cyndra_service::ResourceBuilder;
+                use cyndra_runtime::ResourceBuilder;
             ))
         };
 
@@ -243,16 +243,16 @@ impl ToTokens for Loader {
                 mut #factory_ident: cyndra_runtime::ProvisionerFactory,
                 logger: cyndra_runtime::Logger,
             ) -> #return_type {
-                use cyndra_service::Context;
-                use cyndra_service::tracing_subscriber::prelude::*;
+                use cyndra_runtime::Context;
+                use cyndra_runtime::tracing_subscriber::prelude::*;
                 #extra_imports
 
                 let filter_layer =
-                    cyndra_service::tracing_subscriber::EnvFilter::try_from_default_env()
-                        .or_else(|_| cyndra_service::tracing_subscriber::EnvFilter::try_new("INFO"))
+                    cyndra_runtime::tracing_subscriber::EnvFilter::try_from_default_env()
+                        .or_else(|_| cyndra_runtime::tracing_subscriber::EnvFilter::try_new("INFO"))
                         .unwrap();
 
-                cyndra_service::tracing_subscriber::registry()
+                cyndra_runtime::tracing_subscriber::registry()
                     .with(filter_layer)
                     .with(logger)
                     .init();
@@ -303,15 +303,15 @@ mod tests {
                 mut _factory: cyndra_runtime::ProvisionerFactory,
                 logger: cyndra_runtime::Logger,
             ) -> CyndraSimple {
-                use cyndra_service::Context;
-                use cyndra_service::tracing_subscriber::prelude::*;
+                use cyndra_runtime::Context;
+                use cyndra_runtime::tracing_subscriber::prelude::*;
 
                 let filter_layer =
-                    cyndra_service::tracing_subscriber::EnvFilter::try_from_default_env()
-                        .or_else(|_| cyndra_service::tracing_subscriber::EnvFilter::try_new("INFO"))
+                    cyndra_runtime::tracing_subscriber::EnvFilter::try_from_default_env()
+                        .or_else(|_| cyndra_runtime::tracing_subscriber::EnvFilter::try_new("INFO"))
                         .unwrap();
 
-                cyndra_service::tracing_subscriber::registry()
+                cyndra_runtime::tracing_subscriber::registry()
                     .with(filter_layer)
                     .with(logger)
                     .init();
@@ -383,16 +383,16 @@ mod tests {
                 mut factory: cyndra_runtime::ProvisionerFactory,
                 logger: cyndra_runtime::Logger,
             ) -> CyndraComplex {
-                use cyndra_service::Context;
-                use cyndra_service::tracing_subscriber::prelude::*;
-                use cyndra_service::ResourceBuilder;
+                use cyndra_runtime::Context;
+                use cyndra_runtime::tracing_subscriber::prelude::*;
+                use cyndra_runtime::ResourceBuilder;
 
                 let filter_layer =
-                    cyndra_service::tracing_subscriber::EnvFilter::try_from_default_env()
-                        .or_else(|_| cyndra_service::tracing_subscriber::EnvFilter::try_new("INFO"))
+                    cyndra_runtime::tracing_subscriber::EnvFilter::try_from_default_env()
+                        .or_else(|_| cyndra_runtime::tracing_subscriber::EnvFilter::try_new("INFO"))
                         .unwrap();
 
-                cyndra_service::tracing_subscriber::registry()
+                cyndra_runtime::tracing_subscriber::registry()
                     .with(filter_layer)
                     .with(logger)
                     .init();
@@ -498,22 +498,22 @@ mod tests {
                 mut factory: cyndra_runtime::ProvisionerFactory,
                 logger: cyndra_runtime::Logger,
             ) -> CyndraComplex {
-                use cyndra_service::Context;
-                use cyndra_service::tracing_subscriber::prelude::*;
-                use cyndra_service::ResourceBuilder;
+                use cyndra_runtime::Context;
+                use cyndra_runtime::tracing_subscriber::prelude::*;
+                use cyndra_runtime::ResourceBuilder;
 
                 let filter_layer =
-                    cyndra_service::tracing_subscriber::EnvFilter::try_from_default_env()
-                        .or_else(|_| cyndra_service::tracing_subscriber::EnvFilter::try_new("INFO"))
+                    cyndra_runtime::tracing_subscriber::EnvFilter::try_from_default_env()
+                        .or_else(|_| cyndra_runtime::tracing_subscriber::EnvFilter::try_new("INFO"))
                         .unwrap();
 
-                cyndra_service::tracing_subscriber::registry()
+                cyndra_runtime::tracing_subscriber::registry()
                     .with(filter_layer)
                     .with(logger)
                     .init();
 
                 let vars = std::collections::HashMap::from_iter(factory.get_secrets().await?.into_iter().map(|(key, value)| (format!("secrets.{}", key), value)));
-                let pool = cyndra_shared_db::Postgres::new().size(&cyndra_service::strfmt("10Gb", &vars)?).public(false).build(&mut factory).await.context(format!("failed to provision {}", stringify!(cyndra_shared_db::Postgres)))?;
+                let pool = cyndra_shared_db::Postgres::new().size(&cyndra_runtime::strfmt("10Gb", &vars)?).public(false).build(&mut factory).await.context(format!("failed to provision {}", stringify!(cyndra_shared_db::Postgres)))?;
 
                 complex(pool).await
             }

@@ -7,6 +7,6 @@ edition = "2021"
 
 [dependencies]
 axum = "0.6.0"
+cyndra-axum = { path = "../../../../services/cyndra-axum" }
 cyndra-runtime = { path = "../../../../runtime" }
-cyndra-service = { path = "../../../", features = ["web-axum"] }
 tokio = { version = "1.22.0" }

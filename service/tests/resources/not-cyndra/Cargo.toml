@@ -8,4 +8,4 @@ edition = "2021"
 [dependencies]
 axum = "0.6.0"
 cyndra-runtime = { path = "../../../../runtime" }
-cyndra-service = { path = "../../../", features = ["web-axum"] }
+cyndra-axum = { path = "../../../../services/cyndra-axum" }

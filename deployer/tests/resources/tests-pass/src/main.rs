@@ -6,10 +6,10 @@ fn index() -> &'static str {
     "Hello, world!"
 }
 
-#[cyndra_service::main]
-async fn rocket() -> cyndra_service::CyndraRocket {
+#[cyndra_runtime::main]
+async fn rocket() -> cyndra_rocket::CyndraRocket {
     let rocket = rocket::build().mount("/hello", routes![index]);
-    Ok(rocket)
+    Ok(rocket.into())
 }
 
 #[cfg(test)]
