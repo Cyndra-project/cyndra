@@ -90,7 +90,6 @@ commands:
             cyndra-service = { path = "$PWD/service" }
             cyndra-aws-rds = { path = "$PWD/resources/aws-rds" }
             cyndra-persist = { path = "$PWD/resources/persist" }
-            cyndra-next = { path = "$PWD/next" }
             cyndra-runtime = { path = "$PWD/runtime" }
             cyndra-shared-db = { path = "$PWD/resources/shared-db" }
             cyndra-secrets = { path = "$PWD/resources/secrets" }
@@ -390,6 +389,7 @@ workflows:
                 - resources/static-folder
                 - services/cyndra-actix-web
                 - services/cyndra-axum
+                - services/cyndra-next
                 - services/cyndra-poem
                 - services/cyndra-poise
                 - services/cyndra-rocket
