@@ -472,6 +472,8 @@ impl Cyndra {
                     .expect("failed to find cargo home dir")
                     .join("bin/cyndra-next");
 
+                println!("Installing cyndra runtime. This can take a while...");
+
                 if cfg!(debug_assertions) {
                     // Canonicalized path to cyndra-runtime for dev to work on windows
                     let path = std::fs::canonicalize(format!("{MANIFEST_DIR}/../runtime"))
