@@ -88,14 +88,17 @@ commands:
             cat\<< EOF > ~/.cargo/config.toml
             [patch.crates-io]
             cyndra-service = { path = "$PWD/service" }
+            cyndra-runtime = { path = "$PWD/runtime" }
+
             cyndra-aws-rds = { path = "$PWD/resources/aws-rds" }
             cyndra-persist = { path = "$PWD/resources/persist" }
-            cyndra-runtime = { path = "$PWD/runtime" }
             cyndra-shared-db = { path = "$PWD/resources/shared-db" }
             cyndra-secrets = { path = "$PWD/resources/secrets" }
             cyndra-static-folder = { path = "$PWD/resources/static-folder" }
+
             cyndra-axum = { path = "$PWD/services/cyndra-axum" }
             cyndra-actix-web = { path = "$PWD/services/cyndra-actix-web" }
+            cyndra-next = { path = "$PWD/services/cyndra-next" }
             cyndra-poem = { path = "$PWD/services/cyndra-poem" }
             cyndra-poise = { path = "$PWD/services/cyndra-poise" }
             cyndra-rocket = { path = "$PWD/services/cyndra-rocket" }

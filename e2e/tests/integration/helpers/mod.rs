@@ -38,13 +38,29 @@ impl TempCargoHome {
                 write!(
                     config,
                     r#"[patch.crates-io]
-cyndra-service = {{ path = "{}" }}
-cyndra-aws-rds = {{ path = "{}" }}
-cyndra-persist = {{ path = "{}" }}
-cyndra-shared-db = {{ path = "{}" }}
-cyndra-secrets = {{ path = "{}" }}
-cyndra-static-folder = {{ path = "{}" }}"#,
+cyndra-service = { path = "{}" }
+cyndra-runtime = { path = "{}" }
+
+cyndra-aws-rds = { path = "{}" }
+cyndra-persist = { path = "{}" }
+cyndra-shared-db = { path = "{}" }
+cyndra-secrets = { path = "{}" }
+cyndra-static-folder = { path = "{}" }
+
+cyndra-axum = { path = "{}" }
+cyndra-actix-web = { path = "{}" }
+cyndra-next = { path = "{}" }
+cyndra-poem = { path = "{}" }
+cyndra-poise = { path = "{}" }
+cyndra-rocket = { path = "{}" }
+cyndra-salvo = { path = "{}" }
+cyndra-serenity = { path = "{}" }
+cyndra-thruster = { path = "{}" }
+cyndra-tide = { path = "{}" }
+cyndra-tower = { path = "{}" }
+cyndra-warp = { path = "{}" }"#,
                     WORKSPACE_ROOT.join("service").display(),
+                    WORKSPACE_ROOT.join("runtime").display(),
                     WORKSPACE_ROOT.join("resources").join("aws-rds").display(),
                     WORKSPACE_ROOT.join("resources").join("persist").display(),
                     WORKSPACE_ROOT.join("resources").join("shared-db").display(),
@@ -52,6 +68,54 @@ cyndra-static-folder = {{ path = "{}" }}"#,
                     WORKSPACE_ROOT
                         .join("resources")
                         .join("static-folder")
+                        .display(),
+                    WORKSPACE_ROOT
+                        .join("services")
+                        .join("cyndra-axum")
+                        .display(),
+                    WORKSPACE_ROOT
+                        .join("services")
+                        .join("cyndra-actix-web")
+                        .display(),
+                    WORKSPACE_ROOT
+                        .join("services")
+                        .join("cyndra-next")
+                        .display(),
+                    WORKSPACE_ROOT
+                        .join("services")
+                        .join("cyndra-poem")
+                        .display(),
+                    WORKSPACE_ROOT
+                        .join("services")
+                        .join("cyndra-poise")
+                        .display(),
+                    WORKSPACE_ROOT
+                        .join("services")
+                        .join("cyndra-rocket")
+                        .display(),
+                    WORKSPACE_ROOT
+                        .join("services")
+                        .join("cyndra-salvo")
+                        .display(),
+                    WORKSPACE_ROOT
+                        .join("services")
+                        .join("cyndra-serenity")
+                        .display(),
+                    WORKSPACE_ROOT
+                        .join("services")
+                        .join("cyndra-thruster")
+                        .display(),
+                    WORKSPACE_ROOT
+                        .join("services")
+                        .join("cyndra-tide")
+                        .display(),
+                    WORKSPACE_ROOT
+                        .join("services")
+                        .join("cyndra-tower")
+                        .display(),
+                    WORKSPACE_ROOT
+                        .join("services")
+                        .join("cyndra-warp")
                         .display(),
                 )
                 .unwrap();

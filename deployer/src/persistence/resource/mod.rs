@@ -25,10 +25,9 @@ pub struct Resource {
     pub data: serde_json::Value,
 }
 
-impl From<Resource> for cyndra_common::models::resource::Response {
+impl From<Resource> for cyndra_common::resource::Response {
     fn from(resource: Resource) -> Self {
-        cyndra_common::models::resource::Response {
-            service_id: resource.service_id,
+        cyndra_common::resource::Response {
             r#type: resource.r#type.into(),
             data: resource.data,
         }
@@ -40,10 +39,18 @@ pub enum Type {
     Database(DatabaseType),
 }
 
-impl From<Type> for cyndra_common::models::resource::Type {
+impl From<Type> for cyndra_common::resource::Type {
     fn from(r#type: Type) -> Self {
         match r#type {
             Type::Database(r#type) => Self::Database(r#type.into()),
+        }
+    }
+}
+
+impl From<cyndra_common::resource::Type> for Type {
+    fn from(r#type: cyndra_common::resource::Type) -> Self {
+        match r#type {
+            cyndra_common::resource::Type::Database(r#type) => Self::Database(r#type.into()),
         }
     }
 }

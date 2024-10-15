@@ -717,7 +717,7 @@ impl ProjectCreating {
                         auth_uri,
                     ],
                     "Env": [
-                        "RUST_LOG=debug,cyndra=trace",
+                        "RUST_LOG=debug,cyndra=trace,h2=warn",
                     ]
                 })
             });
