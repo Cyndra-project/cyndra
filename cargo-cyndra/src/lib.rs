@@ -479,7 +479,6 @@ impl Cyndra {
 
                     trace!(?path, "installing runtime from local filesystem");
 
-                    // TODO: Add --features next here when https://github.com/cyndra-hq/cyndra/pull/688 is merged
                     std::process::Command::new("cargo")
                         .arg("install")
                         .arg("cyndra-runtime")
@@ -493,22 +492,16 @@ impl Cyndra {
                         .expect("failed to install the cyndra runtime");
                 } else {
                     // If the version of cargo-cyndra is different from cyndra-runtime,
-                    // or it isn't installed, try to install cyndra-runtime from the production
-                    // branch.
+                    // or it isn't installed, try to install cyndra-runtime from crates.io.
                     if let Err(err) = check_version(&runtime_path) {
                         warn!("{}", err);
 
                         trace!("installing cyndra-runtime");
-                        // TODO: Add --features next here when https://github.com/cyndra-hq/cyndra/pull/688 is merged
                         std::process::Command::new("cargo")
                             .arg("install")
                             .arg("cyndra-runtime")
                             .arg("--bin")
                             .arg("cyndra-next")
-                            .arg("--git")
-                            .arg("https://github.com/cyndra-hq/cyndra")
-                            .arg("--branch")
-                            .arg("production")
                             .arg("--features")
                             .arg("next")
                             .output()
