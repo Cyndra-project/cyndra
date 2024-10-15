@@ -232,7 +232,7 @@ impl ToTokens for Loader {
             None
         } else {
             Some(parse_quote!(
-                use cyndra_runtime::ResourceBuilder;
+                use cyndra_runtime::{Factory, ResourceBuilder};
             ))
         };
 
@@ -391,7 +391,7 @@ mod tests {
             ) -> CyndraComplex {
                 use cyndra_runtime::Context;
                 use cyndra_runtime::tracing_subscriber::prelude::*;
-                use cyndra_runtime::ResourceBuilder;
+                use cyndra_runtime::{Factory, ResourceBuilder};
 
                 let filter_layer =
                     cyndra_runtime::tracing_subscriber::EnvFilter::try_from_default_env()
@@ -506,7 +506,7 @@ mod tests {
             ) -> CyndraComplex {
                 use cyndra_runtime::Context;
                 use cyndra_runtime::tracing_subscriber::prelude::*;
-                use cyndra_runtime::ResourceBuilder;
+                use cyndra_runtime::{Factory, ResourceBuilder};
 
                 let filter_layer =
                     cyndra_runtime::tracing_subscriber::EnvFilter::try_from_default_env()
