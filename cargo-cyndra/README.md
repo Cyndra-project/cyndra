@@ -105,7 +105,7 @@ cargo cyndra init --rocket my-rocket-app
 This should generate the following dependency in `Cargo.toml`:
 
 ```toml
-cyndra-service = { version = "0.12.0-rc1", features = ["web-rocket"] }
+cyndra-service = { version = "0.12.0", features = ["web-rocket"] }
 ```
 
 The following boilerplate code should be generated into `src/lib.rs`:
