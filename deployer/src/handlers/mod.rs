@@ -13,14 +13,16 @@ use fqdn::FQDN;
 use futures::StreamExt;
 use hyper::Uri;
 use cyndra_common::backends::auth::{
-    AdminSecretLayer, AuthPublicKey, Claim, JwtAuthenticationLayer, Scope, ScopedLayer,
+    AdminSecretLayer, AuthPublicKey, JwtAuthenticationLayer, ScopedLayer,
 };
 use cyndra_common::backends::headers::XCyndraAccountName;
 use cyndra_common::backends::metrics::{Metrics, TraceLayer};
+use cyndra_common::claims::{Claim, Scope};
 use cyndra_common::models::secret;
 use cyndra_common::project::ProjectName;
+use cyndra_common::storage_manager::StorageManager;
 use cyndra_common::{request_span, LogItem};
-use cyndra_service::loader::clean_crate;
+use cyndra_service::builder::clean_crate;
 use tracing::{debug, error, field, instrument, trace};
 use uuid::Uuid;
 
@@ -208,6 +210,7 @@ async fn post_service(
         state: State::Queued,
         last_update: Utc::now(),
         address: None,
+        is_next: false,
     };
 
     let mut data = Vec::new();
@@ -403,7 +406,7 @@ async fn post_clean(
 ) -> Result<Json<Vec<String>>> {
     let project_path = deployment_manager
         .storage_manager()
-        .service_build_path(project_name)
+        .service_build_path(&project_name)
         .map_err(anyhow::Error::new)?;
 
     let lines = clean_crate(&project_path, true)?;

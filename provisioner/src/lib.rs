@@ -6,7 +6,7 @@ use aws_sdk_rds::{error::ModifyDBInstanceErrorKind, model::DbInstance, types::Sd
 pub use error::Error;
 use mongodb::{bson::doc, options::ClientOptions};
 use rand::Rng;
-use cyndra_common::backends::auth::{Claim, Scope};
+use cyndra_common::claims::{Claim, Scope};
 pub use cyndra_proto::provisioner::provisioner_server::ProvisionerServer;
 use cyndra_proto::provisioner::{
     aws_rds, database_request::DbType, shared, AwsRds, DatabaseRequest, DatabaseResponse, Shared,

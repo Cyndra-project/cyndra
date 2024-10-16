@@ -2,7 +2,7 @@ use axum_extra::extract::cookie::{self, Cookie};
 use http::{Request, StatusCode};
 use hyper::Body;
 use serde_json::{json, Value};
-use cyndra_common::backends::auth::Claim;
+use cyndra_common::claims::Claim;
 
 use crate::helpers::app;
 
