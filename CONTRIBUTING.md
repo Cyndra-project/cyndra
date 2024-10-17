@@ -228,33 +228,53 @@ graph BT
     provisioner:::binary
     service
     gateway:::binary
+    auth:::binary
     user([user service]):::external
     gateway --> common
     gateway -.->|starts instances| deployer
+    gateway -->|key| auth
+    auth -->|jwt| gateway
     deployer --> proto
     deployer -.->|calls| provisioner
     service ---> common
     deployer --> common
-    cargo-cyndra --->|"features = ['loader']"| service
-    deployer -->|"features = ['loader']"| service
+    cargo-cyndra --->|"features = ['builder']"| service
+    deployer -->|"features = ['builder']"| service
     cargo-cyndra --> common
     service --> codegen
     proto ---> common
     provisioner --> proto
     e2e -.->|starts up| gateway
+    e2e -.->|starts up| auth
     e2e -.->|calls| cargo-cyndra
     user -->|"features = ['codegen']"| service
 ```
 
-First, `provisioner`, `gateway`, `deployer`, and `cargo-cyndra` are binary crates with `provisioner`, `gateway` and `deployer` being backend services. The `cargo-cyndra` binary is the `cargo cyndra` command used by users.
+### Binaries
 
-The rest are the following libraries:
+- `cargo-cyndra` is the CLI used by users to initialize, deploy and manage their projects and services on cyndra.
+- `gateway` starts and manages instances of `deployer`. It proxies commands from the user sent via the CLI on port 8001 and traffic on port 8000 to the correct instance of `deployer`.
+- `auth` is an authentication service that creates and manages users. In addition to that, requests to the `gateway` that contain an api-key or cookie will be proxied to the `auth` service where it will be converted to a JWT for authorization between internal services (like a `deployer` requesting a database from
+`provisioner`).
+- `deployer` is a service that runs in its own docker container, one per user project. It manages a project's deployments and state.
+- `provisioner` is a service used for requesting databases and other resources, using a gRPC API.
+- `admin` is a simple CLI used for admin tasks like reviving and stopping projects, as well as requesting
+and renewing SSL certificates through the acme client in the `gateway`.
+
+### Libraries
 
 - `common` contains shared models and functions used by the other libraries and binaries.
-- `codegen` contains our proc-macro code which gets exposed to user services from `service` by the `codegen` feature flag. The redirect through `service` is to make it available under the prettier name of `cyndra_service::main`.
-- `service` is where our special `Service` trait is defined. Anything implementing this `Service` can be loaded by the `deployer` and the local runner in `cargo-cyndra`.
-   The `codegen` automatically implements the `Service` trait for any user service.
-- `proto` contains the gRPC server and client definitions to allow `deployer` to communicate with `provisioner`.
+- `codegen` contains our proc-macro code which gets exposed to user services from `runtime`.
+The redirect through `runtime` is to make it available under the prettier name of `cyndra_runtime::main`.
+- `runtime` contains the `alpha` runtime, which embeds a gRPC server and a `Loader` in a service with the `cyndra_runtime::main` macro. The gRPC server receives commands from `deployer` like `start` and `stop`. The `Loader` sets up a tracing subscriber and provisions resources for the users service. The `runtime` crate also contains the `cyndra-next` binary, which is a standalone runtime binary that is started by the `deployer` or the `cargo-cyndra` CLI, responsible for loading and starting `cyndra-next` services.
+- `service` is where our special `Service` trait is defined. Anything implementing this `Service` can be loaded by the `deployer` and the local runner in `cargo-cyndra`. The `service` library also defines the `ResourceBuilder` and `Factory` trais 
+which are used in our codegen to provision resources. The `service` library also contains the utilities we use for compiling users
+crates with `cargo`.
+- `proto` contains the gRPC server and client definitions to allow `deployer` to communicate with `provisioner`, and to allow
+the `deployer` and `cargo-cyndra` cli to communicate with the `alpha` and `cyndra-next` runtimes.
+- `resources` contains various implementations of `ResourceBuilder`, which are consumed in the `codegen` to provision resources.
+- `services` contains implementations of `Service` for common Rust web frameworks. Anything implementing `Service` can be deployed
+by cyndra.
 - `e2e` just contains tests which starts up the `deployer` in a container and then deploys services to it using `cargo-cyndra`.
 
 Lastly, the `user service` is not a folder in this repository, but is the user service that will be deployed by `deployer`.

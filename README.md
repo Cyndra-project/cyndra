@@ -42,15 +42,30 @@ Cyndra is built for productivity, reliability and performance:
 
 ## Getting Started
 
-Run the following command to install cyndra:
+To run a cyndra project, you need to install protoc, check out the [protoc installation guide](https://docs.cyndra.rs/support/installing-protoc) in our docs.
 
-```bash
+The `cargo-cyndra` CLI can be installed with a pre-built binary or from source with cargo.
+
+Cyndra provides pre-built binaries of the `cargo-cyndra` CLI with every release
+for most platforms, they can be found on [our GitHub](https://github.com/cyndra-hq/cyndra/releases/latest).
+
+Our binaries can also be installed using [cargo-binstall](https://github.com/cargo-bins/cargo-binstall),
+which will automatically install the correct target for your system.
+To install with `cargo-binstall`, run:
+
+```sh
+cargo binstall cargo-cyndra
+```
+
+Although a bit slower, you can also install directly with cargo:
+
+```sh
 cargo install cargo-cyndra
 ```
 
-And then login:
+After installing, log in with:
 
-```bash
+```sh
 cargo cyndra login
 ```
 
