@@ -190,3 +190,4 @@ pub trait Service: Send {
 }
 
 pub const NEXT_NAME: &str = "cyndra-next";
+pub const RUNTIME_NAME: &str = "cyndra-runtime";
