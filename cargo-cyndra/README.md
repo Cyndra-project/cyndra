@@ -105,7 +105,10 @@ cargo cyndra init --rocket my-rocket-app
 This should generate the following dependency in `Cargo.toml`:
 
 ```toml
-cyndra-service = { version = "0.12.0", features = ["web-rocket"] }
+rocket = "0.5.0-rc.2"
+cyndra-rocket = { version = "0.13.0" }
+cyndra-runtime = { version = "0.13.0" }
+tokio = { version = "1.26.0" }
 ```
 
 The following boilerplate code should be generated into `src/lib.rs`:
@@ -119,11 +122,11 @@ fn index() -> &'static str {
     "Hello, world!"
 }
 
-#[cyndra_service::main]
-async fn rocket() -> cyndra_service::CyndraRocket {
+#[cyndra_runtime::main]
+async fn rocket() -> cyndra_rocket::CyndraRocket {
     let rocket = rocket::build().mount("/hello", routes![index]);
 
-    Ok(rocket)
+    Ok(rocket.into())
 }
 ```
 
