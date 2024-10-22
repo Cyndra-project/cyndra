@@ -120,7 +120,7 @@ start a deployer container:
 
 ```bash
 # the --manifest-path is used to locate the root of the cyndra workspace
-cargo run --manifest-path ../../../Cargo.toml --bin cargo-cyndra -- project new
+cargo run --manifest-path ../../../Cargo.toml --bin cargo-cyndra -- project start
 ```
 
 Deploy the example:

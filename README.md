@@ -79,7 +79,7 @@ And to deploy it, write:
 
 ```bash
 cd hello-world
-cargo cyndra project new  # Only needed if project has not already been created during init
+cargo cyndra project start  # Only needed if project has not already been created during init
 cargo cyndra deploy
 ```
 

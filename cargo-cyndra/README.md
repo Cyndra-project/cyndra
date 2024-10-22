@@ -166,7 +166,7 @@ cargo cyndra login --api-key <your-api-key-from-browser>
 To deploy your cyndra project to the cloud, run:
 
 ```sh
-cargo cyndra project new
+cargo cyndra project start
 cargo cyndra deploy
 ```
 

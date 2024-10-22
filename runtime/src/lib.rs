@@ -84,7 +84,7 @@
 //! now if you did in in the `cargo cyndra init` flow.
 //!
 //! ```bash
-//! $ cargo cyndra project new
+//! $ cargo cyndra project start
 //! ```
 //!
 //! Then, deploy the service with:
