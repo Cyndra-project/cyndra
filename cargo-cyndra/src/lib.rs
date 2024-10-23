@@ -970,8 +970,7 @@ fn check_version(runtime_path: &Path) -> Result<()> {
     }
 
     // Get runtime version from cyndra-runtime cli
-    let runtime_version = std::process::Command::new("cargo")
-        .arg("cyndra-runtime")
+    let runtime_version = std::process::Command::new(runtime_path)
         .arg("--version")
         .output()
         .context("failed to check the cyndra-runtime version")?
