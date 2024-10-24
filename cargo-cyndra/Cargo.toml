@@ -64,10 +64,6 @@ features = ["models"]
 [dependencies.cyndra-proto]
 workspace = true
 
-[dependencies.cyndra-secrets]
-version = "0.14.0"
-path = "../resources/secrets"
-
 [dependencies.cyndra-service]
 workspace = true
 features = ["builder"]
