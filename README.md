@@ -50,8 +50,6 @@ Cyndra is built for productivity, reliability and performance:
 
 ## Getting Started
 
-To run a cyndra project, you need to install protoc, check out the [protoc installation guide](https://docs.cyndra.rs/support/installing-protoc) in our docs.
-
 The `cargo-cyndra` CLI can be installed with a pre-built binary or from source with cargo.
 
 Cyndra provides pre-built binaries of the `cargo-cyndra` CLI with every release
