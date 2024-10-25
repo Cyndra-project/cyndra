@@ -3,15 +3,15 @@
 set -ue
 
 # Prepare directory
-mkdir -p /tmp/qa-linux
-cd /tmp/qa-linux
+mkdir -p /tmp/qa-$1
+cd /tmp/qa-$1
 
 # Init app
-cargo cyndra init --name qa-linux --axum
+cargo cyndra init --name qa-$1 --axum
 
 # Start locally
 cargo cyndra run &
-sleep 70
+sleep 150
 
 echo "Testing local hello endpoint"
 output=$(curl --silent localhost:8000/hello)
@@ -24,7 +24,7 @@ cargo cyndra project start
 cargo cyndra deploy --allow-dirty
 
 echo "Testing remote hello endpoint"
-output=$(curl --silent https://qa-linux.unstable.cyndraapp.rs/hello)
+output=$(curl --silent https://qa-$1.unstable.cyndraapp.rs/hello)
 [ "$output" != "Hello, world!" ] && ( echo "Did not expect output: $output"; exit 1 )
 
 cargo cyndra project stop

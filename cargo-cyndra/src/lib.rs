@@ -526,7 +526,7 @@ impl Cyndra {
                         // If the version of cargo-cyndra is different from cyndra-runtime,
                         // or it isn't installed, try to install cyndra-runtime from crates.io.
                         if let Err(err) = check_version(&runtime_path) {
-                            warn!("{}", err);
+                            warn!(error = ?err, "failed to check installed runtime version");
 
                             trace!("installing cyndra-runtime");
                             std::process::Command::new("cargo")
@@ -1002,7 +1002,8 @@ fn check_version(runtime_path: &Path) -> Result<()> {
             .expect("cyndra-runtime version should be valid utf8")
             .split_once(' ')
             .expect("cyndra-runtime version should be in the `name version` format")
-            .1,
+            .1
+            .trim(),
     )
     .context("failed to convert runtime version to semver")?
     .to_string();
