@@ -44,9 +44,11 @@ Cyndra is built for productivity, reliability and performance:
 
 📖 Check out our documentation to get started quickly: [docs.cyndra.rs](https://docs.cyndra.rs)
 
-⭐ If you find cyndra interesting, consider starring this repo to help spread the word.
-
 🙋‍♂️ If you have any questions, join our [Discord](https://discord.gg/cyndra) server.
+
+⭐ If you find cyndra interesting, and would like to stay up-to-date, consider starring this repo to help spread the word.
+
+![star](https://i.imgur.com/kLWmThm.gif)
 
 ## Getting Started
 
