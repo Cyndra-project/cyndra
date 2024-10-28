@@ -124,7 +124,7 @@ fn index() -> &'static str {
 
 #[cyndra_runtime::main]
 async fn rocket() -> cyndra_rocket::CyndraRocket {
-    let rocket = rocket::build().mount("/hello", routes![index]);
+    let rocket = rocket::build().mount("/", routes![index]);
 
     Ok(rocket.into())
 }
@@ -142,7 +142,7 @@ cargo cyndra run
 This will compile your cyndra project and start it on the default port `8000`. Test it by:
 
 ```sh
-$ curl http://localhost:8000/hello
+$ curl http://localhost:8000
 Hello, world!
 ```
 
@@ -173,7 +173,7 @@ cargo cyndra deploy
 Your service will immediately be available at `{crate_name}.cyndraapp.rs`. For instance:
 
 ```sh
-$ curl https://my-rocket-app.cyndraapp.rs/hello
+$ curl https://my-rocket-app.cyndraapp.rs
 Hello, world!
 ```
 

@@ -185,7 +185,7 @@ fn assert_valid_rocket_project(path: &Path, name: &str) {
 
     #[cyndra_runtime::main]
     async fn rocket() -> cyndra_rocket::CyndraRocket {
-        let rocket = rocket::build().mount("/hello", routes![index]);
+        let rocket = rocket::build().mount("/", routes![index]);
 
         Ok(rocket.into())
     }"#};
