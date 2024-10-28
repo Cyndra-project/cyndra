@@ -38,27 +38,27 @@ impl TempCargoHome {
                 write!(
                     config,
                     r#"[patch.crates-io]
-cyndra-service = { path = "{}" }
-cyndra-runtime = { path = "{}" }
+cyndra-service = {{ path = "{}" }}
+cyndra-runtime = {{ path = "{}" }}
 
-cyndra-aws-rds = { path = "{}" }
-cyndra-persist = { path = "{}" }
-cyndra-shared-db = { path = "{}" }
-cyndra-secrets = { path = "{}" }
-cyndra-static-folder = { path = "{}" }
+cyndra-aws-rds = {{ path = "{}" }}
+cyndra-persist = {{ path = "{}" }}
+cyndra-shared-db = {{ path = "{}" }}
+cyndra-secrets = {{ path = "{}" }}
+cyndra-static-folder = {{ path = "{}" }}
 
-cyndra-axum = { path = "{}" }
-cyndra-actix-web = { path = "{}" }
-cyndra-next = { path = "{}" }
-cyndra-poem = { path = "{}" }
-cyndra-poise = { path = "{}" }
-cyndra-rocket = { path = "{}" }
-cyndra-salvo = { path = "{}" }
-cyndra-serenity = { path = "{}" }
-cyndra-thruster = { path = "{}" }
-cyndra-tide = { path = "{}" }
-cyndra-tower = { path = "{}" }
-cyndra-warp = { path = "{}" }"#,
+cyndra-axum = {{ path = "{}" }}
+cyndra-actix-web = {{ path = "{}" }}
+cyndra-next = {{ path = "{}" }}
+cyndra-poem = {{ path = "{}" }}
+cyndra-poise = {{ path = "{}" }}
+cyndra-rocket = {{ path = "{}" }}
+cyndra-salvo = {{ path = "{}" }}
+cyndra-serenity = {{ path = "{}" }}
+cyndra-thruster = {{ path = "{}" }}
+cyndra-tide = {{ path = "{}" }}
+cyndra-tower = {{ path = "{}" }}
+cyndra-warp = {{ path = "{}" }}"#,
                     WORKSPACE_ROOT.join("service").display(),
                     WORKSPACE_ROOT.join("runtime").display(),
                     WORKSPACE_ROOT.join("resources").join("aws-rds").display(),
@@ -181,7 +181,7 @@ CARGO_HOME: {}
         let admin_key = if let Ok(key) = env::var("cyndra_API_KEY") {
             key
         } else {
-            "e2e-test-key".to_string()
+            "dh9z58jttoes3qvt".to_string()
         };
 
         _ = Command::new(DOCKER.as_os_str())
@@ -192,9 +192,9 @@ CARGO_HOME: {}
                 "--project-name",
                 "cyndra-dev",
                 "exec",
-                "gateway",
+                "auth",
                 "/usr/local/bin/service",
-                "--state=/var/lib/cyndra",
+                "--state=/var/lib/cyndra-auth",
                 "init",
                 "--name",
                 "test",
@@ -415,7 +415,7 @@ impl Services {
             let mut run = Command::new(WORKSPACE_ROOT.join("target/debug/cargo-cyndra"));
 
             if env::var("cyndra_API_KEY").is_err() {
-                run.env("cyndra_API_KEY", "e2e-test-key");
+                run.env("cyndra_API_KEY", "dh9z58jttoes3qvt");
             }
 
             run.env("CARGO_HOME", CARGO_HOME.path());
@@ -444,7 +444,7 @@ impl Services {
         let mut run = Command::new(WORKSPACE_ROOT.join("target/debug/cargo-cyndra"));
 
         if env::var("cyndra_API_KEY").is_err() {
-            run.env("cyndra_API_KEY", "e2e-test-key");
+            run.env("cyndra_API_KEY", "dh9z58jttoes3qvt");
         }
 
         run.env("CARGO_HOME", CARGO_HOME.path());
@@ -455,7 +455,7 @@ impl Services {
 
     /// Starts a project and deploys a service for the example in `self.example_path`
     pub fn deploy(&self) {
-        self.run_client(["project", "new"])
+        self.run_client(["project", "start"])
             .wait()
             .ensure_success("failed to run deploy");
 
@@ -484,6 +484,6 @@ impl Services {
 impl Drop for Services {
     fn drop(&mut self) {
         // Initiate project destruction on test completion
-        _ = self.run_client(["project", "rm"]).wait();
+        _ = self.run_client(["project", "stop"]).wait();
     }
 }
