@@ -82,8 +82,8 @@ impl ConfigManager for GlobalConfigManager {
         let cyndra_config_dir = dirs::config_dir()
             .ok_or_else(|| {
                 anyhow!(
-            "Could not find a configuration directory. Your operating system may not be supported."
-        )
+                    "Could not find a configuration directory. Your operating system may not be supported."
+                )
             })
             .unwrap();
         cyndra_config_dir.join("cyndra")
