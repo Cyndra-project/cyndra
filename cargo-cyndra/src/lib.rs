@@ -10,7 +10,7 @@ use cyndra_common::models::deployment::get_deployments_table;
 use cyndra_common::models::project::IDLE_MINUTES;
 use cyndra_common::models::resource::get_resources_table;
 use cyndra_common::project::ProjectName;
-use cyndra_common::resource;
+use cyndra_common::{resource, ApiKey};
 use cyndra_proto::runtime::runtime_client::RuntimeClient;
 use cyndra_proto::runtime::{self, LoadRequest, StartRequest, StopRequest, SubscribeLogsRequest};
 
@@ -268,32 +268,12 @@ impl Cyndra {
 
                 Password::with_theme(&ColorfulTheme::default())
                     .with_prompt("API key")
-                    .validate_with(|input: &String| {
-                        let key = input.trim().to_string();
-
-                        let mut errors = vec![];
-                        if !key.chars().all(char::is_alphanumeric) {
-                            errors.push(
-                                "The API key should consist of only alphanumeric characters.",
-                            );
-                        };
-
-                        if key.len() != 16 {
-                            errors.push("The API key should be exactly 16 characters in length.");
-                        };
-
-                        if errors.is_empty() {
-                            Ok(())
-                        } else {
-                            let message = errors.join("\n");
-                            Err(format!("Invalid API key:\n{message}"))
-                        }
-                    })
+                    .validate_with(|input: &String| ApiKey::parse(input).map(|_| {}))
                     .interact()?
             }
         };
 
-        let api_key = api_key_str.trim().parse()?;
+        let api_key = ApiKey::parse(&api_key_str)?;
 
         self.ctx.set_api_key(api_key)?;
 
