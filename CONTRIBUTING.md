@@ -104,7 +104,7 @@ Login to cyndra service in a new terminal window from the root of the cyndra dir
 cargo run --bin cargo-cyndra -- login --api-key "dh9z58jttoes3qvt"
 ```
 
-The [cyndra examples](https://github.com/cyndra-hq/examples) are linked to the main repo as a [git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules), to initialize it run the following commands:
+The [cyndra examples](https://github.com/cyndra-hq/cyndra-examples) are linked to the main repo as a [git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules), to initialize it run the following commands:
 
 ```bash
 git submodule init

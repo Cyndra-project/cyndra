@@ -11,7 +11,7 @@ Add `cyndra-shared-db` to the dependencies for your service. Every type of share
 | Postgres | postgres     | cyndra_shared_db::Postgres |
 | MongoDB  | mongodb      | cyndra_shared_db::MongoDb  |
 
-An example using the Rocket framework can be found on [GitHub](https://github.com/cyndra-hq/examples/tree/main/rocket/postgres)
+An example using the Rocket framework can be found on [GitHub](https://github.com/cyndra-hq/cyndra-examples/tree/main/rocket/postgres)
 
 ### Postgres
 
