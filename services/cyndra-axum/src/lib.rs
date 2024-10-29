@@ -25,6 +25,11 @@ impl cyndra_runtime::Service for AxumService {
     /// Takes the router that is returned by the user in their [cyndra_runtime::main] function
     /// and binds to an address passed in by cyndra.
     async fn bind(mut self, addr: SocketAddr) -> Result<(), Error> {
+        self.0 = (self.0).route(
+            "/healthz",
+            axum::routing::get(|| async { axum::http::StatusCode::OK }),
+        );
+
         axum::Server::bind(&addr)
             .serve(self.0.into_make_service())
             .await
