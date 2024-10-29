@@ -142,7 +142,7 @@ fn check_return_type(signature: Signature) -> Option<TypePath> {
                 signature,
                 "cyndra_runtime::main functions need to return a service";
                 hint = "See the docs for services with first class support";
-                doc = "https://docs.rs/cyndra-service/latest/cyndra_runtime/attr.main.html#cyndra-supported-services"
+                doc = "https://docs.rs/cyndra-service/latest/cyndra_service/attr.main.html#cyndra-supported-services"
             );
             None
         }
@@ -153,7 +153,7 @@ fn check_return_type(signature: Signature) -> Option<TypePath> {
                     r#type,
                     "cyndra_runtime::main functions need to return a first class service or 'Result<impl Service, cyndra_runtime::Error>";
                     hint = "See the docs for services with first class support";
-                    doc = "https://docs.rs/cyndra-service/latest/cyndra_runtime/attr.main.html#cyndra-supported-services"
+                    doc = "https://docs.rs/cyndra-service/latest/cyndra_service/attr.main.html#cyndra-supported-services"
                 );
                 None
             }
