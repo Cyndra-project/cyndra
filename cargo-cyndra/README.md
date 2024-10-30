@@ -41,6 +41,23 @@
 cargo install cargo-cyndra
 ```
 
+### Distro Packages
+
+<details>
+  <summary>Packaging status</summary>
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/cargo-cyndra.svg)](https://repology.org/project/cargo-cyndra/versions)
+
+</details>
+
+#### Arch Linux
+
+`cargo-cyndra` can be installed from the [community repository](https://archlinux.org/packages/community/x86_64/cargo-cyndra) using [pacman](https://wiki.archlinux.org/title/Pacman):
+
+```sh
+pacman -S cargo-cyndra
+```
+
 ---
 
 <!-- markdownlint-disable-next-line -->
