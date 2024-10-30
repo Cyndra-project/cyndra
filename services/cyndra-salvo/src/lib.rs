@@ -10,12 +10,13 @@
 //!
 //! #[cyndra_runtime::main]
 //! async fn salvo() -> cyndra_salvo::CyndraSalvo {
-//!     let router = Router::with_path("hello").get(hello_world);
+//!     let router = Router::new().get(hello_world);
 //!
 //!     Ok(router.into())
 //! }
 //!
 //! ```
+use salvo::Listener;
 use cyndra_runtime::Error;
 use std::net::SocketAddr;
 
@@ -27,9 +28,9 @@ impl cyndra_runtime::Service for SalvoService {
     /// Takes the router that is returned by the user in their [cyndra_runtime::main] function
     /// and binds to an address passed in by cyndra.
     async fn bind(mut self, addr: SocketAddr) -> Result<(), Error> {
-        salvo::Server::new(salvo::listener::TcpListener::bind(addr))
-            .serve(self.0)
-            .await;
+        let listener = salvo::conn::TcpListener::new(addr).bind().await;
+
+        salvo::Server::new(listener).serve(self.0).await;
 
         Ok(())
     }
