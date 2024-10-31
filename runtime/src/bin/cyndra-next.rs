@@ -3,7 +3,6 @@ use std::{
     time::Duration,
 };
 
-use clap::Parser;
 use cyndra_common::backends::tracing::{setup_tracing, ExtractPropagationLayer};
 use cyndra_proto::runtime::runtime_server::RuntimeServer;
 use cyndra_runtime::{AxumWasm, NextArgs};
@@ -12,7 +11,7 @@ use tracing::trace;
 
 #[tokio::main(flavor = "multi_thread")]
 async fn main() {
-    let args = NextArgs::parse();
+    let args = NextArgs::parse().unwrap();
 
     setup_tracing(tracing_subscriber::registry(), "cyndra-next");
 
