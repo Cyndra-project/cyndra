@@ -241,6 +241,10 @@ impl Cyndra {
 
             self.load_project(&mut project_args)?;
             self.project_create(&self.client()?, IDLE_MINUTES).await?;
+        } else {
+            println!(
+                "Run `cargo cyndra project start` to create a project environment on Cyndra."
+            );
         }
 
         Ok(())
@@ -324,6 +328,7 @@ impl Cyndra {
         progress_bar.finish_and_clear();
 
         println!("{}\n{}", "Successfully stopped service".bold(), service);
+        println!("Run `cargo cyndra deploy` to re-deploy your service.");
 
         Ok(())
     }
@@ -425,6 +430,7 @@ impl Cyndra {
         let table = get_deployments_table(&deployments, proj_name.as_str());
 
         println!("{table}");
+        println!("Run `cargo cyndra logs <id>` to get logs for a given deployment.");
 
         Ok(())
     }
@@ -785,6 +791,11 @@ impl Cyndra {
             }
         }
 
+        println!(
+            "Run `cargo cyndra project start` to create a project environment on Cyndra.\n\
+             Run `cargo cyndra deploy` to deploy your Cyndra service."
+        );
+
         // If prior signal received is set to true we must stop all the existing runtimes and
         // exit the `local_run`.
         if signal_received {
@@ -880,6 +891,11 @@ impl Cyndra {
                 rt.wait().await?.code()
             );
         }
+
+        println!(
+            "Run `cargo cyndra project start` to create a project environment on Cyndra.\n\
+             Run `cargo cyndra deploy` to deploy your Cyndra service."
+        );
 
         Ok(())
     }
@@ -1013,6 +1029,7 @@ impl Cyndra {
             client,
         )
         .await?;
+        println!("Run `cargo cyndra deploy` to deploy your Cyndra service.");
 
         Ok(())
     }
@@ -1069,6 +1086,7 @@ impl Cyndra {
             client,
         )
         .await?;
+        println!("Run `cargo cyndra project start` to recreate project environment on Cyndra.");
 
         Ok(())
     }
