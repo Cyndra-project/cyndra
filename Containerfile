@@ -52,6 +52,7 @@ COPY --from=cache /build/ /usr/src/cyndra/
 FROM cyndra-common
 ARG folder
 ARG prepare_args
+ARG PROD
 COPY ${folder}/prepare.sh /prepare.sh
 RUN /prepare.sh "${prepare_args}"
 ARG CARGO_PROFILE

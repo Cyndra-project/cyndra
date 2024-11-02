@@ -6,29 +6,33 @@
 ###############################################################################
 
 # Patch crates to be on same versions
-mkdir -p $CARGO_HOME; \
-echo '[patch.crates-io]
-cyndra-service = { path = "/usr/src/cyndra/service" }
-cyndra-runtime = { path = "/usr/src/cyndra/runtime" }
+mkdir -p $CARGO_HOME
+if [[ $PROD != "true" ]]; then
+    echo '[patch.crates-io]
+    cyndra-service = { path = "/usr/src/cyndra/service" }
+    cyndra-runtime = { path = "/usr/src/cyndra/runtime" }
 
-cyndra-aws-rds = { path = "/usr/src/cyndra/resources/aws-rds" }
-cyndra-persist = { path = "/usr/src/cyndra/resources/persist" }
-cyndra-shared-db = { path = "/usr/src/cyndra/resources/shared-db" }
-cyndra-secrets = { path = "/usr/src/cyndra/resources/secrets" }
-cyndra-static-folder = { path = "/usr/src/cyndra/resources/static-folder" }
+    cyndra-aws-rds = { path = "/usr/src/cyndra/resources/aws-rds" }
+    cyndra-persist = { path = "/usr/src/cyndra/resources/persist" }
+    cyndra-shared-db = { path = "/usr/src/cyndra/resources/shared-db" }
+    cyndra-secrets = { path = "/usr/src/cyndra/resources/secrets" }
+    cyndra-static-folder = { path = "/usr/src/cyndra/resources/static-folder" }
 
-cyndra-axum = { path = "/usr/src/cyndra/services/cyndra-axum" }
-cyndra-actix-web = { path = "/usr/src/cyndra/services/cyndra-actix-web" }
-cyndra-next = { path = "/usr/src/cyndra/services/cyndra-next" }
-cyndra-poem = { path = "/usr/src/cyndra/services/cyndra-poem" }
-cyndra-poise = { path = "/usr/src/cyndra/services/cyndra-poise" }
-cyndra-rocket = { path = "/usr/src/cyndra/services/cyndra-rocket" }
-cyndra-salvo = { path = "/usr/src/cyndra/services/cyndra-salvo" }
-cyndra-serenity = { path = "/usr/src/cyndra/services/cyndra-serenity" }
-cyndra-thruster = { path = "/usr/src/cyndra/services/cyndra-thruster" }
-cyndra-tide = { path = "/usr/src/cyndra/services/cyndra-tide" }
-cyndra-tower = { path = "/usr/src/cyndra/services/cyndra-tower" }
-cyndra-warp = { path = "/usr/src/cyndra/services/cyndra-warp" }' > $CARGO_HOME/config.toml
+    cyndra-axum = { path = "/usr/src/cyndra/services/cyndra-axum" }
+    cyndra-actix-web = { path = "/usr/src/cyndra/services/cyndra-actix-web" }
+    cyndra-next = { path = "/usr/src/cyndra/services/cyndra-next" }
+    cyndra-poem = { path = "/usr/src/cyndra/services/cyndra-poem" }
+    cyndra-poise = { path = "/usr/src/cyndra/services/cyndra-poise" }
+    cyndra-rocket = { path = "/usr/src/cyndra/services/cyndra-rocket" }
+    cyndra-salvo = { path = "/usr/src/cyndra/services/cyndra-salvo" }
+    cyndra-serenity = { path = "/usr/src/cyndra/services/cyndra-serenity" }
+    cyndra-thruster = { path = "/usr/src/cyndra/services/cyndra-thruster" }
+    cyndra-tide = { path = "/usr/src/cyndra/services/cyndra-tide" }
+    cyndra-tower = { path = "/usr/src/cyndra/services/cyndra-tower" }
+    cyndra-warp = { path = "/usr/src/cyndra/services/cyndra-warp" }' > $CARGO_HOME/config.toml
+else
+    touch $CARGO_HOME/config.toml
+fi
 
 # Add the wasm32-wasi target
 rustup target add wasm32-wasi
