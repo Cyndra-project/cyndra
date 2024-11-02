@@ -123,8 +123,8 @@ This should generate the following dependency in `Cargo.toml`:
 
 ```toml
 rocket = "0.5.0-rc.2"
-cyndra-rocket = { version = "0.16.0" }
-cyndra-runtime = { version = "0.16.0" }
+cyndra-rocket = { version = "0.17.0" }
+cyndra-runtime = { version = "0.17.0" }
 tokio = { version = "1.26.0" }
 ```
 
