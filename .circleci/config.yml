@@ -601,6 +601,7 @@ jobs:
     resource_class: medium
     steps:
       - checkout
+      - install-protoc
       - run:
           name: Crate publishing in order
           command: |
@@ -860,7 +861,7 @@ workflows:
                   "services/cyndra-rocket",
                   "services/cyndra-salvo",
                   "services/cyndra-serenity",
-                  "services/cyndra-thruset",
+                  "services/cyndra-thruster",
                   "services/cyndra-tide",
                   "services/cyndra-tower",
                   "services/cyndra-warp"
@@ -868,6 +869,7 @@ workflows:
           name: publish-<< matrix.path >>
           requires:
             - publish-cargo-cyndra
+            - publish-cyndra-runtime
           filters:
             branches:
               only: production
