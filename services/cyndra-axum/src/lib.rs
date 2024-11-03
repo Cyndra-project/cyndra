@@ -18,7 +18,7 @@ use cyndra_runtime::{CustomError, Error};
 use std::net::SocketAddr;
 
 /// A wrapper type for [axum::Router] so we can implement [cyndra_runtime::Service] for it.
-pub struct AxumService(pub axum::Router);
+pub struct AxumService<S = ()>(pub axum::Router<S>);
 
 #[cyndra_runtime::async_trait]
 impl cyndra_runtime::Service for AxumService {
@@ -34,10 +34,11 @@ impl cyndra_runtime::Service for AxumService {
     }
 }
 
-impl From<axum::Router> for AxumService {
-    fn from(router: axum::Router) -> Self {
+impl<S> From<axum::Router<S>> for AxumService<S> {
+    fn from(router: axum::Router<S>) -> Self {
         Self(router)
     }
 }
+
 /// The return type that should be returned from the [cyndra_runtime::main] function.
 pub type CyndraAxum = Result<AxumService, Error>;
