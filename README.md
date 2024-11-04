@@ -13,7 +13,7 @@
   <a href="https://circleci.com/gh/cyndra-hq/cyndra/">
     <img alt="build status" src="https://circleci.com/gh/cyndra-hq/cyndra.svg?style=shield"/>
   </a>
-  <a href="https://discord.gg/H33rRDTm3p">
+  <a href="https://discord.gg/cyndra">
     <img alt="discord" src="https://img.shields.io/discord/803236282088161321?logo=discord"/>
   </a>
 </p>

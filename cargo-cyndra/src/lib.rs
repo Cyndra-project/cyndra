@@ -791,11 +791,6 @@ impl Cyndra {
             }
         }
 
-        println!(
-            "Run `cargo cyndra project start` to create a project environment on Cyndra.\n\
-             Run `cargo cyndra deploy` to deploy your Cyndra service."
-        );
-
         // If prior signal received is set to true we must stop all the existing runtimes and
         // exit the `local_run`.
         if signal_received {
@@ -855,6 +850,11 @@ impl Cyndra {
                 }
             };
         }
+
+        println!(
+            "Run `cargo cyndra project start` to create a project environment on Cyndra.\n\
+             Run `cargo cyndra deploy` to deploy your Cyndra service."
+        );
 
         Ok(())
     }
