@@ -738,7 +738,7 @@ impl Cyndra {
         );
 
         // Compile all the alpha or cyndra-next services in the workspace.
-        build_workspace(working_directory, run_args.release, tx).await
+        build_workspace(working_directory, run_args.release, tx, false).await
     }
 
     async fn setup_local_provisioner(
