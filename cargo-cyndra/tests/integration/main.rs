@@ -1,7 +1,7 @@
 mod init;
 mod run;
 
-use cargo_cyndra::{Args, Command, CommandOutcome, ProjectArgs, Cyndra};
+use cargo_cyndra::{Command, CommandOutcome, ProjectArgs, Cyndra, CyndraArgs};
 use std::path::Path;
 
 /// creates a `cargo-cyndra` run instance with some reasonable defaults set.
@@ -13,7 +13,7 @@ async fn cargo_cyndra_command(
 
     Cyndra::new()
         .unwrap()
-        .run(Args {
+        .run(CyndraArgs {
             api_url: Some("http://cyndra.invalid:80".to_string()),
             project_args: ProjectArgs {
                 working_directory,

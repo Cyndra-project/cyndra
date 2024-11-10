@@ -6,218 +6,46 @@ use std::{
 
 use anyhow::{anyhow, Context, Result};
 use cargo_generate::{GenerateArgs, TemplatePath, Vcs};
+use git2::Repository;
 use indoc::indoc;
 use cyndra_common::project::ProjectName;
 use toml_edit::{value, Document};
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, strum::Display, strum::EnumIter)]
-#[strum(serialize_all = "kebab-case")]
-pub enum Template {
-    ActixWeb,
-    Axum,
-    Poise,
-    Poem,
-    Rocket,
-    Salvo,
-    Serenity,
-    Tide,
-    Thruster,
-    Tower,
-    Warp,
-    None,
-}
+use crate::args::TemplateLocation;
 
-impl Template {
-    /// Returns a framework-specific struct that implements the trait `CyndraInit`
-    /// for writing framework-specific dependencies to `Cargo.toml` and generating
-    /// boilerplate code in `src/main.rs`.
-    pub fn init_config(&self) -> Box<dyn CyndraInit> {
-        use Template::*;
-        match self {
-            ActixWeb => Box::new(CyndraInitActixWeb),
-            Axum => Box::new(CyndraInitAxum),
-            Rocket => Box::new(CyndraInitRocket),
-            Tide => Box::new(CyndraInitTide),
-            Tower => Box::new(CyndraInitTower),
-            Poem => Box::new(CyndraInitPoem),
-            Salvo => Box::new(CyndraInitSalvo),
-            Serenity => Box::new(CyndraInitSerenity),
-            Poise => Box::new(CyndraInitPoise),
-            Warp => Box::new(CyndraInitWarp),
-            Thruster => Box::new(CyndraInitThruster),
-            None => Box::new(CyndraInitNoOp),
-        }
-    }
-}
-
-pub trait CyndraInit {
-    fn get_repo_url(&self) -> &'static str;
-    fn get_sub_path(&self) -> Option<&'static str>;
-}
-
-pub struct CyndraInitActixWeb;
-
-impl CyndraInit for CyndraInitActixWeb {
-    fn get_repo_url(&self) -> &'static str {
-        "http://github.com/cyndra-hq/cyndra-examples.git"
-    }
-
-    fn get_sub_path(&self) -> Option<&'static str> {
-        Some("actix-web/hello-world")
-    }
-}
-
-pub struct CyndraInitAxum;
-
-impl CyndraInit for CyndraInitAxum {
-    fn get_repo_url(&self) -> &'static str {
-        "http://github.com/cyndra-hq/cyndra-examples.git"
-    }
-
-    fn get_sub_path(&self) -> Option<&'static str> {
-        Some("axum/hello-world")
-    }
-}
-
-pub struct CyndraInitRocket;
-
-impl CyndraInit for CyndraInitRocket {
-    fn get_repo_url(&self) -> &'static str {
-        "http://github.com/cyndra-hq/cyndra-examples.git"
-    }
-
-    fn get_sub_path(&self) -> Option<&'static str> {
-        Some("rocket/hello-world")
-    }
-}
-
-pub struct CyndraInitTide;
-
-impl CyndraInit for CyndraInitTide {
-    fn get_repo_url(&self) -> &'static str {
-        "http://github.com/cyndra-hq/cyndra-examples.git"
-    }
-
-    fn get_sub_path(&self) -> Option<&'static str> {
-        Some("tide/hello-world")
-    }
-}
-
-pub struct CyndraInitPoem;
-
-impl CyndraInit for CyndraInitPoem {
-    fn get_repo_url(&self) -> &'static str {
-        "http://github.com/cyndra-hq/cyndra-examples.git"
-    }
-
-    fn get_sub_path(&self) -> Option<&'static str> {
-        Some("poem/hello-world")
-    }
-}
-
-pub struct CyndraInitSalvo;
-
-impl CyndraInit for CyndraInitSalvo {
-    fn get_repo_url(&self) -> &'static str {
-        "http://github.com/cyndra-hq/cyndra-examples.git"
-    }
-
-    fn get_sub_path(&self) -> Option<&'static str> {
-        Some("salvo/hello-world")
-    }
-}
-
-pub struct CyndraInitSerenity;
-
-impl CyndraInit for CyndraInitSerenity {
-    fn get_repo_url(&self) -> &'static str {
-        "http://github.com/cyndra-hq/cyndra-examples.git"
-    }
-
-    fn get_sub_path(&self) -> Option<&'static str> {
-        Some("serenity/hello-world")
-    }
-}
-
-pub struct CyndraInitPoise;
-
-impl CyndraInit for CyndraInitPoise {
-    fn get_repo_url(&self) -> &'static str {
-        "http://github.com/cyndra-hq/cyndra-examples.git"
-    }
-
-    fn get_sub_path(&self) -> Option<&'static str> {
-        Some("poise/hello-world")
-    }
-}
-
-pub struct CyndraInitTower;
-
-impl CyndraInit for CyndraInitTower {
-    fn get_repo_url(&self) -> &'static str {
-        "http://github.com/cyndra-hq/cyndra-examples.git"
-    }
-
-    fn get_sub_path(&self) -> Option<&'static str> {
-        Some("tower/hello-world")
-    }
-}
-
-pub struct CyndraInitWarp;
-
-impl CyndraInit for CyndraInitWarp {
-    fn get_repo_url(&self) -> &'static str {
-        "http://github.com/cyndra-hq/cyndra-examples.git"
-    }
-
-    fn get_sub_path(&self) -> Option<&'static str> {
-        Some("warp/hello-world")
-    }
-}
-
-pub struct CyndraInitThruster;
-
-impl CyndraInit for CyndraInitThruster {
-    fn get_repo_url(&self) -> &'static str {
-        "http://github.com/cyndra-hq/cyndra-examples.git"
-    }
-
-    fn get_sub_path(&self) -> Option<&'static str> {
-        Some("thruster/hello-world")
-    }
-}
-
-pub struct CyndraInitNoOp;
-impl CyndraInit for CyndraInitNoOp {
-    fn get_repo_url(&self) -> &'static str {
-        "http://github.com/cyndra-hq/cyndra-examples.git"
-    }
-
-    fn get_sub_path(&self) -> Option<&'static str> {
-        Some("custom/none")
-    }
-}
-
-pub fn cargo_generate(path: PathBuf, name: &ProjectName, framework: Template) -> Result<()> {
-    let config = framework.init_config();
-
+/// More about how this works: https://cargo-generate.github.io/cargo-generate/
+pub fn cargo_generate(path: PathBuf, name: &ProjectName, temp_loc: TemplateLocation) -> Result<()> {
     println!(r#"    Creating project "{name}" in {path:?}"#);
+
+    let do_git_init = Repository::discover(&path).is_err();
+
     let generate_args = GenerateArgs {
-        init: true,
         template_path: TemplatePath {
-            git: Some(config.get_repo_url().to_string()),
-            auto_path: config.get_sub_path().map(str::to_string),
+            // Automatically guess location from:
+            // - cargo-generate "favorites", see their docs
+            // - git hosts (gh:, gl: etc.)
+            // - local path (check if exists)
+            // - github username+repo (cyndra-hq/cyndra-examples)
+            auto_path: Some(temp_loc.auto_path.clone()),
+            // subfolder in the source folder that was found
+            subfolder: temp_loc.subfolder,
             ..Default::default()
         },
-        name: Some(name.to_string()), // appears to do nothing...
+        // setting this prevents cargo-generate from prompting the user.
+        // it will then be used to try and replace a "{{project-name}}" placeholder in the cloned folder.
+        // (not intended with Cyndra templates)
+        name: Some(name.to_string()),
         destination: Some(path.clone()),
+        init: true, // don't create a folder to place the template in
         vcs: Some(Vcs::Git),
+        force_git_init: do_git_init, // git init after cloning
         ..Default::default()
     };
     cargo_generate::generate(generate_args)
         .with_context(|| "Failed to initialize with cargo generate.")?;
 
-    set_crate_name(&path, name.as_str()).with_context(|| "Failed to set crate name.")?;
+    set_crate_name(&path, name.as_str())
+        .with_context(|| "Failed to set crate name. No Cargo.toml in template?")?;
     remove_cyndra_toml(&path);
     create_gitignore_file(&path).with_context(|| "Failed to create .gitignore file.")?;
 
