@@ -552,7 +552,7 @@ impl Cyndra {
 
             secrets
         } else {
-            trace!("no Secrets.toml was found");
+            trace!("No secrets were loaded");
             Default::default()
         };
 
