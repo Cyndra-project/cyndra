@@ -30,6 +30,7 @@ if [[ $PROD != "true" ]]; then
     cyndra-shared-db = { path = "/usr/src/cyndra/resources/shared-db" }
     cyndra-secrets = { path = "/usr/src/cyndra/resources/secrets" }
     cyndra-static-folder = { path = "/usr/src/cyndra/resources/static-folder" }
+    cyndra-turso = { path = "/usr/src/cyndra/resources/turso" }
 
     cyndra-actix-web = { path = "/usr/src/cyndra/services/cyndra-actix-web" }
     cyndra-axum = { path = "/usr/src/cyndra/services/cyndra-axum" }

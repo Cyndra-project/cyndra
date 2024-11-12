@@ -96,6 +96,7 @@ commands:
             cyndra-shared-db = { path = "$PWD/resources/shared-db" }
             cyndra-secrets = { path = "$PWD/resources/secrets" }
             cyndra-static-folder = { path = "$PWD/resources/static-folder" }
+            cyndra-turso = { path = "$PWD/resources/turso" }
 
             cyndra-axum = { path = "$PWD/services/cyndra-axum" }
             cyndra-actix-web = { path = "$PWD/services/cyndra-actix-web" }
@@ -605,6 +606,7 @@ workflows:
                 - resources/persist
                 - resources/secrets
                 - resources/static-folder
+                - resources/turso
                 - services/cyndra-actix-web
                 - services/cyndra-axum
                 - services/cyndra-next
