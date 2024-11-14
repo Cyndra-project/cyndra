@@ -1041,10 +1041,9 @@ impl Cyndra {
 
                             return Ok(CommandOutcome::DeploymentFailure);
                         }
-                        cyndra_common::deployment::State::Running
-                        | cyndra_common::deployment::State::Completed
-                        | cyndra_common::deployment::State::Stopped
-                        | cyndra_common::deployment::State::Unknown => {
+                        // Break on remaining end states: Running, Stopped, Completed or Unknown.
+                        end_state => {
+                            debug!(state = %end_state, "received end state, breaking deployment stream");
                             break;
                         }
                     };
@@ -1100,9 +1099,12 @@ impl Cyndra {
                         "State: Crashed - Deployment crashed after startup.".red()
                     );
                 }
-                _ => println!(
-                    "Deployment encountered an unexpected error - Please create a ticket to report this."
-                ),
+                state => {
+                    debug!("deployment logs stream received state: {state} when it expected to receive running state");
+                    println!(
+                    "Deployment entered an unexpected state - Please create a ticket to report this."
+                );
+                }
             }
 
             println!();
