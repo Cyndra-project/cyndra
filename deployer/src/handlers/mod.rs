@@ -24,7 +24,9 @@ use cyndra_common::backends::auth::{
 use cyndra_common::backends::headers::XCyndraAccountName;
 use cyndra_common::backends::metrics::{Metrics, TraceLayer};
 use cyndra_common::claims::{Claim, Scope};
-use cyndra_common::models::deployment::{DeploymentRequest, GIT_STRINGS_MAX_LENGTH};
+use cyndra_common::models::deployment::{
+    DeploymentRequest, CREATE_SERVICE_BODY_LIMIT, GIT_STRINGS_MAX_LENGTH,
+};
 use cyndra_common::models::secret;
 use cyndra_common::project::ProjectName;
 use cyndra_common::storage_manager::StorageManager;
@@ -114,7 +116,7 @@ impl RouterBuilder {
                     .post(
                         create_service
                             // Set the body size limit for this endpoint to 50MB
-                            .layer(DefaultBodyLimit::max(50_000_000))
+                            .layer(DefaultBodyLimit::max(CREATE_SERVICE_BODY_LIMIT))
                             .layer(ScopedLayer::new(vec![Scope::ServiceCreate])),
                     )
                     .delete(stop_service.layer(ScopedLayer::new(vec![Scope::ServiceCreate]))),
