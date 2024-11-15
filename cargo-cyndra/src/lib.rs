@@ -1132,7 +1132,7 @@ impl Cyndra {
             client,
         )
         .await?;
-        println!("Run `cargo cyndra deploy` to deploy your Cyndra service.");
+        println!("Run `cargo cyndra deploy --allow-dirty` to deploy your Cyndra service.");
 
         Ok(())
     }
