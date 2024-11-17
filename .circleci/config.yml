@@ -646,6 +646,7 @@ workflows:
                   "cyndra-deployer",
                   "cyndra-proto",
                   "cyndra-provisioner",
+                  "cyndra-resource-recorder",
                   "cyndra-runtime",
                   "cyndra-service",
                 ]

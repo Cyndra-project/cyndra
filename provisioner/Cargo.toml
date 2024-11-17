@@ -23,7 +23,7 @@ tracing-subscriber = { workspace = true, features = ["default", "fmt"] }
 
 [dependencies.cyndra-common]
 workspace = true
-features = ["backend"]
+features = ["backend", "tonic"]
 
 [dependencies.cyndra-proto]
 workspace = true
