@@ -57,7 +57,8 @@ RUN /prepare.sh "${prepare_args}"
 
 COPY --from=cache /build /usr/src/cyndra/
 
-# Any prepare steps that depend on the COPY from src cache
+# Any prepare steps that depend on the COPY from src cache.
+# In the deployer cyndra-next is installed and the panamax mirror config is added in this step.
 RUN /prepare.sh --after-src "${prepare_args}"
 
 COPY --from=builder /build/target/${CARGO_PROFILE}/cyndra-${folder} /usr/local/bin/service
