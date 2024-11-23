@@ -724,6 +724,7 @@ impl ProjectCreating {
                     "Labels": {
                         "cyndra.prefix": prefix,
                         "cyndra.project": project_name,
+                        "cyndra.project_id": self.project_id.to_string(),
                         "cyndra.idle_minutes": format!("{idle_minutes}"),
                     },
                     "Cmd": [
