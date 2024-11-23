@@ -32,6 +32,10 @@ RESOURCE_RECORDER_TAG?=$(TAG)
 
 DOCKER_BUILD?=docker buildx build
 
+ifeq ($(CI),true)
+DOCKER_BUILD+= --progress plain
+endif
+
 DOCKER_COMPOSE=$(shell which docker-compose)
 ifeq ($(DOCKER_COMPOSE),)
 DOCKER_COMPOSE=docker compose
@@ -52,7 +56,6 @@ CONTAINER_REGISTRY=public.ecr.aws/cyndra
 DD_ENV=production
 # make sure we only ever go to production with `--tls=enable`
 USE_TLS=enable
-CARGO_PROFILE=release
 RUST_LOG=debug
 else
 DOCKER_COMPOSE_FILES=docker-compose.yml docker-compose.dev.yml
@@ -62,7 +65,6 @@ DB_FQDN=db.unstable.cyndra.rs
 CONTAINER_REGISTRY=public.ecr.aws/cyndra-dev
 DD_ENV=unstable
 USE_TLS?=disable
-CARGO_PROFILE=debug
 RUST_LOG?=cyndra=trace,debug
 DEPLOYS_API_KEY?=gateway4deployes
 endif
@@ -162,7 +164,6 @@ cyndra-%: ${SRC} Cargo.lock
 		--build-arg prepare_args=$(PREPARE_ARGS) \
 		--build-arg PROD=$(PROD) \
 		--build-arg RUSTUP_TOOLCHAIN=$(RUSTUP_TOOLCHAIN) \
-		--build-arg CARGO_PROFILE=$(CARGO_PROFILE) \
 		--tag $(CONTAINER_REGISTRY)/$(*):$(COMMIT_SHA) \
 		--tag $(CONTAINER_REGISTRY)/$(*):$(TAG) \
 		--tag $(CONTAINER_REGISTRY)/$(*):latest \
