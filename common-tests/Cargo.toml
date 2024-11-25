@@ -10,3 +10,7 @@ publish = false
 hyper = { workspace = true }
 cyndra-common = { workspace = true }
 tower = { workspace = true }
+cargo-cyndra = { path = "../cargo-cyndra" }
+portpicker = { workspace = true }
+tokio = { workspace = true }
+reqwest = { workspace = true }
