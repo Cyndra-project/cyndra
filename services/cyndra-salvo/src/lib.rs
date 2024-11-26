@@ -34,7 +34,7 @@ impl cyndra_runtime::Service for SalvoService {
             res.status_code(StatusCode::OK);
         }
 
-        let healthz_router = salvo::Router::with_path("healthz").get(healthz_handler);
+        let healthz_router = salvo::Router::with_path("_cyndra/healthz").get(healthz_handler);
 
         let app = salvo::Router::new().push(healthz_router).push(self.0);
 

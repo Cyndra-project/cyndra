@@ -318,9 +318,11 @@ impl ToTokens for App {
             async fn __app(request: cyndra_next::Request<cyndra_next::body::BoxBody>,) -> cyndra_next::response::Response
             {
                 use cyndra_next::Service;
+                use cyndra_next::routing::get;
 
                 let mut router = cyndra_next::Router::new()
-                    #(#endpoint_chains)*;
+                    #(#endpoint_chains)*
+                    .route("/_cyndra/healthz", get(|| async {}));
 
                 let response = router.call(request).await.unwrap();
 
