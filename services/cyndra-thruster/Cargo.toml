@@ -9,9 +9,8 @@ keywords = ["cyndra-service", "thruster"]
 [workspace]
 
 [dependencies]
-thruster = { version = "1.3.0" }
+thruster = { version = "1.3.0", features = ["hyper_server"] }
 cyndra-runtime = { path = "../../runtime", version = "0.29.0", default-features = false }
 
 [dev-dependencies]
-thruster = { version = "1.3.0", features = ["hyper_server"] }
 tokio = { version = "1.26.0", features = ["macros", "rt-multi-thread"] }
