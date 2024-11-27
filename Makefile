@@ -56,7 +56,7 @@ CONTAINER_REGISTRY=public.ecr.aws/cyndra
 DD_ENV=production
 # make sure we only ever go to production with `--tls=enable`
 USE_TLS=enable
-RUST_LOG=debug
+RUST_LOG?=cyndra=debug,info
 else
 DOCKER_COMPOSE_FILES=docker-compose.yml docker-compose.dev.yml
 STACK?=cyndra-dev
@@ -65,7 +65,7 @@ DB_FQDN=db.unstable.cyndra.rs
 CONTAINER_REGISTRY=public.ecr.aws/cyndra-dev
 DD_ENV=unstable
 USE_TLS?=disable
-RUST_LOG?=cyndra=trace,debug
+RUST_LOG?=cyndra=debug,info
 DEPLOYS_API_KEY?=gateway4deployes
 endif
 
