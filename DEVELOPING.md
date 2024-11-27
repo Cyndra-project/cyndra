@@ -144,7 +144,7 @@ cyndra-persist = { path = "[base]/cyndra/resources/persist" }
 cyndra-shared-db = { path = "[base]/cyndra/resources/shared-db" }
 cyndra-secrets = { path = "[base]/cyndra/resources/secrets" }
 cyndra-static-folder = { path = "[base]/cyndra/resources/static-folder" }
-cyndra-service-info = { path = "[base]/cyndra/resources/service-info" }
+cyndra-metadata = { path = "[base]/cyndra/resources/metadata" }
 cyndra-turso = { path = "[base]/cyndra/resources/turso" }
 
 cyndra-axum = { path = "[base]/cyndra/services/cyndra-axum" }
