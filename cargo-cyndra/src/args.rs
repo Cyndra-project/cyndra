@@ -12,7 +12,7 @@ use clap::{
     Parser, ValueEnum,
 };
 use clap_complete::Shell;
-use cyndra_common::{models::project::IDLE_MINUTES, project::ProjectName};
+use cyndra_common::{models::project::DEFAULT_IDLE_MINUTES, project::ProjectName};
 use uuid::Uuid;
 
 #[derive(Parser)]
@@ -40,7 +40,7 @@ pub struct CyndraArgs {
 #[derive(Parser, Debug)]
 pub struct ProjectArgs {
     /// Specify the working directory
-    #[arg(global = true, long, default_value = ".", value_parser = OsStringValueParser::new().try_map(parse_init_path))]
+    #[arg(global = true, long, alias = "wd", default_value = ".", value_parser = OsStringValueParser::new().try_map(parse_init_path))]
     pub working_directory: PathBuf,
     /// Specify the name of the project (overrides crate name)
     #[arg(global = true, long)]
@@ -82,26 +82,26 @@ impl ProjectArgs {
     }
 }
 
-/// A cargo command for the cyndra platform (https://www.cyndra.rs/)
+/// A cargo command for the Cyndra platform (https://www.cyndra.rs/)
 ///
 /// See the CLI docs (https://docs.cyndra.rs/introduction/cyndra-commands)
 /// for more information.
 #[derive(Parser)]
 pub enum Command {
-    /// Create a new cyndra project
+    /// Create a new Cyndra project
     Init(InitArgs),
-    /// Run a cyndra service locally
+    /// Run a Cyndra service locally
     Run(RunArgs),
-    /// Deploy a cyndra service
+    /// Deploy a Cyndra service
     Deploy(DeployArgs),
-    /// Manage deployments of a cyndra service
+    /// Manage deployments of a Cyndra service
     #[command(subcommand)]
     Deployment(DeploymentCommand),
-    /// View the status of a cyndra service
+    /// View the status of a Cyndra service
     Status,
-    /// Stop this cyndra service
+    /// Stop this Cyndra service
     Stop,
-    /// View the logs of a deployment in this cyndra service
+    /// View the logs of a deployment in this Cyndra service
     Logs {
         /// Deployment ID to get logs for. Defaults to currently running deployment
         id: Option<Uuid>,
@@ -112,19 +112,19 @@ pub enum Command {
         /// Follow log output
         follow: bool,
     },
-    /// List or manage projects on cyndra
+    /// List or manage projects on Cyndra
     #[command(subcommand)]
     Project(ProjectCommand),
-    /// Manage resources of a cyndra project
+    /// Manage resources of a Cyndra project
     #[command(subcommand)]
     Resource(ResourceCommand),
-    /// Manage secrets for this cyndra service
+    /// Manage secrets for this Cyndra service
     Secrets,
-    /// Remove cargo build artifacts in the cyndra environment
+    /// Remove cargo build artifacts in the Cyndra environment
     Clean,
-    /// Login to the cyndra platform
+    /// Login to the Cyndra platform
     Login(LoginArgs),
-    /// Log out of the cyndra platform
+    /// Log out of the Cyndra platform
     Logout(LogoutArgs),
     /// Generate shell completions
     Generate {
@@ -166,17 +166,17 @@ pub enum ResourceCommand {
 
 #[derive(Parser)]
 pub enum ProjectCommand {
-    /// Create an environment for this project on cyndra
+    /// Create an environment for this project on Cyndra
     Start(ProjectStartArgs),
-    /// Check the status of this project's environment on cyndra
+    /// Check the status of this project's environment on Cyndra
     Status {
         #[arg(short, long)]
         /// Follow status of project command
         follow: bool,
     },
-    /// Destroy this project's environment (container) on cyndra
+    /// Destroy this project's environment (container) on Cyndra
     Stop,
-    /// Destroy and create an environment for this project on cyndra
+    /// Destroy and create an environment for this project on Cyndra
     Restart(ProjectStartArgs),
     /// List all projects belonging to the calling account
     List {
@@ -192,7 +192,7 @@ pub enum ProjectCommand {
 
 #[derive(Parser, Debug)]
 pub struct ProjectStartArgs {
-    #[arg(long, default_value_t = IDLE_MINUTES)]
+    #[arg(long, default_value_t = DEFAULT_IDLE_MINUTES)]
     /// How long to wait before putting the project in an idle state due to inactivity.
     /// 0 means the project will never idle
     pub idle_minutes: u64,
@@ -200,7 +200,7 @@ pub struct ProjectStartArgs {
 
 #[derive(Parser, Clone, Debug)]
 pub struct LoginArgs {
-    /// API key for the cyndra platform
+    /// API key for the Cyndra platform
     #[arg(long)]
     pub api_key: Option<String>,
 }
@@ -214,10 +214,10 @@ pub struct LogoutArgs {
 #[derive(Parser)]
 pub struct DeployArgs {
     /// Allow deployment with uncommited files
-    #[arg(long)]
+    #[arg(long, alias = "ad")]
     pub allow_dirty: bool,
     /// Don't run pre-deploy tests
-    #[arg(long)]
+    #[arg(long, alias = "nt")]
     pub no_test: bool,
 }
 
@@ -236,7 +236,7 @@ pub struct RunArgs {
 
 #[derive(Parser, Clone, Debug)]
 pub struct InitArgs {
-    /// Clone a starter template from cyndra's official examples
+    /// Clone a starter template from Cyndra's official examples
     #[arg(long, short, value_enum, conflicts_with_all = &["from", "subfolder"])]
     pub template: Option<InitTemplateArg>,
     /// Clone a template from a git repository or local path using cargo-generate
@@ -246,11 +246,11 @@ pub struct InitArgs {
     #[arg(long, requires = "from")]
     pub subfolder: Option<String>,
 
-    /// Path where to place the new cyndra project
+    /// Path where to place the new Cyndra project
     #[arg(default_value = ".", value_parser = OsStringValueParser::new().try_map(parse_init_path))]
     pub path: PathBuf,
 
-    /// Whether to create the environment for this project on cyndra
+    /// Whether to create the environment for this project on Cyndra
     #[arg(long)]
     pub create_env: bool,
     #[command(flatten)]
