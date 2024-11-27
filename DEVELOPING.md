@@ -136,8 +136,11 @@ In order to test local changes to the library crates, you may want to add the be
 
 ```toml
 [patch.crates-io]
-cyndra-service = { path = "[base]/cyndra/service" }
+cyndra-codegen = { path = "[base]/cyndra/codegen" }
+cyndra-common = { path = "[base]/cyndra/common" }
+cyndra-proto = { path = "[base]/cyndra/proto" }
 cyndra-runtime = { path = "[base]/cyndra/runtime" }
+cyndra-service = { path = "[base]/cyndra/service" }
 
 cyndra-aws-rds = { path = "[base]/cyndra/resources/aws-rds" }
 cyndra-persist = { path = "[base]/cyndra/resources/persist" }

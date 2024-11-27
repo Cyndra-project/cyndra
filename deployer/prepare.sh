@@ -11,8 +11,11 @@ touch $CARGO_HOME/config.toml
 if [[ $PROD != "true" ]]; then
     echo '
     [patch.crates-io]
-    cyndra-service = { path = "/usr/src/cyndra/service" }
+    cyndra-codegen = { path = "/usr/src/cyndra/codegen" }
+    cyndra-common = { path = "/usr/src/cyndra/common" }
+    cyndra-proto = { path = "/usr/src/cyndra/proto" }
     cyndra-runtime = { path = "/usr/src/cyndra/runtime" }
+    cyndra-service = { path = "/usr/src/cyndra/service" }
 
     cyndra-aws-rds = { path = "/usr/src/cyndra/resources/aws-rds" }
     cyndra-persist = { path = "/usr/src/cyndra/resources/persist" }

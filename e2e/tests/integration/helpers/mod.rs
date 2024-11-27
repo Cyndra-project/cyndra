@@ -38,15 +38,18 @@ impl TempCargoHome {
                 write!(
                     config,
                     r#"[patch.crates-io]
-cyndra-service = {{ path = "{}" }}
+cyndra-codegen = {{ path = "{}" }}
+cyndra-common = {{ path = "{}" }}
+cyndra-proto = {{ path = "{}" }}
 cyndra-runtime = {{ path = "{}" }}
+cyndra-service = {{ path = "{}" }}
 
 cyndra-aws-rds = {{ path = "{}" }}
+cyndra-metadata = {{ path = "{}" }}
 cyndra-persist = {{ path = "{}" }}
 cyndra-shared-db = {{ path = "{}" }}
 cyndra-secrets = {{ path = "{}" }}
 cyndra-static-folder = {{ path = "{}" }}
-cyndra-metadata = {{ path = "{}" }}
 
 cyndra-axum = {{ path = "{}" }}
 cyndra-actix-web = {{ path = "{}" }}
@@ -60,19 +63,19 @@ cyndra-thruster = {{ path = "{}" }}
 cyndra-tide = {{ path = "{}" }}
 cyndra-tower = {{ path = "{}" }}
 cyndra-warp = {{ path = "{}" }}"#,
-                    WORKSPACE_ROOT.join("service").display(),
+                    WORKSPACE_ROOT.join("codegen").display(),
+                    WORKSPACE_ROOT.join("common").display(),
+                    WORKSPACE_ROOT.join("proto").display(),
                     WORKSPACE_ROOT.join("runtime").display(),
+                    WORKSPACE_ROOT.join("service").display(),
                     WORKSPACE_ROOT.join("resources").join("aws-rds").display(),
+                    WORKSPACE_ROOT.join("resources").join("metadata").display(),
                     WORKSPACE_ROOT.join("resources").join("persist").display(),
                     WORKSPACE_ROOT.join("resources").join("shared-db").display(),
                     WORKSPACE_ROOT.join("resources").join("secrets").display(),
                     WORKSPACE_ROOT
                         .join("resources")
                         .join("static-folder")
-                        .display(),
-                    WORKSPACE_ROOT
-                        .join("resources")
-                        .join("metadata")
                         .display(),
                     WORKSPACE_ROOT
                         .join("services")
