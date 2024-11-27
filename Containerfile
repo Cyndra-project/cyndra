@@ -3,57 +3,95 @@
 
 # Base image for builds and cache
 ARG RUSTUP_TOOLCHAIN
-FROM lukemathwalker/cargo-chef:latest-rust-${RUSTUP_TOOLCHAIN}-buster as cyndra-build
+FROM docker.io/lukemathwalker/cargo-chef:latest-rust-${RUSTUP_TOOLCHAIN}-buster as cargo-chef
 WORKDIR /build
 
 
-# Stores source cache
-FROM cyndra-build as cache
-ARG PROD
+# Stores source cache and cargo chef recipe
+FROM cargo-chef as planner
 WORKDIR /src
 COPY . .
-RUN find ${SRC_CRATES} \( -name "*.proto" -or -name "*.rs" -or -name "*.toml" -or -name "Cargo.lock" -or -name "README.md" -or -name "*.sql" -or -name "ulid0.so" \) -type f -exec install -D \{\} /build/\{\} \;
-# This is used to carry over in the docker images any *.pem files from cyndra root directory,
-# to be used for TLS testing, as described here in the admin README.md.
-RUN if [ "$PROD" != "true" ]; then \
-    find ${SRC_CRATES} -name "*.pem" -type f -exec install -D \{\} /build/\{\} \;; \
-    fi
+# Select only the essential files for copying into next steps
+# so that changes to miscellaneous files don't trigger a new cargo-chef cook.
+# Beware that .dockerignore filters files before they get here.
+RUN find . \( \
+    -name "*.rs" -or \
+    -name "*.toml" -or \
+    -name "Cargo.lock" -or \
+    -name "*.sql" -or \
+    # Used for local TLS testing, as described in admin/README.md
+    -name "*.pem" -or \
+    -name "ulid0.so" \
+    \) -type f -exec install -D \{\} /build/\{\} \;
+WORKDIR /build
+RUN cargo chef prepare --recipe-path /recipe.json
+# TODO upstream: Reduce the cooking by allowing multiple --bin args to prepare, or like this https://github.com/LukeMathWalker/cargo-chef/issues/181
 
 
-# Stores cargo chef recipe
-FROM cyndra-build AS planner
-COPY --from=cache /build .
-RUN cargo chef prepare --recipe-path recipe.json
+# Builds crate according to cargo chef recipe.
+# This step is skipped if the recipe is unchanged from previous build (no dependencies changed).
+FROM cargo-chef AS builder
+ARG CARGO_PROFILE
+COPY --from=planner /recipe.json /
+# https://i.imgflip.com/2/74bvex.jpg
+RUN cargo chef cook \
+    --all-features \
+    $(if [ "$CARGO_PROFILE" = "release" ]; then echo --release; fi) \
+    --recipe-path /recipe.json
+COPY --from=planner /build .
+# Building all at once to share build artifacts in the "cook" layer
+RUN cargo build \
+    $(if [ "$CARGO_PROFILE" = "release" ]; then echo --release; fi) \
+    --bin cyndra-auth \
+    --bin cyndra-deployer \
+    --bin cyndra-provisioner \
+    --bin cyndra-gateway \
+    --bin cyndra-resource-recorder \
+    --bin cyndra-next -F next
 
 
-# Builds crate according to cargo chef recipe
-FROM cyndra-build AS builder
-ARG folder
-COPY --from=planner /build/recipe.json recipe.json
-RUN cargo chef cook --release --recipe-path recipe.json
-
-COPY --from=cache /build .
-RUN cargo build --bin cyndra-${folder} --release
-
-
-# The final image for this "cyndra-..." crate
+# Base image for running each "cyndra-..." binary
 ARG RUSTUP_TOOLCHAIN
-FROM docker.io/library/rust:${RUSTUP_TOOLCHAIN}-buster as cyndra-crate
+FROM docker.io/library/rust:${RUSTUP_TOOLCHAIN}-buster as cyndra-crate-base
+ARG CARGO_PROFILE
 ARG folder
+ARG crate
 ARG prepare_args
-# used as env variable in prepare script
-ARG PROD
+# Fixes some dependencies compiled with incompatible versions of rustc
 ARG RUSTUP_TOOLCHAIN
 ENV RUSTUP_TOOLCHAIN=${RUSTUP_TOOLCHAIN}
+# Used as env variable in prepare script
+ARG PROD
 
-COPY ${folder}/prepare.sh /prepare.sh
-RUN /prepare.sh "${prepare_args}"
+# Some crates need additional libs
+COPY ${folder}/*.so /usr/lib/
+ENV LD_LIBRARY_PATH=/usr/lib/
 
-COPY --from=cache /build /usr/src/cyndra/
-
-# Any prepare steps that depend on the COPY from src cache.
-# In the deployer cyndra-next is installed and the panamax mirror config is added in this step.
-RUN /prepare.sh --after-src "${prepare_args}"
-
-COPY --from=builder /build/target/release/cyndra-${folder} /usr/local/bin/service
+COPY --from=builder /build/target/${CARGO_PROFILE}/${crate} /usr/local/bin/service
 ENTRYPOINT ["/usr/local/bin/service"]
+
+
+# Targets for each crate
+
+FROM cyndra-crate-base AS cyndra-auth
+FROM cyndra-auth AS cyndra-auth-dev
+
+FROM cyndra-crate-base AS cyndra-deployer
+ARG CARGO_PROFILE
+COPY --from=builder /build/target/${CARGO_PROFILE}/cyndra-next /usr/local/cargo/bin/
+COPY deployer/prepare.sh /prepare.sh
+RUN /prepare.sh "${prepare_args}"
+FROM cyndra-deployer AS cyndra-deployer-dev
+# Source code needed for compiling with [patch.crates-io]
+COPY --from=planner /build /usr/src/cyndra/
+
+FROM cyndra-crate-base AS cyndra-gateway
+FROM cyndra-gateway AS cyndra-gateway-dev
+# For testing certificates locally
+COPY --from=planner /build/*.pem /usr/src/cyndra/
+
+FROM cyndra-crate-base AS cyndra-provisioner
+FROM cyndra-provisioner AS cyndra-provisioner-dev
+
+FROM cyndra-crate-base AS cyndra-resource-recorder
+FROM cyndra-resource-recorder AS cyndra-resource-recorder-dev

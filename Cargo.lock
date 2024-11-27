@@ -1180,7 +1180,6 @@ dependencies = [
  "cyndra-common-tests",
  "cyndra-proto",
  "cyndra-service",
- "sqlx",
  "strum",
  "tar",
  "tempfile",
