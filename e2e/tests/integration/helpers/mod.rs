@@ -46,6 +46,7 @@ cyndra-persist = {{ path = "{}" }}
 cyndra-shared-db = {{ path = "{}" }}
 cyndra-secrets = {{ path = "{}" }}
 cyndra-static-folder = {{ path = "{}" }}
+cyndra-service-info = {{ path = "{}" }}
 
 cyndra-axum = {{ path = "{}" }}
 cyndra-actix-web = {{ path = "{}" }}
@@ -68,6 +69,10 @@ cyndra-warp = {{ path = "{}" }}"#,
                     WORKSPACE_ROOT
                         .join("resources")
                         .join("static-folder")
+                        .display(),
+                    WORKSPACE_ROOT
+                        .join("resources")
+                        .join("service-info")
                         .display(),
                     WORKSPACE_ROOT
                         .join("services")

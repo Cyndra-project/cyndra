@@ -97,6 +97,7 @@ commands:
             cyndra-shared-db = { path = "$PWD/resources/shared-db" }
             cyndra-secrets = { path = "$PWD/resources/secrets" }
             cyndra-static-folder = { path = "$PWD/resources/static-folder" }
+            cyndra-service-info = { path = "$PWD/resources/service-info" }
             cyndra-turso = { path = "$PWD/resources/turso" }
 
             cyndra-axum = { path = "$PWD/services/cyndra-axum" }
@@ -620,6 +621,7 @@ workflows:
                 - resources/persist
                 - resources/secrets
                 - resources/static-folder
+                - resources/service-info
                 - resources/turso
                 - services/cyndra-actix-web
                 - services/cyndra-axum
@@ -834,6 +836,7 @@ workflows:
                   "resources/secrets",
                   "resources/shared-db",
                   "resources/static-folder",
+                  "resources/service-info",
                   "resources/turso",
                 ]
           name: publish-<< matrix.path >>
