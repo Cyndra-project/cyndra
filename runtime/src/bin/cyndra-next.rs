@@ -3,7 +3,7 @@ use std::{
     time::Duration,
 };
 
-use cyndra_common::backends::tracing::{setup_tracing, ExtractPropagationLayer};
+use cyndra_common::backends::tracing::ExtractPropagationLayer;
 use cyndra_proto::runtime::runtime_server::RuntimeServer;
 use cyndra_runtime::{print_version, AxumWasm, NextArgs};
 use tonic::transport::Server;
@@ -19,8 +19,6 @@ async fn main() {
     }
 
     let args = NextArgs::parse().unwrap();
-
-    setup_tracing(tracing_subscriber::registry(), "cyndra-next");
 
     trace!(args = ?args, "parsed args");
 
