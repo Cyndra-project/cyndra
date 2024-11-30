@@ -697,7 +697,6 @@ workflows:
                 - cyndra-auth
                 - cyndra-codegen
                 - cyndra-deployer
-                - cyndra-logger
                 - cyndra-proto
                 - cyndra-resource-recorder
                 - cyndra-runtime
@@ -710,6 +709,7 @@ workflows:
                 # need to spawn docker containers, therefore in a machine
                 - cargo-cyndra
                 - cyndra-provisioner
+                - cyndra-logger
       - e2e-test:
           requires:
             - test-standalone
