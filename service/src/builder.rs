@@ -56,7 +56,8 @@ impl BuiltService {
 }
 
 fn extract_cyndra_toml_name(path: PathBuf) -> anyhow::Result<String> {
-    let cyndra_toml = read_to_string(path).context("Cyndra.toml not found")?;
+    let cyndra_toml =
+        read_to_string(path.as_path()).map_err(|_| anyhow!("{} not found", path.display()))?;
 
     let toml: toml::Value =
         toml::from_str(&cyndra_toml).context("failed to parse Cyndra.toml")?;

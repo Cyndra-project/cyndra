@@ -70,7 +70,8 @@ next = [
     "cyndra-common/wasm",
 ]
 setup-tracing = [
-    "tracing-subscriber",
+    "tracing-subscriber/default",
+    "tracing-subscriber/env-filter",
     "colored",
     "cyndra-codegen/setup-tracing",
 ]
