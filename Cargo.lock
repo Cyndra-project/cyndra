@@ -5482,7 +5482,9 @@ dependencies = [
  "portpicker",
  "reqwest",
  "cyndra-common",
+ "cyndra-proto",
  "tokio",
+ "tonic",
  "tower",
 ]
 
@@ -5517,6 +5519,7 @@ dependencies = [
  "serde",
  "serde_json",
  "cyndra-common",
+ "cyndra-common-tests",
  "cyndra-proto",
  "cyndra-service",
  "sqlx",
@@ -5525,6 +5528,7 @@ dependencies = [
  "tempfile",
  "thiserror",
  "tokio",
+ "tokio-stream",
  "toml 0.5.11",
  "tonic",
  "tower",

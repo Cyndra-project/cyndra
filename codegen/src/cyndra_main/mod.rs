@@ -277,7 +277,6 @@ impl ToTokens for Loader {
             async fn loader(
                 mut #factory_ident: cyndra_runtime::ProvisionerFactory,
                 mut #resource_tracker_ident: cyndra_runtime::ResourceTracker,
-                logger_uri: String,
                 deployment_id: String,
             ) -> #return_type {
                 use cyndra_runtime::Context;
@@ -348,7 +347,6 @@ mod tests {
             async fn loader(
                 mut _factory: cyndra_runtime::ProvisionerFactory,
                 mut _resource_tracker: cyndra_runtime::ResourceTracker,
-                logger_uri: String,
                 deployment_id: String,
             ) -> CyndraSimple {
                 use cyndra_runtime::Context;
@@ -418,7 +416,6 @@ mod tests {
             async fn loader(
                 mut factory: cyndra_runtime::ProvisionerFactory,
                 mut resource_tracker: cyndra_runtime::ResourceTracker,
-                logger_uri: String,
                 deployment_id: String,
             ) -> CyndraComplex {
                 use cyndra_runtime::Context;
@@ -531,7 +528,6 @@ mod tests {
             async fn loader(
                 mut factory: cyndra_runtime::ProvisionerFactory,
                 mut resource_tracker: cyndra_runtime::ResourceTracker,
-                logger_uri: String,
                 deployment_id: String,
             ) -> CyndraComplex {
                 use cyndra_runtime::Context;

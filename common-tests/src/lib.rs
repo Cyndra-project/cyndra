@@ -1,4 +1,5 @@
 pub mod cargo_cyndra;
+pub mod logger;
 
 use cyndra_common::claims::{Claim, Scope};
 
