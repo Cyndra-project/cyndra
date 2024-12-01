@@ -13,14 +13,17 @@ async fn cargo_cyndra_command(
 
     Cyndra::new()
         .unwrap()
-        .run(CyndraArgs {
-            api_url: Some("http://cyndra.invalid:80".to_string()),
-            project_args: ProjectArgs {
-                working_directory,
-                name: None,
+        .run(
+            CyndraArgs {
+                api_url: Some("http://cyndra.invalid:80".to_string()),
+                project_args: ProjectArgs {
+                    working_directory,
+                    name: None,
+                },
+                cmd,
             },
-            cmd,
-        })
+            false,
+        )
         .await
 }
 
