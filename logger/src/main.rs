@@ -1,9 +1,12 @@
 use std::time::Duration;
 
 use clap::Parser;
-use cyndra_common::backends::{
-    auth::{AuthPublicKey, JwtAuthenticationLayer},
-    tracing::{setup_tracing, ExtractPropagationLayer},
+use cyndra_common::{
+    backends::{
+        auth::{AuthPublicKey, JwtAuthenticationLayer},
+        tracing::{setup_tracing, ExtractPropagationLayer},
+    },
+    log::Backend,
 };
 use cyndra_logger::{args::Args, Postgres, Service};
 use cyndra_proto::logger::logger_server::LoggerServer;
@@ -14,7 +17,7 @@ use tracing::trace;
 async fn main() {
     let args = Args::parse();
 
-    setup_tracing(tracing_subscriber::registry(), "logger");
+    setup_tracing(tracing_subscriber::registry(), Backend::Logger);
 
     trace!(args = ?args, "parsed args");
 

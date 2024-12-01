@@ -1,16 +1,19 @@
 use std::{net::SocketAddr, time::Duration};
 
 use clap::Parser;
-use cyndra_common::backends::{
-    auth::{AuthPublicKey, JwtAuthenticationLayer},
-    tracing::{setup_tracing, ExtractPropagationLayer},
+use cyndra_common::{
+    backends::{
+        auth::{AuthPublicKey, JwtAuthenticationLayer},
+        tracing::{setup_tracing, ExtractPropagationLayer},
+    },
+    log::Backend,
 };
 use cyndra_provisioner::{Args, MyProvisioner, ProvisionerServer};
 use tonic::transport::Server;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    setup_tracing(tracing_subscriber::registry(), "provisioner");
+    setup_tracing(tracing_subscriber::registry(), Backend::Provisioner);
 
     let Args {
         ip,
