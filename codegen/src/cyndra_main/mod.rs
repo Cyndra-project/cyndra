@@ -13,52 +13,9 @@ pub(crate) fn r#impl(_attr: TokenStream, item: TokenStream) -> TokenStream {
 
     let loader = Loader::from_item_fn(&mut fn_decl);
 
-    let tracing_setup = if cfg!(feature = "setup-tracing") {
-        Some(quote! {
-            use cyndra_runtime::colored::{control, Colorize};
-            control::set_override(true); // always apply color
-
-            use cyndra_runtime::tracing_subscriber::prelude::*;
-            let level = if cfg!(debug_assertions) {
-                "debug,cyndra=trace,h2=info,tower=info,hyper=info"
-            } else {
-                "info,cyndra=trace"
-            };
-            cyndra_runtime::tracing_subscriber::registry()
-                .with(cyndra_runtime::tracing_subscriber::fmt::layer().without_time())
-                .with(
-                    // let user override RUST_LOG in local run if they want to
-                    cyndra_runtime::tracing_subscriber::EnvFilter::try_from_default_env()
-                        // otherwise use our default
-                        .or_else(|_| cyndra_runtime::tracing_subscriber::EnvFilter::try_new(level))
-                        .unwrap()
-                )
-                .init();
-            eprintln!( // stderr to not interfere with runtime's --version output on stdout
-                "{}\n\
-                {}\n\
-                To disable the subscriber and use your own,\n\
-                remove the default features for {}:\n\
-                \n\
-                {}\n\
-                {}",
-                "=".repeat(63).yellow(),
-                "Cyndra's default tracing subscriber is initialized!".yellow().bold(),
-                "cyndra-runtime".italic(),
-                r#"cyndra-runtime = { version = "...", default-features = false }"#
-                    .white()
-                    .italic(),
-                "=".repeat(63).yellow()
-            );
-        })
-    } else {
-        None
-    };
-
     quote! {
         #[tokio::main]
         async fn main() {
-            #tracing_setup
             cyndra_runtime::start(loader).await;
         }
 
