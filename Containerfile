@@ -55,10 +55,6 @@ RUN cargo build \
 # Base image for running each "cyndra-..." binary
 ARG RUSTUP_TOOLCHAIN
 FROM docker.io/library/rust:${RUSTUP_TOOLCHAIN}-buster as cyndra-crate-base
-ARG folder
-# Some crates need additional libs
-COPY ${folder}/*.so /usr/lib/
-ENV LD_LIBRARY_PATH=/usr/lib/
 ENTRYPOINT ["/usr/local/bin/service"]
 
 
@@ -78,6 +74,10 @@ ARG RUSTUP_TOOLCHAIN
 ENV RUSTUP_TOOLCHAIN=${RUSTUP_TOOLCHAIN}
 # Used as env variable in prepare script
 ARG PROD
+ARG folder
+# Some crates need additional libs
+COPY ${folder}/*.so /usr/lib/
+ENV LD_LIBRARY_PATH=/usr/lib/
 COPY deployer/prepare.sh /prepare.sh
 RUN /prepare.sh "${prepare_args}"
 COPY --from=builder /build/target/${CARGO_PROFILE}/cyndra-deployer /usr/local/bin/service
@@ -85,9 +85,12 @@ COPY --from=builder /build/target/${CARGO_PROFILE}/cyndra-next /usr/local/cargo/
 FROM cyndra-deployer AS cyndra-deployer-dev
 # Source code needed for compiling with [patch.crates-io]
 COPY --from=planner /build /usr/src/cyndra/
-
 FROM cyndra-crate-base AS cyndra-gateway
 ARG CARGO_PROFILE
+ARG folder
+# Some crates need additional libs
+COPY ${folder}/*.so /usr/lib/
+ENV LD_LIBRARY_PATH=/usr/lib/
 COPY --from=builder /build/target/${CARGO_PROFILE}/cyndra-gateway /usr/local/bin/service
 FROM cyndra-gateway AS cyndra-gateway-dev
 # For testing certificates locally
