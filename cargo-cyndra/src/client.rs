@@ -156,7 +156,9 @@ impl Client {
             deployment_id
         );
 
-        self.get(path).await
+        self.get(path)
+            .await
+            .context("Failed parsing logs. Is your cargo-cyndra outdated?")
     }
 
     pub async fn get_logs_ws(
