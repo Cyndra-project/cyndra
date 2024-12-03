@@ -24,12 +24,12 @@ async fn app(request: cyndra_next::Request<BoxBody>) -> cyndra_next::response::R
 }
 
 async fn hello() -> &'static str {
-    println!("in hello()");
+    debug!("in hello()");
     "Hello, World!"
 }
 
 async fn goodbye() -> &'static str {
-    println!("in goodbye()");
+    debug!("in goodbye()");
     "Goodbye, World!"
 }
 
@@ -54,6 +54,12 @@ pub extern "C" fn __cyndra_Axum_call(
     use cyndra_next::body::{Body, HttpBody};
     use std::io::{Read, Write};
     use std::os::wasi::io::FromRawFd;
+
+    use cyndra_next::tracing_prelude::*;
+
+    cyndra_next::tracing_registry()
+        .with(cyndra_next::tracing_fmt::layer().without_time())
+        .init();
 
     // file descriptor 3 for reading and writing http parts
     let mut parts_fd = unsafe { std::fs::File::from_raw_fd(parts_fd) };

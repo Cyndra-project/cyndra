@@ -256,7 +256,6 @@ impl ToTokens for Loader {
             async fn loader(
                 mut #factory_ident: cyndra_runtime::ProvisionerFactory,
                 mut #resource_tracker_ident: cyndra_runtime::ResourceTracker,
-                deployment_id: String,
             ) -> #return_type {
                 use cyndra_runtime::Context;
                 #extra_imports
@@ -326,7 +325,6 @@ mod tests {
             async fn loader(
                 mut _factory: cyndra_runtime::ProvisionerFactory,
                 mut _resource_tracker: cyndra_runtime::ResourceTracker,
-                deployment_id: String,
             ) -> CyndraSimple {
                 use cyndra_runtime::Context;
                 simple().await
@@ -395,7 +393,6 @@ mod tests {
             async fn loader(
                 mut factory: cyndra_runtime::ProvisionerFactory,
                 mut resource_tracker: cyndra_runtime::ResourceTracker,
-                deployment_id: String,
             ) -> CyndraComplex {
                 use cyndra_runtime::Context;
                 use cyndra_runtime::{Factory, ResourceBuilder};
@@ -507,7 +504,6 @@ mod tests {
             async fn loader(
                 mut factory: cyndra_runtime::ProvisionerFactory,
                 mut resource_tracker: cyndra_runtime::ResourceTracker,
-                deployment_id: String,
             ) -> CyndraComplex {
                 use cyndra_runtime::Context;
                 use cyndra_runtime::{Factory, ResourceBuilder};
