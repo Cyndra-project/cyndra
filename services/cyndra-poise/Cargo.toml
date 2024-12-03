@@ -10,7 +10,7 @@ keywords = ["cyndra-service", "poise", "discord-bot", "serenity"]
 
 [dependencies]
 poise = { version = "0.5.2" }
-cyndra-runtime = { path = "../../runtime", version = "0.25.0" }
+cyndra-runtime = { path = "../../runtime", version = "0.25.0", default-features = false }
 
 [dev-dependencies]
 cyndra-secrets = { path = "../../resources/secrets" }

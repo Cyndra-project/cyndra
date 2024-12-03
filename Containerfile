@@ -45,8 +45,9 @@ RUN cargo build \
     $(if [ "$CARGO_PROFILE" = "release" ]; then echo --release; fi) \
     --bin cyndra-auth \
     --bin cyndra-deployer \
-    --bin cyndra-provisioner \
     --bin cyndra-gateway \
+    --bin cyndra-logger \
+    --bin cyndra-provisioner \
     --bin cyndra-resource-recorder \
     --bin cyndra-next -F next
 
@@ -91,6 +92,9 @@ COPY --from=builder /build/target/${CARGO_PROFILE}/cyndra-gateway /usr/local/bin
 FROM cyndra-gateway AS cyndra-gateway-dev
 # For testing certificates locally
 COPY --from=planner /build/*.pem /usr/src/cyndra/
+
+FROM cyndra-crate-base AS cyndra-logger
+FROM cyndra-logger AS cyndra-logger-dev
 
 FROM cyndra-crate-base AS cyndra-provisioner
 ARG CARGO_PROFILE

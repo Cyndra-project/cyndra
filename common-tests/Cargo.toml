@@ -13,4 +13,9 @@ tower = { workspace = true }
 cargo-cyndra = { path = "../cargo-cyndra" }
 portpicker = { workspace = true }
 tokio = { workspace = true }
+tonic = { workspace = true }
 reqwest = { workspace = true }
+tokio-stream = { workspace = true }
+
+[dependencies.cyndra-proto]
+workspace = true
