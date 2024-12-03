@@ -55,39 +55,40 @@ RUN cargo build \
 # Base image for running each "cyndra-..." binary
 ARG RUSTUP_TOOLCHAIN
 FROM docker.io/library/rust:${RUSTUP_TOOLCHAIN}-buster as cyndra-crate-base
-ARG CARGO_PROFILE
 ARG folder
-ARG crate
+# Some crates need additional libs
+COPY ${folder}/*.so /usr/lib/
+ENV LD_LIBRARY_PATH=/usr/lib/
+ENTRYPOINT ["/usr/local/bin/service"]
+
+
+# Targets for each crate
+# Copying of each binary is non-DRY to allow other steps to be cached
+
+FROM cyndra-crate-base AS cyndra-auth
+ARG CARGO_PROFILE
+COPY --from=builder /build/target/${CARGO_PROFILE}/cyndra-auth /usr/local/bin/service
+FROM cyndra-auth AS cyndra-auth-dev
+
+FROM cyndra-crate-base AS cyndra-deployer
+ARG CARGO_PROFILE
 ARG prepare_args
 # Fixes some dependencies compiled with incompatible versions of rustc
 ARG RUSTUP_TOOLCHAIN
 ENV RUSTUP_TOOLCHAIN=${RUSTUP_TOOLCHAIN}
 # Used as env variable in prepare script
 ARG PROD
-
-# Some crates need additional libs
-COPY ${folder}/*.so /usr/lib/
-ENV LD_LIBRARY_PATH=/usr/lib/
-
-COPY --from=builder /build/target/${CARGO_PROFILE}/${crate} /usr/local/bin/service
-ENTRYPOINT ["/usr/local/bin/service"]
-
-
-# Targets for each crate
-
-FROM cyndra-crate-base AS cyndra-auth
-FROM cyndra-auth AS cyndra-auth-dev
-
-FROM cyndra-crate-base AS cyndra-deployer
-ARG CARGO_PROFILE
-COPY --from=builder /build/target/${CARGO_PROFILE}/cyndra-next /usr/local/cargo/bin/
 COPY deployer/prepare.sh /prepare.sh
 RUN /prepare.sh "${prepare_args}"
+COPY --from=builder /build/target/${CARGO_PROFILE}/cyndra-deployer /usr/local/bin/service
+COPY --from=builder /build/target/${CARGO_PROFILE}/cyndra-next /usr/local/cargo/bin/
 FROM cyndra-deployer AS cyndra-deployer-dev
 # Source code needed for compiling with [patch.crates-io]
 COPY --from=planner /build /usr/src/cyndra/
 
 FROM cyndra-crate-base AS cyndra-gateway
+ARG CARGO_PROFILE
+COPY --from=builder /build/target/${CARGO_PROFILE}/cyndra-gateway /usr/local/bin/service
 FROM cyndra-gateway AS cyndra-gateway-dev
 # For testing certificates locally
 COPY --from=planner /build/*.pem /usr/src/cyndra/
@@ -96,7 +97,11 @@ FROM cyndra-crate-base AS cyndra-logger
 FROM cyndra-logger AS cyndra-logger-dev
 
 FROM cyndra-crate-base AS cyndra-provisioner
+ARG CARGO_PROFILE
+COPY --from=builder /build/target/${CARGO_PROFILE}/cyndra-provisioner /usr/local/bin/service
 FROM cyndra-provisioner AS cyndra-provisioner-dev
 
 FROM cyndra-crate-base AS cyndra-resource-recorder
+ARG CARGO_PROFILE
+COPY --from=builder /build/target/${CARGO_PROFILE}/cyndra-resource-recorder /usr/local/bin/service
 FROM cyndra-resource-recorder AS cyndra-resource-recorder-dev

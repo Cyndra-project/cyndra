@@ -58,7 +58,7 @@ where
 {
     async fn bind(mut self, _addr: SocketAddr) -> Result<(), cyndra_runtime::Error> {
         self.0
-            .start()
+            .start_autosharded()
             .await
             .map_err(cyndra_runtime::CustomError::new)?;
 
