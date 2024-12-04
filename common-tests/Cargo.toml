@@ -7,15 +7,15 @@ repository.workspace = true
 publish = false
 
 [dependencies]
-hyper = { workspace = true }
-cyndra-common = { workspace = true }
-tower = { workspace = true }
 cargo-cyndra = { path = "../cargo-cyndra" }
+hyper = { workspace = true }
 portpicker = { workspace = true }
-tokio = { workspace = true }
-tonic = { workspace = true }
 reqwest = { workspace = true }
+cyndra-common = { workspace = true }
+tokio = { workspace = true }
 tokio-stream = { workspace = true }
+tonic = { workspace = true }
+tower = { workspace = true }
 
 [dependencies.cyndra-proto]
 workspace = true
