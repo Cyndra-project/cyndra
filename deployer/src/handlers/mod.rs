@@ -31,7 +31,6 @@ use cyndra_common::models::deployment::{
 };
 use cyndra_common::models::secret;
 use cyndra_common::project::ProjectName;
-use cyndra_common::storage_manager::StorageManager;
 use cyndra_common::{request_span, LogItem};
 use cyndra_proto::logger::LogsRequest;
 use cyndra_service::builder::clean_crate;
@@ -746,12 +745,13 @@ pub async fn clean_project(
     Extension(deployment_manager): Extension<DeploymentManager>,
     Path(project_name): Path<String>,
 ) -> Result<Json<Vec<String>>> {
-    let project_path = deployment_manager
-        .storage_manager()
-        .service_build_path(&project_name)
-        .map_err(anyhow::Error::new)?;
-
-    let lines = clean_crate(&project_path).await?;
+    let lines = clean_crate(
+        deployment_manager
+            .builds_path()
+            .join(project_name)
+            .as_path(),
+    )
+    .await?;
 
     Ok(Json(lines))
 }

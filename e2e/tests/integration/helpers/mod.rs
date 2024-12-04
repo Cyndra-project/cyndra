@@ -47,12 +47,13 @@ cyndra-service = {{ path = "{}" }}
 cyndra-aws-rds = {{ path = "{}" }}
 cyndra-metadata = {{ path = "{}" }}
 cyndra-persist = {{ path = "{}" }}
-cyndra-shared-db = {{ path = "{}" }}
 cyndra-secrets = {{ path = "{}" }}
+cyndra-shared-db = {{ path = "{}" }}
 cyndra-static-folder = {{ path = "{}" }}
+cyndra-turso = {{ path = "{}" }}
 
-cyndra-axum = {{ path = "{}" }}
 cyndra-actix-web = {{ path = "{}" }}
+cyndra-axum = {{ path = "{}" }}
 cyndra-next = {{ path = "{}" }}
 cyndra-poem = {{ path = "{}" }}
 cyndra-poise = {{ path = "{}" }}
@@ -71,12 +72,13 @@ cyndra-warp = {{ path = "{}" }}"#,
                     WORKSPACE_ROOT.join("resources").join("aws-rds").display(),
                     WORKSPACE_ROOT.join("resources").join("metadata").display(),
                     WORKSPACE_ROOT.join("resources").join("persist").display(),
-                    WORKSPACE_ROOT.join("resources").join("shared-db").display(),
                     WORKSPACE_ROOT.join("resources").join("secrets").display(),
+                    WORKSPACE_ROOT.join("resources").join("shared-db").display(),
                     WORKSPACE_ROOT
                         .join("resources")
                         .join("static-folder")
                         .display(),
+                    WORKSPACE_ROOT.join("resources").join("turso").display(),
                     WORKSPACE_ROOT
                         .join("services")
                         .join("cyndra-axum")

@@ -32,8 +32,8 @@ macro_rules! aws_engine {
                 }
 
                 async fn output(self, factory: &mut dyn cyndra_service::Factory) -> Result<Self::Output, cyndra_service::Error> {
-                    let info = match factory.get_environment() {
-                        cyndra_service::Environment::Production => cyndra_service::DbOutput::Info(
+                    let info = match factory.get_metadata().env {
+                        cyndra_service::Environment::Deployment => cyndra_service::DbOutput::Info(
                             factory
                                 .get_db_connection(cyndra_service::database::Type::AwsRds(cyndra_service::database::AwsRdsEngine::$struct_ident))
                                 .await?

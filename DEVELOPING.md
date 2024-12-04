@@ -136,32 +136,32 @@ In order to test local changes to the library crates, you may want to add the be
 
 ```toml
 [patch.crates-io]
-cyndra-codegen = { path = "[base]/cyndra/codegen" }
-cyndra-common = { path = "[base]/cyndra/common" }
-cyndra-proto = { path = "[base]/cyndra/proto" }
-cyndra-runtime = { path = "[base]/cyndra/runtime" }
-cyndra-service = { path = "[base]/cyndra/service" }
+cyndra-codegen = { path = "[base]/codegen" }
+cyndra-common = { path = "[base]/common" }
+cyndra-proto = { path = "[base]/proto" }
+cyndra-runtime = { path = "[base]/runtime" }
+cyndra-service = { path = "[base]/service" }
 
-cyndra-aws-rds = { path = "[base]/cyndra/resources/aws-rds" }
-cyndra-persist = { path = "[base]/cyndra/resources/persist" }
-cyndra-shared-db = { path = "[base]/cyndra/resources/shared-db" }
-cyndra-secrets = { path = "[base]/cyndra/resources/secrets" }
-cyndra-static-folder = { path = "[base]/cyndra/resources/static-folder" }
-cyndra-metadata = { path = "[base]/cyndra/resources/metadata" }
-cyndra-turso = { path = "[base]/cyndra/resources/turso" }
+cyndra-aws-rds = { path = "[base]/resources/aws-rds" }
+cyndra-metadata = { path = "[base]/resources/metadata" }
+cyndra-persist = { path = "[base]/resources/persist" }
+cyndra-secrets = { path = "[base]/resources/secrets" }
+cyndra-shared-db = { path = "[base]/resources/shared-db" }
+cyndra-static-folder = { path = "[base]/resources/static-folder" }
+cyndra-turso = { path = "[base]/resources/turso" }
 
-cyndra-axum = { path = "[base]/cyndra/services/cyndra-axum" }
-cyndra-actix-web = { path = "[base]/cyndra/services/cyndra-actix-web" }
-cyndra-next = { path = "[base]/cyndra/services/cyndra-next" }
-cyndra-poem = { path = "[base]/cyndra/services/cyndra-poem" }
-cyndra-poise = { path = "[base]/cyndra/services/cyndra-poise" }
-cyndra-rocket = { path = "[base]/cyndra/services/cyndra-rocket" }
-cyndra-salvo = { path = "[base]/cyndra/services/cyndra-salvo" }
-cyndra-serenity = { path = "[base]/cyndra/services/cyndra-serenity" }
-cyndra-thruster = { path = "[base]/cyndra/services/cyndra-thruster" }
-cyndra-tide = { path = "[base]/cyndra/services/cyndra-tide" }
-cyndra-tower = { path = "[base]/cyndra/services/cyndra-tower" }
-cyndra-warp = { path = "[base]/cyndra/services/cyndra-warp" }
+cyndra-actix-web = { path = "[base]/services/cyndra-actix-web" }
+cyndra-axum = { path = "[base]/services/cyndra-axum" }
+cyndra-next = { path = "[base]/services/cyndra-next" }
+cyndra-poem = { path = "[base]/services/cyndra-poem" }
+cyndra-poise = { path = "[base]/services/cyndra-poise" }
+cyndra-rocket = { path = "[base]/services/cyndra-rocket" }
+cyndra-salvo = { path = "[base]/services/cyndra-salvo" }
+cyndra-serenity = { path = "[base]/services/cyndra-serenity" }
+cyndra-thruster = { path = "[base]/services/cyndra-thruster" }
+cyndra-tide = { path = "[base]/services/cyndra-tide" }
+cyndra-tower = { path = "[base]/services/cyndra-tower" }
+cyndra-warp = { path = "[base]/services/cyndra-warp" }
 ```
 
 Before we can login to our local instance of Cyndra, we need to create a user.

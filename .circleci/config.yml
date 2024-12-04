@@ -99,15 +99,15 @@ commands:
             cyndra-service = { path = "$PWD/service" }
 
             cyndra-aws-rds = { path = "$PWD/resources/aws-rds" }
-            cyndra-persist = { path = "$PWD/resources/persist" }
-            cyndra-shared-db = { path = "$PWD/resources/shared-db" }
-            cyndra-secrets = { path = "$PWD/resources/secrets" }
-            cyndra-static-folder = { path = "$PWD/resources/static-folder" }
             cyndra-metadata = { path = "$PWD/resources/metadata" }
+            cyndra-persist = { path = "$PWD/resources/persist" }
+            cyndra-secrets = { path = "$PWD/resources/secrets" }
+            cyndra-shared-db = { path = "$PWD/resources/shared-db" }
+            cyndra-static-folder = { path = "$PWD/resources/static-folder" }
             cyndra-turso = { path = "$PWD/resources/turso" }
 
-            cyndra-axum = { path = "$PWD/services/cyndra-axum" }
             cyndra-actix-web = { path = "$PWD/services/cyndra-actix-web" }
+            cyndra-axum = { path = "$PWD/services/cyndra-axum" }
             cyndra-next = { path = "$PWD/services/cyndra-next" }
             cyndra-poem = { path = "$PWD/services/cyndra-poem" }
             cyndra-poise = { path = "$PWD/services/cyndra-poise" }
@@ -659,7 +659,6 @@ workflows:
                 - resources/metadata
                 - resources/persist
                 - resources/secrets
-                - resources/static-folder
                 - resources/turso
                 - services/cyndra-actix-web
                 - services/cyndra-axum
@@ -885,11 +884,10 @@ workflows:
               path:
                 [
                   "resources/aws-rds",
+                  "resources/metadata",
                   "resources/persist",
                   "resources/secrets",
                   "resources/shared-db",
-                  "resources/static-folder",
-                  "resources/metadata",
                   "resources/turso",
                 ]
           name: publish-<< matrix.path >>

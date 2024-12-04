@@ -229,7 +229,6 @@ pub use alpha::{start, Alpha};
 pub use next::{AxumWasm, NextArgs};
 pub use provisioner_factory::ProvisionerFactory;
 pub use resource_tracker::{get_resource, ResourceTracker};
-pub use cyndra_common::storage_manager::StorageManager;
 pub use cyndra_service::{CustomError, Error, Factory, ResourceBuilder, Service};
 
 pub use async_trait::async_trait;
