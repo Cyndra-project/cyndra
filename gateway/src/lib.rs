@@ -606,6 +606,7 @@ pub mod tests {
                 env::var("cyndra_TESTS_NETWORK").unwrap_or_else(|_| "cyndra_default".to_string());
 
             let provisioner_host = "provisioner".to_string();
+            let builder_host = "builder".to_string();
 
             let docker_host = "/var/run/docker.sock".to_string();
 
@@ -619,6 +620,7 @@ pub mod tests {
                     image,
                     prefix,
                     provisioner_host,
+                    builder_host,
                     auth_uri: auth_uri.clone(),
                     network_name,
                     proxy_fqdn: FQDN::from_str("test.cyndraapp.rs").unwrap(),

@@ -23,6 +23,7 @@ RUSTUP_TOOLCHAIN=1.72.0
 
 TAG?=$(shell git describe --tags --abbrev=0)
 AUTH_TAG?=$(TAG)
+BUILDER_TAG?=$(TAG)
 DEPLOYER_TAG?=$(TAG)
 GATEWAY_TAG?=$(TAG)
 LOGGER_TAG?=$(TAG)
@@ -106,6 +107,7 @@ endif
 DOCKER_COMPOSE_ENV=\
 	STACK=$(STACK)\
 	AUTH_TAG=$(AUTH_TAG)\
+	BUILDER_TAG=$(BUILDER_TAG)\
 	DEPLOYER_TAG=$(DEPLOYER_TAG)\
 	GATEWAY_TAG=$(GATEWAY_TAG)\
 	LOGGER_TAG=$(LOGGER_TAG)\
@@ -138,7 +140,7 @@ clean:
 
 images: the-cyndra-images postgres panamax otel
 
-the-cyndra-images: cyndra-auth cyndra-deployer cyndra-gateway cyndra-logger cyndra-provisioner cyndra-resource-recorder
+the-cyndra-images: cyndra-auth cyndra-builder cyndra-deployer cyndra-gateway cyndra-logger cyndra-provisioner cyndra-resource-recorder
 
 cyndra-%:
 	$(DOCKER_BUILD) \

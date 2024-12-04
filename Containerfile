@@ -44,6 +44,7 @@ COPY --from=planner /build .
 RUN cargo build \
     $(if [ "$CARGO_PROFILE" = "release" ]; then echo --release; fi) \
     --bin cyndra-auth \
+    --bin cyndra-builder \
     --bin cyndra-deployer \
     --bin cyndra-gateway \
     --bin cyndra-logger \
@@ -110,3 +111,8 @@ FROM cyndra-crate-base AS cyndra-resource-recorder
 ARG CARGO_PROFILE
 COPY --from=builder /build/target/${CARGO_PROFILE}/cyndra-resource-recorder /usr/local/bin/service
 FROM cyndra-resource-recorder AS cyndra-resource-recorder-dev
+
+FROM cyndra-crate-base AS cyndra-builder
+ARG CARGO_PROFILE
+COPY --from=builder /build/target/${CARGO_PROFILE}/cyndra-builder /usr/local/bin/service
+FROM cyndra-builder AS cyndra-builder-dev
