@@ -37,9 +37,11 @@ pub async fn start(
             cyndra_common::claims::InjectPropagation<tonic::transport::Channel>,
         >,
     >,
-    builder_client: BuilderClient<
-        cyndra_common::claims::ClaimService<
-            cyndra_common::claims::InjectPropagation<tonic::transport::Channel>,
+    builder_client: Option<
+        BuilderClient<
+            cyndra_common::claims::ClaimService<
+                cyndra_common::claims::InjectPropagation<tonic::transport::Channel>,
+            >,
         >,
     >,
     args: Args,
