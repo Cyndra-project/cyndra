@@ -6,7 +6,7 @@ use hyper::{
     service::{make_service_fn, service_fn},
 };
 use cyndra_common::log::LogRecorder;
-use cyndra_proto::logger::logger_client::LoggerClient;
+use cyndra_proto::{builder::builder_client::BuilderClient, logger::logger_client::LoggerClient};
 use tokio::sync::Mutex;
 use tracing::{error, info};
 use ulid::Ulid;
@@ -37,6 +37,11 @@ pub async fn start(
             cyndra_common::claims::InjectPropagation<tonic::transport::Channel>,
         >,
     >,
+    builder_client: BuilderClient<
+        cyndra_common::claims::ClaimService<
+            cyndra_common::claims::InjectPropagation<tonic::transport::Channel>,
+        >,
+    >,
     args: Args,
 ) {
     // when _set is dropped once axum exits, the deployment tasks will be aborted.
@@ -49,6 +54,7 @@ pub async fn start(
         .deployment_updater(persistence.clone())
         .secret_getter(persistence.clone())
         .resource_manager(persistence.clone())
+        .builder_client(builder_client)
         .queue_client(GatewayClient::new(args.gateway_uri))
         .log_fetcher(log_fetcher)
         .build();
