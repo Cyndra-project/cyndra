@@ -839,42 +839,26 @@ workflows:
             branches:
               only: production
       - publish-crates:
-          name: publish-cyndra-codegen
-          path: codegen
+          matrix:
+            parameters:
+              path:
+                - codegen
+                - common
+          name: publish-<< matrix.path >>
           requires:
             - approve-publish-crates
           filters:
             branches:
               only: production
       - publish-crates:
-          name: publish-cyndra-common
-          path: common
+          matrix:
+            parameters:
+              path:
+                - proto
+                - service
+          name: publish-<< matrix.path >>
           requires:
-            - publish-cyndra-codegen
-          filters:
-            branches:
-              only: production
-      - publish-crates:
-          name: publish-cyndra-proto
-          path: proto
-          requires:
-            - publish-cyndra-common
-          filters:
-            branches:
-              only: production
-      - publish-crates:
-          name: publish-cyndra-service
-          path: service
-          requires:
-            - publish-cyndra-proto
-          filters:
-            branches:
-              only: production
-      - publish-crates:
-          name: publish-cyndra-runtime
-          path: runtime
-          requires:
-            - publish-cyndra-service
+            - publish-common
           filters:
             branches:
               only: production
@@ -882,25 +866,17 @@ workflows:
           matrix:
             parameters:
               path:
-                [
-                  "resources/aws-rds",
-                  "resources/metadata",
-                  "resources/persist",
-                  "resources/secrets",
-                  "resources/shared-db",
-                  "resources/turso",
-                ]
+                - runtime
+                - cargo-cyndra
+                - resources/aws-rds
+                - resources/metadata
+                - resources/persist
+                - resources/secrets
+                - resources/shared-db
+                - resources/turso
           name: publish-<< matrix.path >>
           requires:
-            - publish-cyndra-runtime
-          filters:
-            branches:
-              only: production
-      - publish-crates:
-          name: publish-cargo-cyndra
-          path: cargo-cyndra
-          requires:
-            - publish-cyndra-service
+            - publish-service
           filters:
             branches:
               only: production
@@ -908,24 +884,21 @@ workflows:
           matrix:
             parameters:
               path:
-                [
-                  "services/cyndra-actix-web",
-                  "services/cyndra-axum",
-                  "services/cyndra-next",
-                  "services/cyndra-poem",
-                  "services/cyndra-poise",
-                  "services/cyndra-rocket",
-                  "services/cyndra-salvo",
-                  "services/cyndra-serenity",
-                  "services/cyndra-thruster",
-                  "services/cyndra-tide",
-                  "services/cyndra-tower",
-                  "services/cyndra-warp",
-                ]
+                - services/cyndra-actix-web
+                - services/cyndra-axum
+                - services/cyndra-next
+                - services/cyndra-poem
+                - services/cyndra-poise
+                - services/cyndra-rocket
+                - services/cyndra-salvo
+                - services/cyndra-serenity
+                - services/cyndra-thruster
+                - services/cyndra-tide
+                - services/cyndra-tower
+                - services/cyndra-warp
           name: publish-<< matrix.path >>
           requires:
-            - publish-cargo-cyndra
-            - publish-cyndra-runtime
+            - publish-runtime
           filters:
             branches:
               only: production
