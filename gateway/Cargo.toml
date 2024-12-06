@@ -61,6 +61,9 @@ features = ["backend", "models", "openapi"]
 [dependencies.cyndra-proto]
 workspace = true
 
+[dependencies.cyndra-orchestrator]
+workspace = true
+
 [dev-dependencies]
 anyhow = { workspace = true }
 colored = { workspace = true }
