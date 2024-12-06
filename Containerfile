@@ -88,6 +88,8 @@ ARG RUSTUP_TOOLCHAIN
 ENV RUSTUP_TOOLCHAIN=${RUSTUP_TOOLCHAIN}
 # Used as env variable in prepare script
 ARG PROD
+# Easy way to check if you are running in Cyndra's container
+ARG cyndra=true
 COPY deployer/prepare.sh /prepare.sh
 RUN /prepare.sh "${prepare_args}"
 COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-deployer /usr/local/bin/service
