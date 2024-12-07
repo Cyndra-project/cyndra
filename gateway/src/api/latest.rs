@@ -23,7 +23,7 @@ use cyndra_common::backends::metrics::{Metrics, TraceLayer};
 use cyndra_common::claims::{Scope, EXP_MINUTES};
 use cyndra_common::models::error::ErrorKind;
 use cyndra_common::models::{project, stats};
-use cyndra_common::request_span;
+use cyndra_common::{request_span, VersionInfo};
 use cyndra_proto::provisioner::provisioner_client::ProvisionerClient;
 use cyndra_proto::provisioner::Ping;
 use tokio::sync::mpsc::Sender;
@@ -848,9 +848,28 @@ impl ApiBuilder {
             .merge(SwaggerUi::new("/swagger-ui").url("/api-docs/openapi.json", ApiDoc::openapi()))
             .layer(ScopedLayer::new(vec![Scope::Admin]));
 
+        const CARGO_cyndra_VERSION: &str = env!("CARGO_PKG_VERSION");
+
         self.router = self
             .router
             .route("/", get(get_status))
+            .route(
+                "/versions",
+                get(|| async {
+                    axum::Json(VersionInfo {
+                        gateway: env!("CARGO_PKG_VERSION").parse().unwrap(),
+                        // For now, these use the same version as gateway (we release versions in lockstep).
+                        // Only one version is officially compatible, but more are in reality.
+                        cargo_cyndra: env!("CARGO_PKG_VERSION").parse().unwrap(),
+                        deployer: env!("CARGO_PKG_VERSION").parse().unwrap(),
+                        runtime: CARGO_cyndra_VERSION.parse().unwrap(),
+                    })
+                }),
+            )
+            .route(
+                "/version/cargo-cyndra",
+                get(|| async { CARGO_cyndra_VERSION }),
+            )
             .route(
                 "/projects",
                 get(get_projects_list.layer(ScopedLayer::new(vec![Scope::Project]))),
