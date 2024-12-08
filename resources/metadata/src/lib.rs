@@ -1,6 +1,6 @@
 use async_trait::async_trait;
-pub use cyndra_service::DeploymentMetadata as Metadata;
 use cyndra_service::{error::Error, Factory, ResourceBuilder, Type};
+pub use cyndra_service::{DeploymentMetadata as Metadata, Environment, ProjectName};
 
 pub struct CyndraMetadata;
 
