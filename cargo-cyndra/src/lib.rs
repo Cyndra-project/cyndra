@@ -836,9 +836,8 @@ impl Cyndra {
                         // should help the user to update cargo-cyndra.
                         println!(
                             "[HINT]: You should update cargo-cyndra. \
-                                If cargo-cyndra was installed using cargo, \
-                                you can get the latest version by running \
-                                `cargo install cargo-cyndra`."
+                            Check out the installation docs for how to update: \
+                            https://docs.cyndra.rs/getting-started/installation"
                         );
                     } else {
                         println!(
