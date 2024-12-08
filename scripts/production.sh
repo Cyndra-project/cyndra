@@ -5,3 +5,5 @@
 #     source scripts/production.sh
 
 export cyndra_API="https://api.cyndra.rs"
+unset cyndra_API_KEY
+export PS1="(cyndra: production) $PS1"

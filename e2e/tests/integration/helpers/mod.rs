@@ -35,98 +35,11 @@ impl TempCargoHome {
 
                 // Apply the `patch.crates-io` for `cyndra-service`
                 let mut config = std::fs::File::create(dir.path().join("config.toml")).unwrap();
+                let p = include_str!("../../../../scripts/patches.toml");
                 write!(
                     config,
-                    r#"[patch.crates-io]
-cyndra-codegen = {{ path = "{}" }}
-cyndra-common = {{ path = "{}" }}
-cyndra-proto = {{ path = "{}" }}
-cyndra-runtime = {{ path = "{}" }}
-cyndra-service = {{ path = "{}" }}
-
-cyndra-aws-rds = {{ path = "{}" }}
-cyndra-metadata = {{ path = "{}" }}
-cyndra-persist = {{ path = "{}" }}
-cyndra-secrets = {{ path = "{}" }}
-cyndra-shared-db = {{ path = "{}" }}
-cyndra-static-folder = {{ path = "{}" }}
-cyndra-turso = {{ path = "{}" }}
-
-cyndra-actix-web = {{ path = "{}" }}
-cyndra-axum = {{ path = "{}" }}
-cyndra-next = {{ path = "{}" }}
-cyndra-poem = {{ path = "{}" }}
-cyndra-poise = {{ path = "{}" }}
-cyndra-rocket = {{ path = "{}" }}
-cyndra-salvo = {{ path = "{}" }}
-cyndra-serenity = {{ path = "{}" }}
-cyndra-thruster = {{ path = "{}" }}
-cyndra-tide = {{ path = "{}" }}
-cyndra-tower = {{ path = "{}" }}
-cyndra-warp = {{ path = "{}" }}"#,
-                    WORKSPACE_ROOT.join("codegen").display(),
-                    WORKSPACE_ROOT.join("common").display(),
-                    WORKSPACE_ROOT.join("proto").display(),
-                    WORKSPACE_ROOT.join("runtime").display(),
-                    WORKSPACE_ROOT.join("service").display(),
-                    WORKSPACE_ROOT.join("resources").join("aws-rds").display(),
-                    WORKSPACE_ROOT.join("resources").join("metadata").display(),
-                    WORKSPACE_ROOT.join("resources").join("persist").display(),
-                    WORKSPACE_ROOT.join("resources").join("secrets").display(),
-                    WORKSPACE_ROOT.join("resources").join("shared-db").display(),
-                    WORKSPACE_ROOT
-                        .join("resources")
-                        .join("static-folder")
-                        .display(),
-                    WORKSPACE_ROOT.join("resources").join("turso").display(),
-                    WORKSPACE_ROOT
-                        .join("services")
-                        .join("cyndra-axum")
-                        .display(),
-                    WORKSPACE_ROOT
-                        .join("services")
-                        .join("cyndra-actix-web")
-                        .display(),
-                    WORKSPACE_ROOT
-                        .join("services")
-                        .join("cyndra-next")
-                        .display(),
-                    WORKSPACE_ROOT
-                        .join("services")
-                        .join("cyndra-poem")
-                        .display(),
-                    WORKSPACE_ROOT
-                        .join("services")
-                        .join("cyndra-poise")
-                        .display(),
-                    WORKSPACE_ROOT
-                        .join("services")
-                        .join("cyndra-rocket")
-                        .display(),
-                    WORKSPACE_ROOT
-                        .join("services")
-                        .join("cyndra-salvo")
-                        .display(),
-                    WORKSPACE_ROOT
-                        .join("services")
-                        .join("cyndra-serenity")
-                        .display(),
-                    WORKSPACE_ROOT
-                        .join("services")
-                        .join("cyndra-thruster")
-                        .display(),
-                    WORKSPACE_ROOT
-                        .join("services")
-                        .join("cyndra-tide")
-                        .display(),
-                    WORKSPACE_ROOT
-                        .join("services")
-                        .join("cyndra-tower")
-                        .display(),
-                    WORKSPACE_ROOT
-                        .join("services")
-                        .join("cyndra-warp")
-                        .display(),
+                    "{}",
+                    p.replace("BASE", &format!("{}", WORKSPACE_ROOT.display()))
                 )
                 .unwrap();
 
@@ -203,7 +116,7 @@ CARGO_HOME: {}
                 "cyndra-dev",
                 "exec",
                 "auth",
-                "/usr/local/bin/service",
+                "/usr/local/bin/cyndra-auth",
                 "--state=/var/lib/cyndra-auth",
                 "init",
                 "--name",

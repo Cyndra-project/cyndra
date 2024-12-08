@@ -1,0 +1,27 @@
+[patch.crates-io]
+cyndra-codegen = { path = "BASE/codegen" }
+cyndra-common = { path = "BASE/common" }
+cyndra-proto = { path = "BASE/proto" }
+cyndra-runtime = { path = "BASE/runtime" }
+cyndra-service = { path = "BASE/service" }
+
+cyndra-aws-rds = { path = "BASE/resources/aws-rds" }
+cyndra-metadata = { path = "BASE/resources/metadata" }
+cyndra-persist = { path = "BASE/resources/persist" }
+cyndra-shared-db = { path = "BASE/resources/shared-db" }
+cyndra-secrets = { path = "BASE/resources/secrets" }
+cyndra-static-folder = { path = "BASE/resources/static-folder" }
+cyndra-turso = { path = "BASE/resources/turso" }
+
+cyndra-axum = { path = "BASE/services/cyndra-axum" }
+cyndra-actix-web = { path = "BASE/services/cyndra-actix-web" }
+cyndra-next = { path = "BASE/services/cyndra-next" }
+cyndra-poem = { path = "BASE/services/cyndra-poem" }
+cyndra-poise = { path = "BASE/services/cyndra-poise" }
+cyndra-rocket = { path = "BASE/services/cyndra-rocket" }
+cyndra-salvo = { path = "BASE/services/cyndra-salvo" }
+cyndra-serenity = { path = "BASE/services/cyndra-serenity" }
+cyndra-thruster = { path = "BASE/services/cyndra-thruster" }
+cyndra-tide = { path = "BASE/services/cyndra-tide" }
+cyndra-tower = { path = "BASE/services/cyndra-tower" }
+cyndra-warp = { path = "BASE/services/cyndra-warp" }

@@ -105,6 +105,8 @@ git submodule update
 
 You should now be ready to setup a local environment to test code changes to core `cyndra` packages as follows:
 
+### Building images
+
 From the root of the Cyndra repo, build the required images with:
 
 ```bash
@@ -132,44 +134,31 @@ USE_PANAMAX=disable make up
 
 The API is now accessible on `localhost:8000` (for app proxies) and `localhost:8001` (for the control plane). When running `cargo run -p cargo-cyndra` (in a debug build), the CLI will point itself to `localhost` for its API calls.
 
-In order to test local changes to the library crates, you may want to add the below to a `.cargo/config.toml` file. (See [Overriding Dependencies](https://doc.rust-lang.org/cargo/reference/overriding-dependencies.html) for more)
+### Apply patches
 
-```toml
-[patch.crates-io]
-cyndra-codegen = { path = "[base]/codegen" }
-cyndra-common = { path = "[base]/common" }
-cyndra-proto = { path = "[base]/proto" }
-cyndra-runtime = { path = "[base]/runtime" }
-cyndra-service = { path = "[base]/service" }
+In order to test local changes to the library crates, you may want to add patches to a `.cargo/config.toml` file.
+(See [Overriding Dependencies](https://doc.rust-lang.org/cargo/reference/overriding-dependencies.html) for more)
 
-cyndra-aws-rds = { path = "[base]/resources/aws-rds" }
-cyndra-metadata = { path = "[base]/resources/metadata" }
-cyndra-persist = { path = "[base]/resources/persist" }
-cyndra-secrets = { path = "[base]/resources/secrets" }
-cyndra-shared-db = { path = "[base]/resources/shared-db" }
-cyndra-static-folder = { path = "[base]/resources/static-folder" }
-cyndra-turso = { path = "[base]/resources/turso" }
+The simplest way to generate this file is:
 
-cyndra-actix-web = { path = "[base]/services/cyndra-actix-web" }
-cyndra-axum = { path = "[base]/services/cyndra-axum" }
-cyndra-next = { path = "[base]/services/cyndra-next" }
-cyndra-poem = { path = "[base]/services/cyndra-poem" }
-cyndra-poise = { path = "[base]/services/cyndra-poise" }
-cyndra-rocket = { path = "[base]/services/cyndra-rocket" }
-cyndra-salvo = { path = "[base]/services/cyndra-salvo" }
-cyndra-serenity = { path = "[base]/services/cyndra-serenity" }
-cyndra-thruster = { path = "[base]/services/cyndra-thruster" }
-cyndra-tide = { path = "[base]/services/cyndra-tide" }
-cyndra-tower = { path = "[base]/services/cyndra-tower" }
-cyndra-warp = { path = "[base]/services/cyndra-warp" }
+```bash
+./scripts/apply-patches
 ```
+
+The see the files [apply-patches.sh](./scripts/apply-patches.sh) and [patches.toml](./scripts/patches.toml) for how it works.
+
+> Note: cargo and rust-analyzer will add `[[patch.unused]]` lines at the bottom of Cargo.lock when patches are applied.
+> These should not be included in commits/PRs.
+> The easiest way to get rid of them is to comment out all the patch lines in `.cargo/config.toml`, and refresh cargo/r-a.
+
+### Create an admin user
 
 Before we can login to our local instance of Cyndra, we need to create a user.
 The following command inserts a user into the `auth` state with admin privileges:
 
 ```bash
 # the --key needs to be 16 alphanumeric characters
-docker compose -f docker-compose.rendered.yml -p cyndra-dev exec auth /usr/local/bin/service --state=/var/lib/cyndra-auth init-admin --name admin --key dh9z58jttoes3qvt
+docker compose -f docker-compose.rendered.yml -p cyndra-dev exec auth /usr/local/bin/cyndra-auth --state=/var/lib/cyndra-auth init-admin --name admin --key dh9z58jttoes3qvt
 ```
 
 > Note: if you have done this already for this container you will get a "UNIQUE constraint failed"
@@ -189,8 +178,10 @@ Finally, before gateway will be able to work with some projects, we need to crea
 The following command inserts a gateway user into the `auth` state with deployer privileges:
 
 ```bash
-docker compose -f docker-compose.rendered.yml -p cyndra-dev exec auth /usr/local/bin/service --state=/var/lib/cyndra-auth init-deployer --name gateway --key gateway4deployes
+docker compose -f docker-compose.rendered.yml -p cyndra-dev exec auth /usr/local/bin/cyndra-auth --state=/var/lib/cyndra-auth init-deployer --name gateway --key gateway4deployes
 ```
+
+### Deploying locally
 
 Create a new project based on one of the examples.
 This will prompt your local gateway to start a deployer container.
@@ -344,4 +335,4 @@ git config --global core.autocrlf true
 
 After you run this command, you should be able to checkout projects that are maintained using CRLF (Windows) again.
 
-[^1]: https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#_core_autocrlf
+[^1]: <https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#_core_autocrlf>

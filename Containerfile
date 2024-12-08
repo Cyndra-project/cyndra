@@ -54,79 +54,97 @@ RUN cargo build \
     --bin cyndra-next -F next
 
 
-# Base image for running each "cyndra-..." binary
-ARG RUSTUP_TOOLCHAIN
-FROM docker.io/library/rust:${RUSTUP_TOOLCHAIN}-buster as cyndra-crate-base
-ARG folder
-# Some crates need additional libs
-COPY ${folder}/*.so /usr/lib/
-ENV LD_LIBRARY_PATH=/usr/lib/
-ENTRYPOINT ["/usr/local/bin/service"]
+####### Targets for each crate
 
-
-# Targets for each crate
-# Copying of each binary is non-DRY to allow other steps to be cached
-
-FROM cyndra-crate-base AS cyndra-auth
+#### AUTH
+FROM docker.io/library/debian:bookworm-20230904-slim AS cyndra-auth
 ARG CARGO_PROFILE
-COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-auth /usr/local/bin/service
+COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-auth /usr/local/bin
+ENTRYPOINT ["/usr/local/bin/cyndra-auth"]
 FROM cyndra-auth AS cyndra-auth-dev
 
-FROM cyndra-crate-base AS cyndra-builder
+
+#### BUILDER
+ARG RUSTUP_TOOLCHAIN
+FROM docker.io/library/rust:${RUSTUP_TOOLCHAIN}-bookworm AS cyndra-builder
 ARG CARGO_PROFILE
 ARG prepare_args
 COPY builder/prepare.sh /prepare.sh
 RUN /prepare.sh "${prepare_args}"
-COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-builder /usr/local/bin/service
+COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-builder /usr/local/bin
+ENTRYPOINT ["/usr/local/bin/cyndra-builder"]
 FROM cyndra-builder AS cyndra-builder-dev
 
-FROM cyndra-crate-base AS cyndra-deployer
+
+#### DEPLOYER
+ARG RUSTUP_TOOLCHAIN
+FROM docker.io/library/rust:${RUSTUP_TOOLCHAIN}-bookworm AS cyndra-deployer
 ARG CARGO_PROFILE
 ARG prepare_args
 # Fixes some dependencies compiled with incompatible versions of rustc
 ARG RUSTUP_TOOLCHAIN
 ENV RUSTUP_TOOLCHAIN=${RUSTUP_TOOLCHAIN}
+COPY gateway/ulid0.so /usr/lib/
+COPY gateway/ulid0_aarch64.so /usr/lib/
+ENV LD_LIBRARY_PATH=/usr/lib/
+ARG TARGETPLATFORM
+RUN for target_platform in "linux/arm64" "linux/arm64/v8"; do \
+    if [ "$TARGETPLATFORM" = "$target_platform" ]; then \
+      mv /usr/lib/ulid0_aarch64.so /usr/lib/ulid0.so; fi; done
 # Used as env variable in prepare script
 ARG PROD
 # Easy way to check if you are running in Cyndra's container
 ARG cyndra=true
 COPY deployer/prepare.sh /prepare.sh
+COPY scripts/apply-patches.sh /scripts/apply-patches.sh
+COPY scripts/patches.toml /scripts/patches.toml
 RUN /prepare.sh "${prepare_args}"
-COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-deployer /usr/local/bin/service
-COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-next /usr/local/cargo/bin/
-ARG TARGETPLATFORM
-RUN for target_platform in "linux/arm64" "linux/arm64/v8"; do \
-    if [ "$TARGETPLATFORM" = "$target_platform" ]; then \
-      mv /usr/lib/ulid0_aarch64.so /usr/lib/ulid0.so; fi; done
+COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-deployer /usr/local/bin
+COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-next /usr/local/cargo/bin
+ENTRYPOINT ["/usr/local/bin/cyndra-deployer"]
 FROM cyndra-deployer AS cyndra-deployer-dev
-# Source code needed for compiling with [patch.crates-io]
+# Source code needed for compiling local deploys with [patch.crates-io]
 COPY --from=chef-planner /build /usr/src/cyndra/
-FROM cyndra-crate-base AS cyndra-gateway
+
+
+#### GATEWAY
+FROM docker.io/library/debian:bookworm-20230904 AS cyndra-gateway
 ARG CARGO_PROFILE
-ARG folder
-# Some crates need additional libs
-COPY ${folder}/*.so /usr/lib/
+COPY gateway/ulid0.so /usr/lib/
+COPY gateway/ulid0_aarch64.so /usr/lib/
 ENV LD_LIBRARY_PATH=/usr/lib/
-COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-gateway /usr/local/bin/service
 ARG TARGETPLATFORM
 RUN for target_platform in "linux/arm64" "linux/arm64/v8"; do \
     if [ "$TARGETPLATFORM" = "$target_platform" ]; then \
       mv /usr/lib/ulid0_aarch64.so /usr/lib/ulid0.so; fi; done
+COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-gateway /usr/local/bin
+ENTRYPOINT ["/usr/local/bin/cyndra-gateway"]
 FROM cyndra-gateway AS cyndra-gateway-dev
 # For testing certificates locally
 COPY --from=chef-planner /build/*.pem /usr/src/cyndra/
 
-FROM cyndra-crate-base AS cyndra-logger
+
+#### LOGGER
+FROM docker.io/library/debian:bookworm-20230904-slim AS cyndra-logger
 ARG CARGO_PROFILE
-COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-logger /usr/local/bin/service
+COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-logger /usr/local/bin
+ENTRYPOINT ["/usr/local/bin/cyndra-logger"]
 FROM cyndra-logger AS cyndra-logger-dev
 
-FROM cyndra-crate-base AS cyndra-provisioner
+
+#### PROVISIONER
+# for some reason, hyper-rustls 0.24.1 does not work in a plain debian image
+ARG RUSTUP_TOOLCHAIN
+FROM docker.io/library/rust:${RUSTUP_TOOLCHAIN}-bookworm AS cyndra-provisioner
 ARG CARGO_PROFILE
-COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-provisioner /usr/local/bin/service
+COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-provisioner /usr/local/bin
+ENTRYPOINT ["/usr/local/bin/cyndra-provisioner"]
 FROM cyndra-provisioner AS cyndra-provisioner-dev
 
-FROM cyndra-crate-base AS cyndra-resource-recorder
+
+#### RESOURCE RECORDER
+FROM docker.io/library/debian:bookworm-20230904-slim AS cyndra-resource-recorder
 ARG CARGO_PROFILE
-COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-resource-recorder /usr/local/bin/service
+COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-resource-recorder /usr/local/bin
+ENTRYPOINT ["/usr/local/bin/cyndra-resource-recorder"]
 FROM cyndra-resource-recorder AS cyndra-resource-recorder-dev

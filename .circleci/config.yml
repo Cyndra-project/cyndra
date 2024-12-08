@@ -107,37 +107,8 @@ commands:
   apply-patches:
     steps:
       - run:
-          name: Patch service
-          command: |
-            cat\<< EOF > ~/.cargo/config.toml
-            [patch.crates-io]
-            cyndra-codegen = { path = "$PWD/codegen" }
-            cyndra-common = { path = "$PWD/common" }
-            cyndra-proto = { path = "$PWD/proto" }
-            cyndra-runtime = { path = "$PWD/runtime" }
-            cyndra-service = { path = "$PWD/service" }
-
-            cyndra-aws-rds = { path = "$PWD/resources/aws-rds" }
-            cyndra-metadata = { path = "$PWD/resources/metadata" }
-            cyndra-persist = { path = "$PWD/resources/persist" }
-            cyndra-secrets = { path = "$PWD/resources/secrets" }
-            cyndra-shared-db = { path = "$PWD/resources/shared-db" }
-            cyndra-static-folder = { path = "$PWD/resources/static-folder" }
-            cyndra-turso = { path = "$PWD/resources/turso" }
-
-            cyndra-actix-web = { path = "$PWD/services/cyndra-actix-web" }
-            cyndra-axum = { path = "$PWD/services/cyndra-axum" }
-            cyndra-next = { path = "$PWD/services/cyndra-next" }
-            cyndra-poem = { path = "$PWD/services/cyndra-poem" }
-            cyndra-poise = { path = "$PWD/services/cyndra-poise" }
-            cyndra-rocket = { path = "$PWD/services/cyndra-rocket" }
-            cyndra-salvo = { path = "$PWD/services/cyndra-salvo" }
-            cyndra-serenity = { path = "$PWD/services/cyndra-serenity" }
-            cyndra-thruster = { path = "$PWD/services/cyndra-thruster" }
-            cyndra-tide = { path = "$PWD/services/cyndra-tide" }
-            cyndra-tower = { path = "$PWD/services/cyndra-tower" }
-            cyndra-warp = { path = "$PWD/services/cyndra-warp" }
-            EOF
+          name: Patch crates
+          command: ./scripts/apply-patches.sh
   install-rust:
     steps:
       - run:

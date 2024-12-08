@@ -1,45 +1,17 @@
 #!/usr/bin/env bash
 
-###############################################################################
-# This file is used by our common Containerfile incase the container for this #
-# service might need some extra preparation steps for its final image         #
-###############################################################################
+##############################################################################################
+# This file is run by Containerfile for extra preparation steps for this crate's final image #
+##############################################################################################
 
 # Patch crates to be on same versions
 mkdir -p $CARGO_HOME
 touch $CARGO_HOME/config.toml
 if [[ $PROD != "true" ]]; then
-    echo '
-    [patch.crates-io]
-    cyndra-codegen = { path = "/usr/src/cyndra/codegen" }
-    cyndra-common = { path = "/usr/src/cyndra/common" }
-    cyndra-proto = { path = "/usr/src/cyndra/proto" }
-    cyndra-runtime = { path = "/usr/src/cyndra/runtime" }
-    cyndra-service = { path = "/usr/src/cyndra/service" }
-
-    cyndra-aws-rds = { path = "/usr/src/cyndra/resources/aws-rds" }
-    cyndra-metadata = { path = "/usr/src/cyndra/resources/metadata" }
-    cyndra-persist = { path = "/usr/src/cyndra/resources/persist" }
-    cyndra-secrets = { path = "/usr/src/cyndra/resources/secrets" }
-    cyndra-shared-db = { path = "/usr/src/cyndra/resources/shared-db" }
-    cyndra-static-folder = { path = "/usr/src/cyndra/resources/static-folder" }
-    cyndra-turso = { path = "/usr/src/cyndra/resources/turso" }
-
-    cyndra-actix-web = { path = "/usr/src/cyndra/services/cyndra-actix-web" }
-    cyndra-axum = { path = "/usr/src/cyndra/services/cyndra-axum" }
-    cyndra-next = { path = "/usr/src/cyndra/services/cyndra-next" }
-    cyndra-poem = { path = "/usr/src/cyndra/services/cyndra-poem" }
-    cyndra-poise = { path = "/usr/src/cyndra/services/cyndra-poise" }
-    cyndra-rocket = { path = "/usr/src/cyndra/services/cyndra-rocket" }
-    cyndra-salvo = { path = "/usr/src/cyndra/services/cyndra-salvo" }
-    cyndra-serenity = { path = "/usr/src/cyndra/services/cyndra-serenity" }
-    cyndra-thruster = { path = "/usr/src/cyndra/services/cyndra-thruster" }
-    cyndra-tide = { path = "/usr/src/cyndra/services/cyndra-tide" }
-    cyndra-tower = { path = "/usr/src/cyndra/services/cyndra-tower" }
-    cyndra-warp = { path = "/usr/src/cyndra/services/cyndra-warp" }' > $CARGO_HOME/config.toml
+    bash scripts/apply-patches.sh $CARGO_HOME/config.toml /usr/src/cyndra
 fi
 
-# Add the wasm32-wasi target for next
+# Add the wasm32-wasi target for cyndra-next
 rustup target add wasm32-wasi
 # Add the wasm32 target for frontend frameworks
 rustup target add wasm32-unknown-unknown
