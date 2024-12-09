@@ -59,6 +59,9 @@ RUN cargo build \
 #### AUTH
 FROM docker.io/library/debian:bookworm-20230904-slim AS cyndra-auth
 ARG CARGO_PROFILE
+ARG prepare_args
+COPY auth/prepare.sh /prepare.sh
+RUN /prepare.sh "${prepare_args}"
 COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-auth /usr/local/bin
 ENTRYPOINT ["/usr/local/bin/cyndra-auth"]
 FROM cyndra-auth AS cyndra-auth-dev
