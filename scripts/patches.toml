@@ -10,7 +10,6 @@ cyndra-metadata = { path = "BASE/resources/metadata" }
 cyndra-persist = { path = "BASE/resources/persist" }
 cyndra-shared-db = { path = "BASE/resources/shared-db" }
 cyndra-secrets = { path = "BASE/resources/secrets" }
-cyndra-static-folder = { path = "BASE/resources/static-folder" }
 cyndra-turso = { path = "BASE/resources/turso" }
 
 cyndra-axum = { path = "BASE/services/cyndra-axum" }
