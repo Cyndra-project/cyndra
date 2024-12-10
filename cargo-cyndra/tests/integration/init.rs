@@ -399,8 +399,7 @@ fn assert_valid_rocket_project(path: &Path, name: &str) {
 
     let main_file = read_to_string(path.join("src").join("main.rs")).unwrap();
     let expected = indoc! {r#"
-    #[macro_use]
-    extern crate rocket;
+    use rocket::{get, routes};
 
     #[get("/")]
     fn index() -> &'static str {
@@ -408,7 +407,7 @@ fn assert_valid_rocket_project(path: &Path, name: &str) {
     }
 
     #[cyndra_runtime::main]
-    async fn rocket() -> cyndra_rocket::CyndraRocket {
+    async fn main() -> cyndra_rocket::CyndraRocket {
         let rocket = rocket::build().mount("/", routes![index]);
 
         Ok(rocket.into())
