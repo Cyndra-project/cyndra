@@ -6083,6 +6083,7 @@ dependencies = [
  "cargo_metadata",
  "crossbeam-channel",
  "os_pipe",
+ "reqwest",
  "serde",
  "cyndra-common",
  "strfmt",
@@ -8616,3 +8617,75 @@ dependencies = [
  "cc",
  "pkg-config",
 ]
+
+[[patch.unused]]
+name = "cyndra-actix-web"
+version = "0.29.0"
+
+[[patch.unused]]
+name = "cyndra-aws-rds"
+version = "0.29.0"
+
+[[patch.unused]]
+name = "cyndra-axum"
+version = "0.29.0"
+
+[[patch.unused]]
+name = "cyndra-metadata"
+version = "0.29.0"
+
+[[patch.unused]]
+name = "cyndra-next"
+version = "0.29.0"
+
+[[patch.unused]]
+name = "cyndra-persist"
+version = "0.29.0"
+
+[[patch.unused]]
+name = "cyndra-poem"
+version = "0.29.0"
+
+[[patch.unused]]
+name = "cyndra-poise"
+version = "0.29.0"
+
+[[patch.unused]]
+name = "cyndra-rocket"
+version = "0.29.0"
+
+[[patch.unused]]
+name = "cyndra-salvo"
+version = "0.29.0"
+
+[[patch.unused]]
+name = "cyndra-secrets"
+version = "0.29.0"
+
+[[patch.unused]]
+name = "cyndra-serenity"
+version = "0.29.0"
+
+[[patch.unused]]
+name = "cyndra-shared-db"
+version = "0.29.0"
+
+[[patch.unused]]
+name = "cyndra-thruster"
+version = "0.29.0"
+
+[[patch.unused]]
+name = "cyndra-tide"
+version = "0.29.0"
+
+[[patch.unused]]
+name = "cyndra-tower"
+version = "0.29.0"
+
+[[patch.unused]]
+name = "cyndra-turso"
+version = "0.29.0"
+
+[[patch.unused]]
+name = "cyndra-warp"
+version = "0.29.0"

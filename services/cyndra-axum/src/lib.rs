@@ -19,6 +19,7 @@ use cyndra_runtime::{CustomError, Error};
 use std::net::SocketAddr;
 
 /// A wrapper type for [axum::Router] so we can implement [cyndra_runtime::Service] for it.
+#[derive(Clone)]
 pub struct AxumService(pub axum::Router);
 
 #[cyndra_runtime::async_trait]
