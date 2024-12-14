@@ -27,9 +27,9 @@
 //! be a binary crate with a few dependencies including `cyndra-runtime` and `cyndra-axum`.
 //!
 //! ```toml
-//! cyndra-runtime = "0.29.0"
+//! cyndra-runtime = "0.30.0"
 //! axum = "0.6.10"
-//! cyndra-axum = "0.29.0"
+//! cyndra-axum = "0.30.0"
 //! tokio = "1.26"
 //! ```
 //!
@@ -113,7 +113,7 @@
 //! `runtime-tokio-native-tls` and `postgres` features inside `Cargo.toml`:
 //!
 //! ```toml
-//! cyndra-shared-db = { version = "0.29.0", features = ["postgres"] }
+//! cyndra-shared-db = { version = "0.30.0", features = ["postgres"] }
 //! sqlx = { version = "0.7.1", features = ["runtime-tokio-native-tls", "postgres"] }
 //! ```
 //!
