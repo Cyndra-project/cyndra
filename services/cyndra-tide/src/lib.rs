@@ -1,5 +1,7 @@
 //! Cyndra service integration for the Tide web framework.
+//!
 //! ## Example
+//!
 //! ```rust,no_run
 //! #[cyndra_runtime::main]
 //! async fn tide() -> cyndra_tide::CyndraTide<()> {
@@ -36,5 +38,21 @@ impl<T> From<tide::Server<T>> for TideService<T> {
         Self(router)
     }
 }
-/// The return type that should be returned from the [cyndra_runtime::main] function.
+
+/// Return type from the `[cyndra_runtime::main]` macro for a Tide-based service.
+///
+/// ## Example
+///
+/// ```rust,no_run
+/// # use cyndra_tide::CyndraTide;
+///
+/// #[cyndra_runtime::main]
+/// async fn tide() -> CyndraTide<()> {
+///     let mut app = tide::new();
+///     app.with(tide::log::LogMiddleware::new());
+///     app.at("/").get(|_| async { Ok("Hello, world!") });
+///
+///     Ok(app.into())
+/// }
+/// ```
 pub type CyndraTide<T> = Result<TideService<T>, Error>;

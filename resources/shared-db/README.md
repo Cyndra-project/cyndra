@@ -1,6 +1,7 @@
 # Cyndra Shared Databases
 
-This plugin manages databases that are shared with other services on [cyndra](https://www.cyndra.rs).
+This plugin manages databases that are shared with other services on [Cyndra](https://www.cyndra.rs).
+Your database will be in a cluster shared with other users, but it will not be accessible by other users.
 
 ## Usage
 

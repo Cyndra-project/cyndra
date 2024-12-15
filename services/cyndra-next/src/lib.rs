@@ -1,3 +1,5 @@
+//! [cyndra_next](https://docs.cyndra.rs/examples/cyndra-next)
+//! A batteries-included, WASM-based backend web-framework.
 pub use axum::*;
 pub use futures_executor::block_on;
 pub use http::Request;
