@@ -1,7 +1,6 @@
 //! Cyndra service integration for the Poise discord bot framework.
 //! ## Example
 //! ```rust,no_run
-//! use cyndra_runtime::Context as _;
 //! use poise::serenity_prelude as serenity;
 //! use cyndra_secrets::SecretStore;
 //! use cyndra_poise::CyndraPoise;
@@ -22,7 +21,7 @@
 //!     // Get the discord token set in `Secrets.toml`
 //!     let discord_token = secret_store
 //!         .get("DISCORD_TOKEN")
-//!         .context("'DISCORD_TOKEN' was not found")?;
+//!         .expect("'DISCORD_TOKEN' was not found");
 //!
 //!     let framework = poise::Framework::builder()
 //!         .options(poise::FrameworkOptions {

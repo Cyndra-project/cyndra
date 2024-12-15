@@ -5,7 +5,7 @@ use std::{
 
 use cyndra_common::backends::tracing::ExtractPropagationLayer;
 use cyndra_proto::runtime::runtime_server::RuntimeServer;
-use cyndra_runtime::{print_version, AxumWasm, NextArgs};
+use cyndra_runtime::__internals::{print_version, AxumWasm, NextArgs};
 use tonic::transport::Server;
 
 #[tokio::main(flavor = "multi_thread")]
