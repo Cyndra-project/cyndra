@@ -12,7 +12,7 @@
 //!
 //! #[cyndra_runtime::main]
 //! async fn rocket() -> cyndra_rocket::CyndraRocket {
-//!     let rocket = rocket::build().mount("/hello", routes![index]);
+//!     let rocket = rocket::build().mount("/", routes![index]);
 //!
 //!     Ok(rocket.into())
 //! }
@@ -59,5 +59,24 @@ impl From<rocket::Rocket<rocket::Build>> for RocketService {
     }
 }
 
-/// The return type that should be returned from the [cyndra_runtime::main] function.
+/// Return type from the `[cyndra_runtime::main]` macro for a Rocket-based service.
+///
+/// # Example
+///
+/// ```rust,no_run
+/// use rocket::{routes, get};
+/// use cyndra_rocket::CyndraRocket;
+///
+/// #[get("/")]
+/// fn index() -> &'static str {
+///     "Hello, world!"
+/// }
+///
+/// #[cyndra_runtime::main]
+/// async fn rocket() -> CyndraRocket {
+///     let rocket = rocket::build().mount("/", routes![index]);
+///
+///     Ok(rocket.into())
+/// }
+/// ```
 pub type CyndraRocket = Result<RocketService, cyndra_runtime::Error>;

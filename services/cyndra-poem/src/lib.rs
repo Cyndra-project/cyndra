@@ -11,7 +11,7 @@
 //!
 //! #[cyndra_runtime::main]
 //! async fn poem() -> CyndraPoem<impl poem::Endpoint> {
-//!     let app = Route::new().at("/hello", get(hello_world));
+//!     let app = Route::new().at("/", get(hello_world));
 //!
 //!     Ok(app.into())
 //! }
@@ -45,5 +45,23 @@ where
     }
 }
 
-/// The return type that should be returned from the [cyndra_runtime::main] function.
+/// Return type from the `[cyndra_runtime::main]` macro for a Poem-based service.
+///
+/// # Example
+///
+/// ```rust,no_run
+/// use poem::{get, handler, Route};
+/// use cyndra_poem::CyndraPoem;
+/// #[handler]
+/// fn hello_world() -> &'static str {
+///     "Hello, world!"
+/// }
+///
+/// #[cyndra_runtime::main]
+/// async fn poem() -> CyndraPoem<impl poem::Endpoint> {
+///     let app = Route::new().at("/", get(hello_world));
+///
+///     Ok(app.into())
+/// }
+/// ```
 pub type CyndraPoem<T> = Result<PoemService<T>, cyndra_runtime::Error>;

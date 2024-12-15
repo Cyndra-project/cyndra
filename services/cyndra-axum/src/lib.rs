@@ -1,5 +1,7 @@
 //! Cyndra service integration for the Axum web framework.
+//!
 //! ## Example
+//!
 //! ```rust,no_run
 //! use axum::{routing::get, Router};
 //!
@@ -9,7 +11,7 @@
 //!
 //! #[cyndra_runtime::main]
 //! async fn axum() -> cyndra_axum::CyndraAxum {
-//!     let router = Router::new().route("/hello", get(hello_world));
+//!     let router = Router::new().route("/", get(hello_world));
 //!
 //!     Ok(router.into())
 //! }
@@ -39,5 +41,23 @@ impl From<axum::Router> for AxumService {
         Self(router)
     }
 }
-/// The return type that should be returned from the [cyndra_runtime::main] function.
+
+/// Return type from the `[cyndra_runtime::main]` macro for a Axum-based service.
+///
+/// ## Example
+///
+/// ```rust,no_run
+/// use axum::{routing::get, Router};
+///
+/// async fn hello_world() -> &'static str {
+///     "Hello, world!"
+/// }
+///
+/// #[cyndra_runtime::main]
+/// async fn axum() -> cyndra_axum::CyndraAxum {
+///     let router = Router::new().route("/", get(hello_world));
+///
+///     Ok(router.into())
+/// }
+/// ```
 pub type CyndraAxum = Result<AxumService, Error>;

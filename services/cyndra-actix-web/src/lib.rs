@@ -6,7 +6,7 @@
 //! use actix_web::{get, web::ServiceConfig};
 //! use cyndra_actix_web::CyndraActixWeb;
 //!
-//! #[get("/hello")]
+//! #[get("/")]
 //! async fn hello_world() -> &'static str {
 //!     "Hello World!"
 //! }
