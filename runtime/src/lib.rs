@@ -28,8 +28,8 @@
 //!
 //! ```toml
 //! axum = "0.6.20"
-//! cyndra-axum = "0.30.1"
-//! cyndra-runtime = "0.30.1"
+//! cyndra-axum = "0.31.0"
+//! cyndra-runtime = "0.31.0"
 //! tokio = "1.28.2"
 //! ```
 //!
@@ -112,7 +112,7 @@
 //! `runtime-tokio-native-tls` and `postgres` features inside `Cargo.toml`:
 //!
 //! ```toml
-//! cyndra-shared-db = { version = "0.30.1", features = ["postgres"] }
+//! cyndra-shared-db = { version = "0.31.0", features = ["postgres"] }
 //! sqlx = { version = "0.7.1", features = ["runtime-tokio-native-tls", "postgres"] }
 //! ```
 //!
