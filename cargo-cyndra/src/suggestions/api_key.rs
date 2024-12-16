@@ -14,6 +14,6 @@ pub fn reset_api_key_failed(err: anyhow::Error) -> anyhow::Error {
     println!();
     println!("{}", "Logging out failed".red());
     println!();
-    println!("If trying to log out and reset the API key at the same time fails repeteadly, please check Cyndra status at https://status.cyndra.rs or open a help thread on the Discord server.");
+    println!("If trying to log out and reset the API key at the same time fails repeatedly, please check Cyndra status at https://status.cyndra.rs or open a help thread on the Discord server.");
     err
 }
