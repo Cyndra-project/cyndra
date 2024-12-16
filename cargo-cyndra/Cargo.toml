@@ -6,6 +6,7 @@ license.workspace = true
 repository.workspace = true
 description = "A cargo command for the cyndra platform (https://www.cyndra.rs/)"
 homepage = "https://www.cyndra.rs"
+rust-version = "1.70"
 
 [dependencies]
 anyhow = { workspace = true }
