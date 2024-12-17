@@ -1,4 +1,5 @@
 use crossterm::style::Stylize;
+use cyndra_common::constants::cyndra_STATUS_URL;
 
 /// Used for suggestions in case project operations fail.
 pub fn project_request_failure(
@@ -19,7 +20,7 @@ pub fn project_request_failure(
 
     println!();
     println!(
-        "If {}, please check Cyndra status at https://status.cyndra.rs before contacting the team on the Discord server.",
+        "If {}, please check Cyndra status at {cyndra_STATUS_URL} before contacting the team on the Discord server.",
         final_suggestion
     );
     err

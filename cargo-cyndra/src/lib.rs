@@ -17,7 +17,10 @@ use std::str::FromStr;
 use cyndra_common::models::error::ApiError;
 use cyndra_common::{
     claims::{ClaimService, InjectPropagation},
-    constants::{API_URL_DEFAULT, EXECUTABLE_DIRNAME, STORAGE_DIRNAME},
+    constants::{
+        API_URL_DEFAULT, EXECUTABLE_DIRNAME, cyndra_CLI_DOCS_URL, cyndra_GH_ISSUE_URL,
+        cyndra_IDLE_DOCS_URL, cyndra_LOGIN_URL, STORAGE_DIRNAME,
+    },
     deployment::{DEPLOYER_END_MESSAGES_BAD, DEPLOYER_END_MESSAGES_GOOD},
     models::{
         deployment::{
@@ -74,10 +77,6 @@ use crate::provisioner_server::LocalProvisioner;
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 const MANIFEST_DIR: &str = env!("CARGO_MANIFEST_DIR");
-const cyndra_LOGIN_URL: &str = "https://console.cyndra.rs/new-project";
-const cyndra_GH_ISSUE_URL: &str = "https://github.com/cyndra-hq/cyndra/issues/new/choose";
-const cyndra_CLI_DOCS_URL: &str = "https://docs.cyndra.rs/getting-started/cyndra-commands";
-const cyndra_IDLE_DOCS_URL: &str = "https://docs.cyndra.rs/getting-started/idle-projects";
 
 pub struct Cyndra {
     ctx: RequestContext,
@@ -1467,7 +1466,7 @@ impl Cyndra {
             if let Some(Ok(msg)) = message {
                 if let tokio_tungstenite::tungstenite::Message::Text(line) = msg {
                     let log_item: cyndra_common::LogItem =
-                        serde_json::from_str(&line).expect("to parse log line");
+                        serde_json::from_str(&line).context("parsing log line")?;
 
                     println!("{log_item}");
 

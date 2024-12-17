@@ -3,7 +3,7 @@
 
 # Base image for builds and cache
 ARG RUSTUP_TOOLCHAIN
-FROM docker.io/lukemathwalker/cargo-chef:latest-rust-${RUSTUP_TOOLCHAIN}-buster as cargo-chef
+FROM docker.io/lukemathwalker/cargo-chef:latest-rust-${RUSTUP_TOOLCHAIN}-bookworm as cargo-chef
 WORKDIR /build
 
 
@@ -54,14 +54,16 @@ RUN cargo build \
     --bin cyndra-next -F next
 
 
+####### Helper step
+
+FROM docker.io/library/debian:bookworm-20230904-slim AS bookworm-20230904-slim-plus
+RUN apt update && apt install -y curl ca-certificates; rm -rf /var/lib/apt/lists/*
+
 ####### Targets for each crate
 
 #### AUTH
-FROM docker.io/library/debian:bookworm-20230904-slim AS cyndra-auth
+FROM bookworm-20230904-slim-plus AS cyndra-auth
 ARG CARGO_PROFILE
-ARG prepare_args
-COPY auth/prepare.sh /prepare.sh
-RUN /prepare.sh "${prepare_args}"
 COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-auth /usr/local/bin
 ENTRYPOINT ["/usr/local/bin/cyndra-auth"]
 FROM cyndra-auth AS cyndra-auth-dev
@@ -112,7 +114,7 @@ COPY --from=chef-planner /build /usr/src/cyndra/
 
 
 #### GATEWAY
-FROM docker.io/library/debian:bookworm-20230904 AS cyndra-gateway
+FROM bookworm-20230904-slim-plus AS cyndra-gateway
 ARG CARGO_PROFILE
 COPY gateway/ulid0.so /usr/lib/
 COPY gateway/ulid0_aarch64.so /usr/lib/
@@ -121,8 +123,6 @@ ARG TARGETPLATFORM
 RUN for target_platform in "linux/arm64" "linux/arm64/v8"; do \
     if [ "$TARGETPLATFORM" = "$target_platform" ]; then \
       mv /usr/lib/ulid0_aarch64.so /usr/lib/ulid0.so; fi; done
-# curl is needed for health checks
-RUN apt update && apt install -y curl
 COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-gateway /usr/local/bin
 ENTRYPOINT ["/usr/local/bin/cyndra-gateway"]
 FROM cyndra-gateway AS cyndra-gateway-dev
@@ -139,9 +139,8 @@ FROM cyndra-logger AS cyndra-logger-dev
 
 
 #### PROVISIONER
-# for some reason, hyper-rustls 0.24.1 does not work in a plain debian image
 ARG RUSTUP_TOOLCHAIN
-FROM docker.io/library/rust:${RUSTUP_TOOLCHAIN}-bookworm AS cyndra-provisioner
+FROM bookworm-20230904-slim-plus AS cyndra-provisioner
 ARG CARGO_PROFILE
 COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-provisioner /usr/local/bin
 ENTRYPOINT ["/usr/local/bin/cyndra-provisioner"]
