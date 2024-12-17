@@ -1,7 +1,7 @@
 use std::{fs, io, path::PathBuf};
 
 use clap::{Error, Parser, Subcommand};
-use cyndra_common::project::ProjectName;
+use cyndra_common::models::project::ProjectName;
 
 #[derive(Parser, Debug)]
 pub struct Args {

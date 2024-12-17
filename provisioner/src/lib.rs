@@ -12,6 +12,7 @@ use mongodb::{bson::doc, options::ClientOptions};
 use rand::Rng;
 use cyndra_common::backends::auth::VerifyClaim;
 use cyndra_common::claims::Scope;
+use cyndra_common::models::project::ProjectName;
 pub use cyndra_proto::provisioner::provisioner_server::ProvisionerServer;
 use cyndra_proto::provisioner::{
     aws_rds, database_request::DbType, shared, AwsRds, DatabaseRequest, DatabaseResponse, Shared,
@@ -456,7 +457,7 @@ impl Provisioner for MyProvisioner {
         request.verify(Scope::ResourcesWrite)?;
 
         let request = request.into_inner();
-        if !cyndra_common::project::ProjectName::is_valid(&request.project_name) {
+        if !ProjectName::is_valid(&request.project_name) {
             return Err(Status::invalid_argument("invalid project name"));
         }
         let db_type = request.db_type.unwrap();
@@ -483,7 +484,7 @@ impl Provisioner for MyProvisioner {
         request.verify(Scope::ResourcesWrite)?;
 
         let request = request.into_inner();
-        if !cyndra_common::project::ProjectName::is_valid(&request.project_name) {
+        if !ProjectName::is_valid(&request.project_name) {
             return Err(Status::invalid_argument("invalid project name"));
         }
         let db_type = request.db_type.unwrap();

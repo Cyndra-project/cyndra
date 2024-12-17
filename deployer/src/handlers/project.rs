@@ -5,7 +5,7 @@ use axum::extract::{Extension, FromRequestParts, Path};
 use axum::http::request::Parts;
 use axum::RequestPartsExt;
 use hyper::StatusCode;
-use cyndra_common::project::ProjectName;
+use cyndra_common::models::project::ProjectName;
 use tracing::error;
 
 /// Gaurd to ensure request are for the project served by this deployer
