@@ -25,6 +25,7 @@ use cyndra_common::constants::limits::{MAX_PROJECTS_DEFAULT, MAX_PROJECTS_EXTRA}
 use cyndra_common::models::error::axum::CustomErrorPath;
 use cyndra_common::models::error::ErrorKind;
 use cyndra_common::models::{
+    admin::ProjectResponse,
     project::{self, ProjectName},
     stats,
 };
@@ -844,7 +845,7 @@ async fn renew_gateway_acme_certificate(
 )]
 async fn get_projects(
     State(RouterState { service, .. }): State<RouterState>,
-) -> Result<AxumJson<Vec<project::AdminResponse>>, Error> {
+) -> Result<AxumJson<Vec<ProjectResponse>>, Error> {
     let projects = service
         .iter_projects_detailed()
         .await?
@@ -891,7 +892,7 @@ impl Modify for SecurityAddon {
     components(schemas(
         cyndra_common::models::project::Response,
         cyndra_common::models::stats::LoadResponse,
-        cyndra_common::models::project::AdminResponse,
+        cyndra_common::models::admin::ProjectResponse,
         cyndra_common::models::stats::LoadResponse,
         cyndra_common::models::project::State
     ))
