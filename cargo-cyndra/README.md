@@ -68,6 +68,14 @@ cargo install cargo-cyndra
 pacman -S cargo-cyndra
 ```
 
+#### Alpine Linux
+
+`cargo-cyndra` is available for [Alpine Edge](https://pkgs.alpinelinux.org/packages?name=cargo-cyndra&branch=edge). It can be installed via [apk](https://wiki.alpinelinux.org/wiki/Alpine_Package_Keeper) after enabling the [testing repository](https://wiki.alpinelinux.org/wiki/Repositories).
+
+```sh
+apk add cargo-cyndra
+```
+
 ---
 
 <!-- markdownlint-disable-next-line -->
