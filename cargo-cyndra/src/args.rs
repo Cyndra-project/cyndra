@@ -119,12 +119,6 @@ pub enum Command {
     /// Manage resources of a Cyndra project
     #[command(subcommand)]
     Resource(ResourceCommand),
-    /// Manage secrets for this Cyndra service
-    Secrets {
-        #[arg(long, default_value_t = false)]
-        /// Output table in `raw` format
-        raw: bool,
-    },
     /// Remove cargo build artifacts in the Cyndra environment
     Clean,
     /// Login to the Cyndra platform
