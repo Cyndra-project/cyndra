@@ -1,11 +1,11 @@
 use std::io;
 
 use clap::Parser;
-use cyndra_common::{backends::tracing::setup_tracing, log::Backend};
+use cyndra_common::{backends::tracing::setup_tracing, claims::AccountTier, log::Backend};
 use sqlx::migrate::Migrator;
 use tracing::{info, trace};
 
-use cyndra_auth::{init, sqlite_init, start, AccountTier, Args, Commands};
+use cyndra_auth::{init, sqlite_init, start, Args, Commands};
 
 pub static MIGRATIONS: Migrator = sqlx::migrate!("./migrations");
 
