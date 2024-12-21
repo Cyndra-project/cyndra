@@ -168,7 +168,7 @@ Sign up to the [Algora Console](https://console.algora.io/org/cyndra/bounties?st
 ## Community and Support
 
 - [GitHub Issues](https://github.com/cyndra-hq/cyndra/issues). Best for: bugs and errors you encounter using Cyndra.
-- [Twitter](https://twitter.com/cyndra_dev). Best for: keeping up with announcements, releases, collaborations and other events.
+- [X (Twitter)](https://twitter.com/cyndra_dev). Best for: keeping up with announcements, releases, collaborations and other events.
 - [Discord](https://discord.gg/cyndra). Best for: *ALL OF THE ABOVE* + help, support, sharing your applications and hanging out with the community.
 
 ## Project Status
