@@ -698,9 +698,22 @@ impl Cyndra {
 
             while let Some(Ok(msg)) = stream.next().await {
                 if let tokio_tungstenite::tungstenite::Message::Text(line) = msg {
-                    let log_item: cyndra_common::LogItem = serde_json::from_str(&line)
-                        .context("Failed parsing logs. Is your cargo-cyndra outdated?")?;
-                    println!("{log_item}")
+                    match serde_json::from_str::<cyndra_common::LogItem>(&line) {
+                        Ok(log_item) => {
+                            println!("{log_item}")
+                        }
+                        Err(err) => {
+                            debug!(error = %err, "failed to parse message into log item");
+
+                            let message = if let Ok(err) = serde_json::from_str::<ApiError>(&line) {
+                                err.to_string()
+                            } else {
+                                "failed to parse logs, is your cargo-cyndra outdated?".to_string()
+                            };
+
+                            bail!(message);
+                        }
+                    }
                 }
             }
         } else {
