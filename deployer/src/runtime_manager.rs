@@ -13,9 +13,9 @@ use cyndra_common::{
 };
 use cyndra_proto::{
     logger::{logger_client::LoggerClient, Batcher, LogItem, LogLine},
-    runtime::{self, runtime_client::RuntimeClient, StopRequest},
+    runtime::{runtime_client::RuntimeClient, StopRequest},
 };
-use cyndra_service::Environment;
+use cyndra_service::{runner, Environment};
 use tokio::{io::AsyncBufReadExt, io::BufReader, process, sync::Mutex};
 use tonic::transport::Channel;
 use tracing::{debug, error, info, trace, warn};
@@ -125,7 +125,7 @@ impl RuntimeManager {
                 .join("bin/cyndra-next")
         };
 
-        let (mut process, runtime_client) = runtime::start(
+        let (mut process, runtime_client) = runner::start(
             is_next,
             Environment::Deployment,
             &self.provisioner_address,

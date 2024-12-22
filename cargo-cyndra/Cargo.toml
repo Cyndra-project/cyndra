@@ -10,8 +10,8 @@ rust-version = "1.70"
 
 [dependencies]
 cyndra-common = { workspace = true, features = ["models"] }
-cyndra-proto = { workspace = true }
-cyndra-service = { workspace = true, features = ["builder"] }
+cyndra-proto = { workspace = true, features = ["provisioner", "runtime"] }
+cyndra-service = { workspace = true, features = ["builder", "runner"] }
 
 anyhow = { workspace = true }
 async-trait = { workspace = true }

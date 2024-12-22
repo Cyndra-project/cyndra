@@ -14,8 +14,8 @@ doctest = false
 
 [dependencies]
 cyndra-codegen = { workspace = true, features = ["frameworks"] }
-cyndra-common = { workspace = true, features = ["claims"] }
-cyndra-proto = { workspace = true }
+cyndra-common = { workspace = true, features = ["backend", "claims"] }
+cyndra-proto = { workspace = true, features = ["provisioner", "runtime"] }
 cyndra-service = { workspace = true }
 
 anyhow = { workspace = true }
@@ -43,11 +43,12 @@ wasmtime-wasi = { version = "13.0.0", optional = true }
 [dev-dependencies]
 portpicker = "0.1.1"
 futures = { workspace = true }
-cyndra-service = { workspace = true, features = ["builder"] }
+cyndra-service = { workspace = true, features = ["builder", "runner"] }
 uuid = { workspace = true }
 
 [features]
 default = ["setup-tracing"]
+
 next = [
     "cap-std",
     "futures",

@@ -10,8 +10,9 @@ cyndra-common = { workspace = true, features = [
     "backend",
     "models",
     "openapi",
+    "persist",
 ] }
-cyndra-proto = { workspace = true }
+cyndra-proto = { workspace = true, features = ["provisioner"] }
 cyndra-orchestrator = { workspace = true }
 
 async-trait = { workspace = true }

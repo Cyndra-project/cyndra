@@ -17,8 +17,9 @@ use std::str::FromStr;
 use cyndra_common::{
     claims::{ClaimService, InjectPropagation},
     constants::{
-        API_URL_DEFAULT, EXECUTABLE_DIRNAME, cyndra_CLI_DOCS_URL, cyndra_GH_ISSUE_URL,
-        cyndra_IDLE_DOCS_URL, cyndra_INSTALL_DOCS_URL, cyndra_LOGIN_URL, STORAGE_DIRNAME,
+        API_URL_DEFAULT, DEFAULT_IDLE_MINUTES, EXECUTABLE_DIRNAME, cyndra_CLI_DOCS_URL,
+        cyndra_GH_ISSUE_URL, cyndra_IDLE_DOCS_URL, cyndra_INSTALL_DOCS_URL, cyndra_LOGIN_URL,
+        STORAGE_DIRNAME,
     },
     deployment::{DEPLOYER_END_MESSAGES_BAD, DEPLOYER_END_MESSAGES_GOOD},
     models::{
@@ -27,14 +28,15 @@ use cyndra_common::{
             GIT_STRINGS_MAX_LENGTH,
         },
         error::ApiError,
-        project::{self, DEFAULT_IDLE_MINUTES},
+        project,
         resource::get_resource_tables,
     },
     resource, semvers_are_compatible, ApiKey, LogItem, VersionInfo,
 };
 use cyndra_proto::runtime::{
-    self, runtime_client::RuntimeClient, LoadRequest, StartRequest, StopRequest,
+    runtime_client::RuntimeClient, LoadRequest, StartRequest, StopRequest,
 };
+use cyndra_service::runner;
 use cyndra_service::{
     builder::{build_workspace, BuiltService},
     Environment,
@@ -935,7 +937,7 @@ impl Cyndra {
         };
 
         // Child process and gRPC client for sending requests to it
-        let (mut runtime, mut runtime_client) = runtime::start(
+        let (mut runtime, mut runtime_client) = runner::start(
             service.is_wasm,
             Environment::Local,
             &format!("http://localhost:{provisioner_port}"),
