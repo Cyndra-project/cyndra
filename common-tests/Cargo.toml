@@ -8,7 +8,7 @@ publish = false
 
 [dependencies]
 cargo-cyndra = { path = "../cargo-cyndra" }
-cyndra-proto = { workspace = true, features = ["builder", "logger"] }
+cyndra-proto = { workspace = true, features = ["builder", "logger", "resource-recorder"] }
 
 hyper = { workspace = true }
 portpicker = { workspace = true }

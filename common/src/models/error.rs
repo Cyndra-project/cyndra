@@ -51,6 +51,7 @@ pub enum ErrorKind {
     TooManyProjects,
     ProjectHasResources(Vec<String>),
     ProjectHasRunningDeployment,
+    ProjectHasBuildingDeployment,
     CustomDomainNotFound,
     InvalidCustomDomain,
     CustomDomainAlreadyExists,
@@ -91,14 +92,18 @@ impl From<ErrorKind> for ApiError {
                 (StatusCode::FORBIDDEN, "You cannot create more projects. Delete some projects first.")
             },
             ErrorKind::ProjectHasRunningDeployment => (
-                StatusCode::FORBIDDEN,
-                "A deployment is running. Stop it with `cargo cyndra stop` first."
+                StatusCode::INTERNAL_SERVER_ERROR,
+                "Could not automatically stop the running deployment for the project. Please reach out to Cyndra support for help."
+            ),
+            ErrorKind::ProjectHasBuildingDeployment => (
+                StatusCode::BAD_REQUEST,
+                "Project currently has a deployment that is busy building. Use `cargo cyndra deployment list` to see it and wait for it to finish"
             ),
             ErrorKind::ProjectHasResources(resources) => {
                 let resources = resources.join(", ");
                 return Self {
-                    message: format!("Project has resources: {}. Use `cargo cyndra resource list` and `cargo cyndra resource delete <type>` to delete them.", resources),
-                    status_code: StatusCode::FORBIDDEN.as_u16(),
+                    message: format!("Could not automatically delete the following resources: {}. Please reach out to Cyndra support for help.", resources),
+                    status_code: StatusCode::INTERNAL_SERVER_ERROR.as_u16(),
                 }
             }
             ErrorKind::InvalidProjectName(err) => {
