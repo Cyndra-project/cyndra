@@ -1,23 +1,4 @@
-//! Cyndra service integration for the Poem web framework.
-//! ## Example
-//! ```rust,no_run
-//! use poem::{get, handler, Route};
-//! use cyndra_poem::CyndraPoem;
-//!
-//! #[handler]
-//! fn hello_world() -> &'static str {
-//!     "Hello, world!"
-//! }
-//!
-//! #[cyndra_runtime::main]
-//! async fn poem() -> CyndraPoem<impl poem::Endpoint> {
-//!     let app = Route::new().at("/", get(hello_world));
-//!
-//!     Ok(app.into())
-//! }
-//!
-//! ```
-
+#![doc = include_str!("../README.md")]
 /// A wrapper type for [poem::Endpoint] so we can implement [cyndra_runtime::Service] for it.
 pub struct PoemService<T>(pub T);
 
@@ -45,23 +26,5 @@ where
     }
 }
 
-/// Return type from the `[cyndra_runtime::main]` macro for a Poem-based service.
-///
-/// # Example
-///
-/// ```rust,no_run
-/// use poem::{get, handler, Route};
-/// use cyndra_poem::CyndraPoem;
-/// #[handler]
-/// fn hello_world() -> &'static str {
-///     "Hello, world!"
-/// }
-///
-/// #[cyndra_runtime::main]
-/// async fn poem() -> CyndraPoem<impl poem::Endpoint> {
-///     let app = Route::new().at("/", get(hello_world));
-///
-///     Ok(app.into())
-/// }
-/// ```
+#[doc = include_str!("../README.md")]
 pub type CyndraPoem<T> = Result<PoemService<T>, cyndra_runtime::Error>;

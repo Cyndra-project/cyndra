@@ -1,26 +1,4 @@
-//! Cyndra service integration for the Actix Web framework.
-//!
-//! ## Example
-//!
-//! ```rust,no_run
-//! use actix_web::{get, web::ServiceConfig};
-//! use cyndra_actix_web::CyndraActixWeb;
-//!
-//! #[get("/")]
-//! async fn hello_world() -> &'static str {
-//!     "Hello World!"
-//! }
-//!
-//! #[cyndra_runtime::main]
-//! async fn actix_web() -> CyndraActixWeb<impl FnOnce(&mut ServiceConfig) + Send + Clone + 'static> {
-//!     let config = move |cfg: &mut ServiceConfig| {
-//!         cfg.service(hello_world);
-//!     };
-//!
-//!     Ok(config.into())
-//! }
-//! ```
-
+#![doc = include_str!("../README.md")]
 use std::net::SocketAddr;
 
 /// A wrapper type for a closure that returns an [actix_web::web::ServiceConfig] so we can implement
@@ -58,17 +36,5 @@ where
     }
 }
 
-/// Return type from the `[cyndra_runtime::main]` macro for an Actix-based service.
-///
-/// # Example
-/// ```rust,no_run
-/// # use cyndra_actix_web::CyndraActixWeb;
-/// # use actix_web::web::ServiceConfig;
-///
-/// #[cyndra_runtime::main]
-/// async fn example_service() -> CyndraActixWeb<impl FnOnce(&mut ServiceConfig) + Send + Clone + 'static> {
-///     let config = move |_cfg: &mut ServiceConfig| {};
-///     Ok(config.into())
-/// }
-/// ```
+#[doc = include_str!("../README.md")]
 pub type CyndraActixWeb<F> = Result<ActixWebService<F>, cyndra_runtime::Error>;

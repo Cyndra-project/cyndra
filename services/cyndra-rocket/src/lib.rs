@@ -1,23 +1,4 @@
-//! Cyndra service integration for the Rocket web framework.
-//! ## Example
-//! ```rust,no_run
-//! #[macro_use]
-//! extern crate rocket;
-//!
-//! # fn main() {
-//! #[get("/")]
-//! fn index() -> &'static str {
-//!     "Hello, world!"
-//! }
-//!
-//! #[cyndra_runtime::main]
-//! async fn rocket() -> cyndra_rocket::CyndraRocket {
-//!     let rocket = rocket::build().mount("/", routes![index]);
-//!
-//!     Ok(rocket.into())
-//! }
-//! # }
-//! ```
+#![doc = include_str!("../README.md")]
 use std::net::SocketAddr;
 
 /// A wrapper type for [rocket::Rocket<rocket::Build>] so we can implement [cyndra_runtime::Service] for it.
@@ -59,24 +40,5 @@ impl From<rocket::Rocket<rocket::Build>> for RocketService {
     }
 }
 
-/// Return type from the `[cyndra_runtime::main]` macro for a Rocket-based service.
-///
-/// # Example
-///
-/// ```rust,no_run
-/// use rocket::{routes, get};
-/// use cyndra_rocket::CyndraRocket;
-///
-/// #[get("/")]
-/// fn index() -> &'static str {
-///     "Hello, world!"
-/// }
-///
-/// #[cyndra_runtime::main]
-/// async fn rocket() -> CyndraRocket {
-///     let rocket = rocket::build().mount("/", routes![index]);
-///
-///     Ok(rocket.into())
-/// }
-/// ```
+#[doc = include_str!("../README.md")]
 pub type CyndraRocket = Result<RocketService, cyndra_runtime::Error>;
