@@ -696,13 +696,11 @@ workflows:
                 - resources/secrets
                 - resources/turso
                 - services/cyndra-actix-web
-                - services/cyndra-axum
                 - services/cyndra-next
                 - services/cyndra-poem
                 - services/cyndra-poise
                 - services/cyndra-rocket
                 - services/cyndra-salvo
-                - services/cyndra-serenity
                 - services/cyndra-thruster
                 - services/cyndra-tide
                 - services/cyndra-tower
@@ -719,6 +717,28 @@ workflows:
                 - "-F mongodb"
                 - "-F postgres"
                 - "-F postgres-rustls"
+      - test-standalone:
+          # Has mutually exclusive features, so we run checks for each feature separately
+          name: "services/cyndra-axum: << matrix.features >>"
+          matrix:
+            alias: test-standalone-services-cyndra-axum
+            parameters:
+              path:
+                - services/cyndra-axum
+              features:
+                - "-F axum"
+                - "-F axum-0-7 --no-default-features"
+      - test-standalone:
+          # Has mutually exclusive features, so we run checks for each feature separately
+          name: "services/cyndra-serenity: << matrix.features >>"
+          matrix:
+            alias: test-standalone-services-cyndra-serenity
+            parameters:
+              path:
+                - services/cyndra-serenity
+              features:
+                - "-F serenity"
+                - "-F serenity-0-12-rustls_backend --no-default-features"
       - test-workspace-member:
           name: << matrix.crate >>
           matrix:
