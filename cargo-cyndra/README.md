@@ -101,7 +101,7 @@ Commands:
   clean       Remove cargo build artifacts in the cyndra environment
   login       Login to the cyndra platform
   logout      Log out of the cyndra platform
-  generate    Generate shell completions
+  generate    Generate shell completions and man page
   feedback    Open an issue on GitHub and provide feedback
   help        Print this message or the help of the given subcommand(s)
 
