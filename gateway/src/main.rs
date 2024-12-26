@@ -11,6 +11,7 @@ use cyndra_gateway::proxy::UserServiceBuilder;
 use cyndra_gateway::service::{GatewayService, MIGRATIONS};
 use cyndra_gateway::tls::make_tls_acceptor;
 use cyndra_gateway::worker::{Worker, WORKER_QUEUE_SIZE};
+use cyndra_gateway::DOCKER_STATS_PATH;
 use sqlx::migrate::MigrateDatabase;
 use sqlx::sqlite::{SqliteConnectOptions, SqliteJournalMode, SqliteSynchronous};
 use sqlx::{Sqlite, SqlitePool};
@@ -35,6 +36,20 @@ async fn main() -> io::Result<()> {
 
     if !db_path.exists() {
         Sqlite::create_database(db_uri).await.unwrap();
+    }
+
+    let docker_stats_path =
+        PathBuf::from_str(DOCKER_STATS_PATH).expect("to parse docker stats path");
+
+    // Return an error early if the docker stats path is not in the expected location.
+    if !docker_stats_path.exists() {
+        return Err(std::io::Error::new(
+            io::ErrorKind::NotFound,
+            format!(
+                "could not find docker stats at path: {:?}",
+                DOCKER_STATS_PATH
+            ),
+        ));
     }
 
     info!(
