@@ -142,8 +142,8 @@ This should generate the following dependency in `Cargo.toml`:
 
 ```toml
 rocket = "0.5.0"
-cyndra-rocket = "0.35.0"
-cyndra-runtime = "0.35.0"
+cyndra-rocket = "0.35.1"
+cyndra-runtime = "0.35.1"
 tokio = "1.26.0"
 ```
 
