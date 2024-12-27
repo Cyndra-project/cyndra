@@ -1,6 +1,7 @@
 pub mod builder;
 pub mod cargo_cyndra;
 pub mod logger;
+pub mod postgres;
 pub mod resource_recorder;
 
 use cyndra_common::claims::{AccountTier, Claim, Scope};

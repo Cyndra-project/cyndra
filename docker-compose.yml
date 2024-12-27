@@ -50,7 +50,7 @@ services:
       - RUST_LOG=${RUST_LOG}
       - cyndra_ENV=${cyndra_ENV}
     command:
-      - "--state=/var/lib/cyndra-auth"
+      - "--db-connection-uri=${CONTROL_DB_POSTGRES_URI}"
       - "start"
       - "--address=0.0.0.0:8000"
       - "--stripe-secret-key=${STRIPE_SECRET_KEY}"
