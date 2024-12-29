@@ -3,7 +3,7 @@ use http::HeaderValue;
 
 pub static X_cyndra_ADMIN_SECRET: HeaderName = HeaderName::from_static("x-cyndra-admin-secret");
 
-/// Typed header for sending admin secrets to deployers
+/// Typed header for sending admin secrets to Cyndra components
 pub struct XCyndraAdminSecret(pub String);
 
 impl Header for XCyndraAdminSecret {
