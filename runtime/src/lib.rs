@@ -27,7 +27,7 @@
 //! be a binary crate with a few dependencies including `cyndra-runtime` and `cyndra-axum`.
 //!
 //! ```toml
-//! axum = "0.6.20"
+//! axum = "0.7.3"
 //! cyndra-axum = "0.35.1"
 //! cyndra-runtime = "0.35.1"
 //! tokio = "1.28.2"
