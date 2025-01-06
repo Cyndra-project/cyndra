@@ -23,7 +23,7 @@ static PROXY_CLIENT: Lazy<ReverseProxy<HttpConnector<GaiResolver>>> =
     Lazy::new(|| ReverseProxy::new(Client::new()));
 static SERVER_HEADER: Lazy<HeaderValue> = Lazy::new(|| "cyndra.rs".parse().unwrap());
 
-#[instrument(name = "proxy_request", skip_all, fields(http.method = %req.method(), http.uri = %req.uri(), http.status_code = field::Empty, http.host = field::Empty, cyndra.service.name = field::Empty, proxy.status_code = field::Empty))]
+#[instrument(name = "proxy_request", skip_all, fields(http.method = %req.method(), http.uri = %req.uri(), http.status_code = field::Empty, http.host = field::Empty, cyndra.service.name = field::Empty, cyndra.project.name = field::Empty, proxy.status_code = field::Empty))]
 pub async fn handle(
     remote_address: SocketAddr,
     fqdn: FQDN,
@@ -78,6 +78,7 @@ pub async fn handle(
     };
 
     // Record current service for tracing purposes
+    span.record("cyndra.project.name", &service);
     span.record("cyndra.service.name", &service);
 
     let proxy_address = match address_getter.get_address_for_service(&service).await {

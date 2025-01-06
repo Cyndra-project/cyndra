@@ -1395,6 +1395,7 @@ where
         debug!(
             cyndra.container.id = container.id,
             cyndra.service.name = %service.name,
+            cyndra.project.name = %service.name,
             "{} has {} CPU usage per minute",
             service.name,
             cpu_per_minute
