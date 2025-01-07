@@ -63,6 +63,8 @@ RUN apt update && apt install -y curl ca-certificates; rm -rf /var/lib/apt/lists
 
 #### AUTH
 FROM bookworm-20230904-slim-plus AS cyndra-auth
+ARG cyndra_SERVICE_VERSION
+ENV cyndra_SERVICE_VERSION=${cyndra_SERVICE_VERSION}
 ARG CARGO_PROFILE
 COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-auth /usr/local/bin
 ENTRYPOINT ["/usr/local/bin/cyndra-auth"]
@@ -72,6 +74,8 @@ FROM cyndra-auth AS cyndra-auth-dev
 #### BUILDER
 ARG RUSTUP_TOOLCHAIN
 FROM docker.io/library/rust:${RUSTUP_TOOLCHAIN}-bookworm AS cyndra-builder
+ARG cyndra_SERVICE_VERSION
+ENV cyndra_SERVICE_VERSION=${cyndra_SERVICE_VERSION}
 ARG CARGO_PROFILE
 ARG prepare_args
 COPY builder/prepare.sh /prepare.sh
@@ -84,6 +88,8 @@ FROM cyndra-builder AS cyndra-builder-dev
 #### DEPLOYER
 ARG RUSTUP_TOOLCHAIN
 FROM docker.io/library/rust:${RUSTUP_TOOLCHAIN}-bookworm AS cyndra-deployer
+ARG cyndra_SERVICE_VERSION
+ENV cyndra_SERVICE_VERSION=${cyndra_SERVICE_VERSION}
 ARG CARGO_PROFILE
 ARG prepare_args
 # Fixes some dependencies compiled with incompatible versions of rustc
@@ -115,6 +121,8 @@ COPY --from=chef-planner /build /usr/src/cyndra/
 
 #### GATEWAY
 FROM bookworm-20230904-slim-plus AS cyndra-gateway
+ARG cyndra_SERVICE_VERSION
+ENV cyndra_SERVICE_VERSION=${cyndra_SERVICE_VERSION}
 ARG CARGO_PROFILE
 COPY gateway/ulid0.so /usr/lib/
 COPY gateway/ulid0_aarch64.so /usr/lib/
@@ -132,6 +140,8 @@ COPY --from=chef-planner /build/*.pem /usr/src/cyndra/
 
 #### LOGGER
 FROM docker.io/library/debian:bookworm-20230904-slim AS cyndra-logger
+ARG cyndra_SERVICE_VERSION
+ENV cyndra_SERVICE_VERSION=${cyndra_SERVICE_VERSION}
 ARG CARGO_PROFILE
 COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-logger /usr/local/bin
 ENTRYPOINT ["/usr/local/bin/cyndra-logger"]
@@ -141,6 +151,8 @@ FROM cyndra-logger AS cyndra-logger-dev
 #### PROVISIONER
 ARG RUSTUP_TOOLCHAIN
 FROM bookworm-20230904-slim-plus AS cyndra-provisioner
+ARG cyndra_SERVICE_VERSION
+ENV cyndra_SERVICE_VERSION=${cyndra_SERVICE_VERSION}
 ARG CARGO_PROFILE
 COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-provisioner /usr/local/bin
 ENTRYPOINT ["/usr/local/bin/cyndra-provisioner"]
@@ -149,6 +161,8 @@ FROM cyndra-provisioner AS cyndra-provisioner-dev
 
 #### RESOURCE RECORDER
 FROM docker.io/library/debian:bookworm-20230904-slim AS cyndra-resource-recorder
+ARG cyndra_SERVICE_VERSION
+ENV cyndra_SERVICE_VERSION=${cyndra_SERVICE_VERSION}
 ARG CARGO_PROFILE
 COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-resource-recorder /usr/local/bin
 ENTRYPOINT ["/usr/local/bin/cyndra-resource-recorder"]

@@ -143,7 +143,8 @@ DOCKER_COMPOSE_ENV=\
 	USE_TLS=$(USE_TLS)\
 	COMPOSE_PROFILES=$(COMPOSE_PROFILES)\
 	DOCKER_SOCK=$(DOCKER_SOCK)\
-	cyndra_ENV=$(cyndra_ENV)
+	cyndra_ENV=$(cyndra_ENV)\
+	cyndra_SERVICE_VERSION=$(cyndra_SERVICE_VERSION)
 
 .PHONY: clean cargo-clean images the-cyndra-images cyndra-% postgres panamax otel deploy test docker-compose.rendered.yml up down
 
@@ -165,6 +166,7 @@ cyndra-%:
 		--build-arg crate=$(@) \
 		--build-arg prepare_args=$(PREPARE_ARGS) \
 		--build-arg cyndra_ENV=$(cyndra_ENV) \
+		--build-arg cyndra_SERVICE_VERSION=$(cyndra_SERVICE_VERSION) \
 		--build-arg RUSTUP_TOOLCHAIN=$(RUSTUP_TOOLCHAIN) \
 		--build-arg CARGO_PROFILE=$(CARGO_PROFILE) \
 		--tag $(CONTAINER_REGISTRY)/$(*):$(COMMIT_SHA) \
