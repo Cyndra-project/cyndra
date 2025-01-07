@@ -6,7 +6,7 @@ use cyndra_common::{
     constants::STORAGE_DIRNAME,
     database,
     secrets::Secret,
-    DatabaseReadyInfo,
+    DatabaseInfo,
 };
 use cyndra_proto::provisioner::{provisioner_client::ProvisionerClient, DatabaseRequest};
 use cyndra_service::{DeploymentMetadata, Environment, Factory};
@@ -44,7 +44,7 @@ impl Factory for ProvisionerFactory {
     async fn get_db_connection(
         &mut self,
         db_type: database::Type,
-    ) -> Result<DatabaseReadyInfo, cyndra_service::Error> {
+    ) -> Result<DatabaseInfo, cyndra_service::Error> {
         let mut request = Request::new(DatabaseRequest {
             project_name: self.service_name.to_string(),
             db_type: Some(db_type.into()),
@@ -61,7 +61,7 @@ impl Factory for ProvisionerFactory {
             .map_err(cyndra_service::error::CustomError::new)?
             .into_inner();
 
-        let info: DatabaseReadyInfo = response.into();
+        let info: DatabaseInfo = response.into();
 
         Ok(info)
     }

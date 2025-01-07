@@ -1,19 +1,14 @@
 use async_trait::async_trait;
-use cyndra_service::{error::Error, Factory, ResourceBuilder, Type};
+use cyndra_service::{error::Error, resource::Type, Factory, ResourceBuilder};
 pub use cyndra_service::{DeploymentMetadata as Metadata, Environment};
 
+#[derive(Default)]
 pub struct CyndraMetadata;
 
 #[async_trait]
-impl ResourceBuilder<Metadata> for CyndraMetadata {
-    fn new() -> Self {
-        Self
-    }
-
+impl ResourceBuilder for CyndraMetadata {
     const TYPE: Type = Type::Metadata;
-
     type Config = ();
-
     type Output = Metadata;
 
     fn config(&self) -> &Self::Config {
@@ -22,9 +17,5 @@ impl ResourceBuilder<Metadata> for CyndraMetadata {
 
     async fn output(self, factory: &mut dyn Factory) -> Result<Self::Output, Error> {
         Ok(factory.get_metadata())
-    }
-
-    async fn build(build_data: &Self::Output) -> Result<Metadata, Error> {
-        Ok(build_data.clone())
     }
 }

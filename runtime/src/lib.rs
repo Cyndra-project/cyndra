@@ -205,7 +205,7 @@
 
 // Public API
 pub use cyndra_codegen::main;
-pub use cyndra_service::{CustomError, Error, Factory, ResourceBuilder, Service};
+pub use cyndra_service::{CustomError, Error, Factory, IntoResource, ResourceBuilder, Service};
 
 // Useful re-exports
 pub use async_trait::async_trait;
