@@ -17,7 +17,6 @@ cyndra-axum = { path = "BASE/services/cyndra-axum" }
 cyndra-actix-web = { path = "BASE/services/cyndra-actix-web" }
 cyndra-next = { path = "BASE/services/cyndra-next" }
 cyndra-poem = { path = "BASE/services/cyndra-poem" }
-cyndra-poise = { path = "BASE/services/cyndra-poise" }
 cyndra-rocket = { path = "BASE/services/cyndra-rocket" }
 cyndra-salvo = { path = "BASE/services/cyndra-salvo" }
 cyndra-serenity = { path = "BASE/services/cyndra-serenity" }
