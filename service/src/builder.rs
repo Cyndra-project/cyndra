@@ -138,7 +138,7 @@ pub async fn build_workspace(
                 .map(|d| format!("{} '{}'", d.name, d.req))
                 .collect::<Vec<_>>();
             cyndra_deps.sort();
-            info!(name = member.name, deps = ?cyndra_deps, "Compiled workspace member with cyndra dependencies");
+            info!(name = member.name, deps = ?cyndra_deps, "Compiling workspace member with cyndra dependencies");
         }
         if next {
             ensure_cdylib(member)?;

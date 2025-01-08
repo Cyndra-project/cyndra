@@ -5,6 +5,8 @@ edition.workspace = true
 license.workspace = true
 repository.workspace = true
 description = "Common library for the cyndra platform (https://www.cyndra.rs/)"
+# Base MSRV for the Cyndra crates. If some other crate has a higher MSRV, set it in that crate.
+rust-version = "1.75"
 
 [dependencies]
 anyhow = { workspace = true }

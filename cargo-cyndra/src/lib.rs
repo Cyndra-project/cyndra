@@ -1981,6 +1981,8 @@ impl Cyndra {
                 )
             })?;
 
+        println!("Deleted project");
+
         Ok(CommandOutcome::Ok)
     }
 
