@@ -134,11 +134,8 @@ pub async fn build_workspace(
             let mut cyndra_deps = member
                 .dependencies
                 .iter()
-                .filter_map(|d| {
-                    d.name
-                        .starts_with("cyndra-")
-                        .then(|| format!("{} '{}'", d.name, d.req))
-                })
+                .filter(|&d| d.name.starts_with("cyndra-"))
+                .map(|d| format!("{} '{}'", d.name, d.req))
                 .collect::<Vec<_>>();
             cyndra_deps.sort();
             info!(name = member.name, deps = ?cyndra_deps, "Compiled workspace member with cyndra dependencies");

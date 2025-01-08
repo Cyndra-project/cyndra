@@ -8,7 +8,7 @@ use cyndra_common::{
     },
     log::Backend,
 };
-use cyndra_provisioner::{Args, MyProvisioner, ProvisionerServer};
+use cyndra_provisioner::{Args, ProvisionerServer, CyndraProvisioner};
 use tonic::transport::Server;
 
 #[tokio::main]
@@ -27,7 +27,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     } = Args::parse();
     let addr = SocketAddr::new(ip, port);
 
-    let provisioner = MyProvisioner::new(
+    let provisioner = CyndraProvisioner::new(
         &shared_pg_uri,
         &shared_mongodb_uri,
         fqdn.to_string(),

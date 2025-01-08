@@ -17,7 +17,9 @@ cyndra-common = { workspace = true, features = [
     "tracing",
     "display",
 ] }
-cyndra-proto = { workspace = true, optional = true, features = ["runtime"] }
+cyndra-proto = { workspace = true, features = [
+    "provisioner",
+] }
 
 anyhow = { workspace = true }
 async-trait = { workspace = true }
@@ -46,4 +48,4 @@ builder = [
     "toml",
     "tracing",
 ]
-runner = ["cyndra-proto", "tokio/process", "dunce", "tower"]
+runner = ["cyndra-proto/runtime", "tokio/process", "dunce", "tower"]

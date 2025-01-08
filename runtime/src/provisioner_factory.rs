@@ -8,7 +8,9 @@ use cyndra_common::{
     secrets::Secret,
     DatabaseInfo,
 };
-use cyndra_proto::provisioner::{provisioner_client::ProvisionerClient, DatabaseRequest};
+use cyndra_proto::provisioner::{
+    provisioner_client::ProvisionerClient, ContainerRequest, ContainerResponse, DatabaseRequest,
+};
 use cyndra_service::{DeploymentMetadata, Environment, Factory};
 use tonic::{transport::Channel, Request};
 
@@ -64,6 +66,26 @@ impl Factory for ProvisionerFactory {
         let info: DatabaseInfo = response.into();
 
         Ok(info)
+    }
+
+    async fn get_container(
+        &mut self,
+        req: ContainerRequest,
+    ) -> Result<ContainerResponse, cyndra_service::Error> {
+        let mut request = Request::new(req);
+
+        if let Some(claim) = &self.claim {
+            request.extensions_mut().insert(claim.clone());
+        }
+
+        let response = self
+            .provisioner_client
+            .provision_arbitrary_container(request)
+            .await
+            .map_err(cyndra_service::error::CustomError::new)?
+            .into_inner();
+
+        Ok(response)
     }
 
     async fn get_secrets(
