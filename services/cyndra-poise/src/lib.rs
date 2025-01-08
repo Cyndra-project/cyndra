@@ -3,6 +3,7 @@ use std::net::SocketAddr;
 use std::sync::Arc;
 
 /// A wrapper type for [poise::Framework] so we can implement [cyndra_runtime::Service] for it.
+#[deprecated = "cyndra-poise for poise 0.5 is deprecated. To use poise 0.6 and Cyndra, check https://docs.rs/cyndra-serenity/latest/cyndra_serenity/"]
 pub struct PoiseService<T, E>(pub Arc<poise::Framework<T, E>>);
 
 #[cyndra_runtime::async_trait]
