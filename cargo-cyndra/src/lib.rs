@@ -1027,8 +1027,10 @@ impl Cyndra {
                     } else {
                         printdoc! {"
                             Hint: A newer version of cyndra-runtime is available.
-                                  Change its version to {} in Cargo.toml to update it.",
-                            mismatch.cargo_cyndra
+                            Change its version to {} in Cargo.toml to update it, or
+                            run this command: cargo add cyndra-runtime@{}",
+                            mismatch.cargo_cyndra,
+                            mismatch.cargo_cyndra,
                         };
                     }
                 } else {
