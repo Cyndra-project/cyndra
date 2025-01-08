@@ -718,7 +718,6 @@ workflows:
                 - services/cyndra-actix-web
                 - services/cyndra-next
                 - services/cyndra-poem
-                - services/cyndra-poise
                 - services/cyndra-rocket
                 - services/cyndra-salvo
                 - services/cyndra-thruster
