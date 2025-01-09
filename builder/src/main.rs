@@ -5,7 +5,7 @@ use cyndra_builder::{args::Args, Service};
 use cyndra_common::{
     backends::{
         auth::{AuthPublicKey, JwtAuthenticationLayer},
-        tracing::{setup_tracing, ExtractPropagationLayer},
+        trace::{setup_tracing, ExtractPropagationLayer},
     },
     log::Backend,
 };

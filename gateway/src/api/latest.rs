@@ -20,8 +20,8 @@ use serde::{Deserialize, Serialize};
 use cyndra_common::backends::auth::{AuthPublicKey, JwtAuthenticationLayer, ScopedLayer};
 use cyndra_common::backends::cache::CacheManager;
 use cyndra_common::backends::metrics::{Metrics, TraceLayer};
+use cyndra_common::backends::ClaimExt;
 use cyndra_common::claims::{Scope, EXP_MINUTES};
-use cyndra_common::limits::ClaimExt;
 use cyndra_common::models::error::axum::CustomErrorPath;
 use cyndra_common::models::error::ErrorKind;
 use cyndra_common::models::{

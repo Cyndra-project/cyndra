@@ -8,7 +8,7 @@ publish = false
 
 [dependencies]
 cyndra-common = { workspace = true, features = ["backend", "models", "service", "tonic"] }
-cyndra-proto = { workspace = true, features = ["provisioner"] }
+cyndra-proto = { workspace = true, features = ["provisioner", "resource-recorder"] }
 
 aws-config = "0.56.1"
 aws-sdk-rds = "0.33.1"
@@ -29,3 +29,6 @@ ctor = { workspace = true }
 once_cell = { workspace = true }
 portpicker = { workspace = true }
 serde_json = { workspace = true }
+cyndra-common = { workspace = true, features = ["test-utils"] }
+cyndra-common-tests = { workspace = true }
+cyndra-proto = { workspace = true, features = ["test-utils"] }

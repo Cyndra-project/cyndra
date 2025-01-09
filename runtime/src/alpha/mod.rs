@@ -14,7 +14,7 @@ use core::future::Future;
 use cyndra_common::{
     backends::{
         auth::{AuthPublicKey, JwtAuthenticationLayer},
-        tracing::ExtractPropagationLayer,
+        trace::ExtractPropagationLayer,
     },
     claims::{Claim, ClaimLayer, InjectPropagationLayer},
     resource,
