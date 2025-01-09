@@ -49,11 +49,10 @@
 
 Cyndra is built for productivity, reliability and performance:
 
-- Zero-Configuration support for Rust using annotations
-- Automatic resource provisioning (databases, caches, subdomains, etc.) via [Infrastructure-From-Code](https://www.cyndra.rs/blog/2022/05/09/ifc)
-- First-class support for popular Rust frameworks ([Actix Web](https://docs.cyndra.rs/examples/actix), [Rocket](https://docs.cyndra.rs/examples/rocket), [Axum](https://docs.cyndra.rs/examples/axum), and [more](https://docs.cyndra.rs/examples/other))
+- Zero-Configuration support for Rust using macro annotations
+- Automatic resource provisioning (databases, etc.) via [Infrastructure-From-Code](https://www.cyndra.rs/blog/2022/05/09/ifc)
+- First-class support for popular Rust frameworks ([Axum](https://docs.cyndra.rs/examples/axum), [Actix Web](https://docs.cyndra.rs/examples/actix), [Rocket](https://docs.cyndra.rs/examples/rocket), and [more](https://docs.cyndra.rs/examples/other))
 - Support for deploying Discord bots using [Serenity](https://docs.cyndra.rs/examples/serenity)
-- Scalable hosting (with optional self-hosting in the future)
 
 📖 Check out our documentation to get started quickly: [docs.cyndra.rs](https://docs.cyndra.rs)
 
@@ -63,10 +62,9 @@ Cyndra is built for productivity, reliability and performance:
 
 ![star](https://i.imgur.com/kLWmThm.gif)
 
-## (NEW) Cyndra Console
+## Cyndra Console
 
-Your projects can now be viewed on the brand new [Cyndra Console](https://console.cyndra.rs/)!
-The CLI is still used for most tasks.
+In addition to the CLI, you can also view your projects on the [Cyndra Console](https://console.cyndra.rs/)!
 
 ![console-preview](https://i.imgur.com/1qdWipP.gif)
 *The GIF above visualizes the ease of adding resources to your project(s), along with how they are displayed in the console.*
@@ -105,7 +103,7 @@ Although a bit slower, you can also install directly with cargo:
 cargo install cargo-cyndra
 ```
 
-> If installing binstall or cargo-cyndra fails, try adding `--locked` to the install command
+> If installing cargo-binstall or cargo-cyndra fails, try adding `--locked` to the install command
 
 After installing, log in with:
 
@@ -117,7 +115,6 @@ To initialize your project, simply write:
 
 ```bash
 cargo cyndra init --template axum hello-world
-# Choose a unique project name!
 ```
 
 And to deploy it, write:
@@ -144,24 +141,23 @@ For the full documentation, visit [our docs](https://docs.cyndra.rs).
 
 ## Repositories
 
-| Name | Description |  |  |
-|-|-|-|-|
-| [cyndra](https://github.com/cyndra-hq/cyndra) 🚀 (This repo) | The core Cyndra product. Contains all crates that users interact with. | [Issues](https://github.com/cyndra-hq/cyndra/issues) | [PRs](https://github.com/cyndra-hq/cyndra/pulls)
-| [cyndra-examples](https://github.com/cyndra-hq/cyndra-examples) 👨‍🏫 | Officially maintained examples of projects that can be deployed on Cyndra. Also has a list of [community examples](https://github.com/cyndra-hq/cyndra-examples#community-examples). | [Issues](https://github.com/cyndra-hq/cyndra-examples/issues) | [PRs](https://github.com/cyndra-hq/cyndra-examples/pulls)
-| [cyndra-docs](https://github.com/cyndra-hq/cyndra-docs) 📃 | Documentation hosted on [docs.cyndra.rs](https://docs.cyndra.rs/). | [Issues](https://github.com/cyndra-hq/cyndra-docs/issues) | [PRs](https://github.com/cyndra-hq/cyndra-docs/pulls)
-| [www](https://github.com/cyndra-hq/www) 🌍 | Our website [cyndra.rs](https://www.cyndra.rs/), including the [blog](https://www.cyndra.rs/blog/tags/all) and [Launchpad newsletter](https://www.cyndra.rs/launchpad). | [Issues](https://github.com/cyndra-hq/www/issues) | [PRs](https://github.com/cyndra-hq/www/pulls)
-| [deploy-action](https://github.com/cyndra-hq/deploy-action) ⚙ | GitHub Action for continuous deployments. | [Issues](https://github.com/cyndra-hq/deploy-action/issues) | [PRs](https://github.com/cyndra-hq/deploy-action/pulls)
-| [awesome-cyndra](https://github.com/cyndra-hq/awesome-cyndra) 🌟 | An awesome list of Cyndra-hosted projects and resources that users can add to. | [Issues](https://github.com/cyndra-hq/awesome-cyndra/issues) | [PRs](https://github.com/cyndra-hq/awesome-cyndra/pulls)
+| Name | Description |
+|-|-|
+| [cyndra](https://github.com/cyndra-hq/cyndra) 🚀 (This repo) | The core Cyndra product. Contains all crates that users interact with. |
+| [cyndra-examples](https://github.com/cyndra-hq/cyndra-examples) 👨‍🏫 | Officially maintained examples of projects that can be deployed on Cyndra. Also has a list of [community examples](https://github.com/cyndra-hq/cyndra-examples#community-examples). |
+| [cyndra-docs](https://github.com/cyndra-hq/cyndra-docs) 📃 | Documentation hosted on [docs.cyndra.rs](https://docs.cyndra.rs/). |
+| [www](https://github.com/cyndra-hq/www) 🌍 | Our website [cyndra.rs](https://www.cyndra.rs/), including the [blog](https://www.cyndra.rs/blog/tags/all) and [Launchpad newsletter](https://www.cyndra.rs/launchpad). |
+| [deploy-action](https://github.com/cyndra-hq/deploy-action) ⚙ | GitHub Action for continuous deployments. |
+| [awesome-cyndra](https://github.com/cyndra-hq/awesome-cyndra) 🌟 | An awesome list of Cyndra-hosted projects and resources that users can add to. |
+| [shuttlings](https://github.com/cyndra-hq/shuttlings) ⚔️ | A collection of Rust code challenges. A great way to get started with using Rust and Cyndra. |
 
 ## Contributing to Cyndra
 
 Contributing to Cyndra is highly encouraged!
+Even if you are not planning to submit any code, joining our [Discord server](https://discord.gg/cyndra) and providing feedback helps us a lot!
 
 Check out our [contributing docs](./CONTRIBUTING.md) and find the appropriate repo above to contribute to.
-
 For development of this repo, check the [development docs](./DEVELOPING.md).
-
-Even if you are not planning to submit any code, joining our [Discord server](https://discord.gg/cyndra) and providing feedback helps us a lot!
 
 ### Algora Bounties 💰
 
