@@ -5740,7 +5740,6 @@ dependencies = [
  "cyndra-common",
  "cyndra-common-tests",
  "sqlx",
- "strum 0.25.0",
  "thiserror",
  "tokio",
  "tower",
