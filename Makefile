@@ -147,7 +147,7 @@ cargo-clean:
 
 images: the-cyndra-images postgres otel
 
-the-cyndra-images: cyndra-auth cyndra-builder cyndra-deployer cyndra-gateway cyndra-logger cyndra-provisioner cyndra-resource-recorder
+the-cyndra-images: cyndra-auth cyndra-deployer cyndra-gateway cyndra-logger cyndra-provisioner cyndra-resource-recorder # cyndra-builder
 
 cyndra-%:
 	$(DOCKER_BUILD) \
