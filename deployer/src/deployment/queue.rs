@@ -14,8 +14,7 @@ use cyndra_common::{
     log::LogRecorder,
     LogItem,
 };
-use cyndra_proto::builder::builder_client::BuilderClient;
-use cyndra_proto::builder::BuildRequest;
+use cyndra_proto::builder::{self, BuildRequest};
 use cyndra_service::builder::{build_workspace, BuiltService};
 use tar::Archive;
 use tokio::{
@@ -42,13 +41,7 @@ pub async fn task(
     deployment_updater: impl DeploymentUpdater,
     log_recorder: impl LogRecorder,
     queue_client: impl BuildQueueClient,
-    builder_client: Option<
-        BuilderClient<
-            cyndra_common::claims::ClaimService<
-                cyndra_common::claims::InjectPropagation<tonic::transport::Channel>,
-            >,
-        >,
-    >,
+    builder_client: Option<builder::Client>,
     builds_path: PathBuf,
 ) {
     info!("Queue task started");

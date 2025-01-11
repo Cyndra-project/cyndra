@@ -9,7 +9,7 @@ pub use persistence::Persistence;
 use proxy::AddressGetter;
 pub use runtime_manager::RuntimeManager;
 use cyndra_common::log::LogRecorder;
-use cyndra_proto::{builder::builder_client::BuilderClient, logger::logger_client::LoggerClient};
+use cyndra_proto::{builder, logger};
 use tokio::sync::Mutex;
 use tracing::{error, info};
 use ulid::Ulid;
@@ -33,18 +33,8 @@ pub async fn start(
     persistence: Persistence,
     runtime_manager: Arc<Mutex<RuntimeManager>>,
     log_recorder: impl LogRecorder,
-    log_fetcher: LoggerClient<
-        cyndra_common::claims::ClaimService<
-            cyndra_common::claims::InjectPropagation<tonic::transport::Channel>,
-        >,
-    >,
-    builder_client: Option<
-        BuilderClient<
-            cyndra_common::claims::ClaimService<
-                cyndra_common::claims::InjectPropagation<tonic::transport::Channel>,
-            >,
-        >,
-    >,
+    log_fetcher: logger::Client,
+    builder_client: Option<builder::Client>,
     args: Args,
 ) {
     // when _set is dropped once axum exits, the deployment tasks will be aborted.

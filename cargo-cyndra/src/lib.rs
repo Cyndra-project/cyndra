@@ -19,7 +19,6 @@ use args::{ConfirmationArgs, GenerateCommand};
 use clap_mangen::Man;
 
 use cyndra_common::{
-    claims::{ClaimService, InjectPropagation},
     constants::{
         API_URL_DEFAULT, DEFAULT_IDLE_MINUTES, EXECUTABLE_DIRNAME, cyndra_CLI_DOCS_URL,
         cyndra_GH_ISSUE_URL, cyndra_IDLE_DOCS_URL, cyndra_INSTALL_DOCS_URL, cyndra_LOGIN_URL,
@@ -37,9 +36,8 @@ use cyndra_common::{
     },
     resource, semvers_are_compatible, ApiKey, LogItem, VersionInfo,
 };
-use cyndra_proto::runtime::{
-    runtime_client::RuntimeClient, LoadRequest, StartRequest, StopRequest,
-};
+use cyndra_proto::runtime;
+use cyndra_proto::runtime::{LoadRequest, StartRequest, StopRequest};
 use cyndra_service::runner;
 use cyndra_service::{
     builder::{build_workspace, BuiltService},
@@ -67,7 +65,6 @@ use tokio::io::{AsyncBufReadExt, BufReader};
 use tokio::process::Child;
 use tokio::task::JoinHandle;
 use tokio::time::{sleep, Duration};
-use tonic::transport::Channel;
 use tonic::Status;
 use tracing::{debug, error, trace, warn};
 use uuid::Uuid;
@@ -938,12 +935,7 @@ impl Cyndra {
         provisioner_server: &JoinHandle<Result<(), tonic::transport::Error>>,
         idx: u16,
         provisioner_port: u16,
-    ) -> Result<
-        Option<(
-            Child,
-            RuntimeClient<ClaimService<InjectPropagation<Channel>>>,
-        )>,
-    > {
+    ) -> Result<Option<(Child, runtime::Client)>> {
         let crate_directory = service.crate_directory();
         let secrets_path = if crate_directory.join("Secrets.dev.toml").exists() {
             crate_directory.join("Secrets.dev.toml")
@@ -1160,7 +1152,7 @@ impl Cyndra {
 
     async fn stop_runtime(
         runtime: &mut Child,
-        runtime_client: &mut RuntimeClient<ClaimService<InjectPropagation<Channel>>>,
+        runtime_client: &mut runtime::Client,
     ) -> Result<(), Status> {
         let stop_request = StopRequest {};
         trace!(?stop_request, "stopping service");
@@ -1178,14 +1170,8 @@ impl Cyndra {
     }
 
     async fn add_runtime_info(
-        runtime: Option<(
-            Child,
-            RuntimeClient<ClaimService<InjectPropagation<Channel>>>,
-        )>,
-        existing_runtimes: &mut Vec<(
-            Child,
-            RuntimeClient<ClaimService<InjectPropagation<Channel>>>,
-        )>,
+        runtime: Option<(Child, runtime::Client)>,
+        existing_runtimes: &mut Vec<(Child, runtime::Client)>,
         extra_servers: &[&JoinHandle<Result<(), tonic::transport::Error>>],
     ) -> Result<(), Status> {
         match runtime {
@@ -1269,10 +1255,7 @@ impl Cyndra {
                 .expect("Can not get the SIGINT signal receptor");
 
         // Start all the services.
-        let mut runtimes: Vec<(
-            Child,
-            RuntimeClient<ClaimService<InjectPropagation<Channel>>>,
-        )> = Vec::new();
+        let mut runtimes: Vec<(Child, runtime::Client)> = Vec::new();
 
         Cyndra::find_available_port(&mut run_args, services.len());
 
@@ -1423,10 +1406,7 @@ impl Cyndra {
         let (provisioner_server, provisioner_port) = Cyndra::setup_local_provisioner().await?;
 
         // Start all the services.
-        let mut runtimes: Vec<(
-            Child,
-            RuntimeClient<ClaimService<InjectPropagation<Channel>>>,
-        )> = Vec::new();
+        let mut runtimes: Vec<(Child, runtime::Client)> = Vec::new();
 
         Cyndra::find_available_port(&mut run_args, services.len());
 
