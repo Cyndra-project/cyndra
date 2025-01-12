@@ -6,7 +6,7 @@ license.workspace = true
 description = "Service with instances created per project for handling the compilation, loading, and execution of Cyndra services"
 
 [dependencies]
-cyndra-common = { workspace = true, features = ["backend", "models"] }
+cyndra-common = { workspace = true, features = ["backend", "models", "sqlx"] }
 cyndra-proto = { workspace = true, features = ["resource-recorder"] }
 cyndra-service = { workspace = true, features = ["builder", "runner"] }
 

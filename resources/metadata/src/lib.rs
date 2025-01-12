@@ -7,7 +7,7 @@ pub struct CyndraMetadata;
 
 #[async_trait]
 impl ResourceBuilder for CyndraMetadata {
-    const TYPE: Type = Type::Metadata;
+    const TYPE: Type = Type::Custom;
     type Config = ();
     type Output = Metadata;
 

@@ -6,7 +6,7 @@ license.workspace = true
 repository.workspace = true
 
 [dependencies]
-cyndra-common = { workspace = true, features = ["backend", "tonic"] }
+cyndra-common = { workspace = true, features = ["backend", "tonic", "sqlx"] }
 cyndra-proto = { workspace = true, features = ["resource-recorder"] }
 
 async-trait = { workspace = true }
