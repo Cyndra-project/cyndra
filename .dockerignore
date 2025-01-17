@@ -1,6 +1,8 @@
 **/target/
+**/.cyndra-executables
 **/*Containerfile*
 /examples
+.git
 **/.cargo/
 **/docker/
 **/*.md
