@@ -7,6 +7,7 @@ cyndra-service = { path = "BASE/service" }
 
 cyndra-aws-rds = { path = "BASE/resources/aws-rds" }
 cyndra-metadata = { path = "BASE/resources/metadata" }
+cyndra-opendal = { path = "BASE/resources/opendal" }
 cyndra-persist = { path = "BASE/resources/persist" }
 cyndra-qdrant = { path = "BASE/resources/qdrant" }
 cyndra-shared-db = { path = "BASE/resources/shared-db" }

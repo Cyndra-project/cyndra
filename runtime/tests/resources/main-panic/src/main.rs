@@ -9,5 +9,5 @@ impl cyndra_runtime::Service for MyService {
 
 #[cyndra_runtime::main]
 async fn panic_message() -> Result<MyService, cyndra_runtime::Error> {
-    panic!("panic in {}", "loader");
+    panic!("panic in main");
 }

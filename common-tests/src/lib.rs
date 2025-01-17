@@ -1,6 +1,7 @@
 pub mod cargo_cyndra;
 pub mod logger;
 pub mod postgres;
+pub mod provisioner;
 
 use cyndra_common::claims::{AccountTier, Claim, Scope};
 

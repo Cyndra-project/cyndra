@@ -14,8 +14,8 @@ doctest = false
 
 [dependencies]
 cyndra-codegen = { workspace = true, features = ["frameworks"] }
-cyndra-common = { workspace = true, features = ["backend", "claims"] }
-cyndra-proto = { workspace = true, features = ["provisioner", "runtime"] }
+cyndra-common = { workspace = true, features = ["backend"] }
+cyndra-proto = { workspace = true, features = ["runtime"] }
 cyndra-service = { workspace = true }
 
 anyhow = { workspace = true }

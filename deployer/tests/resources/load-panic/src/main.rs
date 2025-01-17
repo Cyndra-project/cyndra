@@ -19,7 +19,7 @@ impl cyndra_service::ResourceInputBuilder for Thing {
         self,
         _factory: &cyndra_service::ResourceFactory,
     ) -> Result<Self::Input, cyndra_service::Error> {
-        panic!("panic in load");
+        panic!("load panic");
     }
 }
 
