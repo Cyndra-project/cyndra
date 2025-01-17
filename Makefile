@@ -23,7 +23,6 @@ RUSTUP_TOOLCHAIN=1.76.0
 
 TAG?=$(shell git describe --tags --abbrev=0)
 AUTH_TAG?=$(TAG)
-BUILDER_TAG?=$(TAG)
 DEPLOYER_TAG?=$(TAG)
 GATEWAY_TAG?=$(TAG)
 LOGGER_TAG?=$(TAG)
@@ -58,7 +57,7 @@ CONTAINER_REGISTRY=public.ecr.aws/cyndra
 # make sure we only ever go to production with `--tls=enable`
 USE_TLS=enable
 CARGO_PROFILE=release
-RUST_LOG?=nbuild_core=warn,cyndra=debug,info
+RUST_LOG?=cyndra=debug,info
 else
 DOCKER_COMPOSE_FILES=docker-compose.yml docker-compose.dev.yml
 STACK?=cyndra-dev
@@ -68,7 +67,7 @@ CONTAINER_REGISTRY=public.ecr.aws/cyndra-dev
 USE_TLS?=disable
 # default for local run
 CARGO_PROFILE?=debug
-RUST_LOG?=nbuild_core=warn,cyndra=debug,info
+RUST_LOG?=cyndra=debug,info
 DEV_SUFFIX=-dev
 DEPLOYS_API_KEY?=gateway4deployes
 GATEWAY_ADMIN_KEY?=dh9z58jttoes3qvt
@@ -104,7 +103,6 @@ endif
 DOCKER_COMPOSE_ENV=\
 	STACK=$(STACK)\
 	AUTH_TAG=$(AUTH_TAG)\
-	BUILDER_TAG=$(BUILDER_TAG)\
 	DEPLOYER_TAG=$(DEPLOYER_TAG)\
 	GATEWAY_TAG=$(GATEWAY_TAG)\
 	LOGGER_TAG=$(LOGGER_TAG)\
@@ -147,7 +145,7 @@ cargo-clean:
 
 images: the-cyndra-images postgres otel
 
-the-cyndra-images: cyndra-auth cyndra-deployer cyndra-gateway cyndra-logger cyndra-provisioner cyndra-resource-recorder # cyndra-builder
+the-cyndra-images: cyndra-auth cyndra-deployer cyndra-gateway cyndra-logger cyndra-provisioner cyndra-resource-recorder
 
 cyndra-%:
 	$(DOCKER_BUILD) \

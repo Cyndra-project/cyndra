@@ -45,7 +45,6 @@ COPY --from=chef-planner /build .
 RUN cargo build \
     $(if [ "$CARGO_PROFILE" = "release" ]; then echo --release; fi) \
     --bin cyndra-auth \
-    # --bin cyndra-builder \
     --bin cyndra-deployer \
     --bin cyndra-gateway \
     --bin cyndra-logger \
@@ -69,20 +68,6 @@ ARG CARGO_PROFILE
 COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-auth /usr/local/bin
 ENTRYPOINT ["/usr/local/bin/cyndra-auth"]
 FROM cyndra-auth AS cyndra-auth-dev
-
-
-#### BUILDER
-# ARG RUSTUP_TOOLCHAIN
-# FROM docker.io/library/rust:${RUSTUP_TOOLCHAIN}-bookworm AS cyndra-builder
-# ARG cyndra_SERVICE_VERSION
-# ENV cyndra_SERVICE_VERSION=${cyndra_SERVICE_VERSION}
-# ARG CARGO_PROFILE
-# ARG prepare_args
-# COPY builder/prepare.sh /prepare.sh
-# RUN /prepare.sh "${prepare_args}"
-# COPY --from=chef-builder /build/target/${CARGO_PROFILE}/cyndra-builder /usr/local/bin
-# ENTRYPOINT ["/usr/local/bin/cyndra-builder"]
-# FROM cyndra-builder AS cyndra-builder-dev
 
 
 #### DEPLOYER

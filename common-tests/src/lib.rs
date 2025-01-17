@@ -1,4 +1,3 @@
-pub mod builder;
 pub mod cargo_cyndra;
 pub mod logger;
 pub mod postgres;
