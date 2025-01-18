@@ -134,14 +134,14 @@ DOCKER_COMPOSE_ENV=\
 	cyndra_ENV=$(cyndra_ENV)\
 	cyndra_SERVICE_VERSION=$(cyndra_SERVICE_VERSION)
 
-.PHONY: clean cargo-clean images the-cyndra-images cyndra-% postgres otel deploy test docker-compose.rendered.yml up down
+.PHONY: clean deep-clean images the-cyndra-images cyndra-% postgres otel deploy test docker-compose.rendered.yml up down
 
 clean:
 	rm .cyndra-*
 	rm docker-compose.rendered.yml
 
-cargo-clean:
-	find . -type d \( -name target -or -name .cyndra-executables \) | xargs rm -rf
+deep-clean:
+	find . -type d \( -name target -or -name .cyndra-executables -or -name node_modules \) | xargs rm -rf
 
 images: the-cyndra-images postgres otel
 

@@ -7,6 +7,5 @@ edition = "2021"
 [workspace]
 
 [dependencies]
-cyndra-runtime = "0.39.0"
-cyndra-service = "0.39.0"
-tokio = "1.22"
+cyndra-runtime = { path = "../../../../runtime" }
+cyndra-service = { path = "../../../../service" }
