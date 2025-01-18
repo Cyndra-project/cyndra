@@ -12,14 +12,10 @@ doctest = false
 
 [dependencies]
 cyndra-common = { workspace = true, features = [
-    "claims",
     "service",
     "tracing",
-    "display",
 ] }
-cyndra-proto = { workspace = true, features = [
-    "provisioner",
-] }
+cyndra-proto = { workspace = true, optional = true }
 
 anyhow = { workspace = true }
 async-trait = { workspace = true }
@@ -47,4 +43,4 @@ builder = [
     "toml",
     "tracing",
 ]
-runner = ["cyndra-proto/runtime", "tokio/process", "dunce"]
+runner = ["cyndra-proto/runtime-client", "tokio/process", "dunce"]

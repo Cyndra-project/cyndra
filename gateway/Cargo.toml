@@ -11,7 +11,7 @@ cyndra-common = { workspace = true, features = [
     "models",
     "persist",
 ] }
-cyndra-proto = { workspace = true, features = ["provisioner"] }
+cyndra-proto = { workspace = true, features = ["provisioner-client"] }
 cyndra-orchestrator = { workspace = true }
 
 async-trait = { workspace = true }

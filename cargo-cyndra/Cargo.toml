@@ -9,7 +9,7 @@ homepage = "https://www.cyndra.rs"
 
 [dependencies]
 cyndra-common = { workspace = true, features = ["models"] }
-cyndra-proto = { workspace = true, features = ["provisioner", "runtime"] }
+cyndra-proto = { workspace = true, features = ["provisioner", "runtime-client"] }
 cyndra-service = { workspace = true, features = ["builder", "runner"] }
 
 anyhow = { workspace = true }

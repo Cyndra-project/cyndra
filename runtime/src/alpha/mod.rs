@@ -11,7 +11,7 @@ use std::{
 use anyhow::Context;
 use async_trait::async_trait;
 use core::future::Future;
-use cyndra_common::{backends::trace::ExtractPropagationLayer, secrets::Secret};
+use cyndra_common::{extract_propagation::ExtractPropagationLayer, secrets::Secret};
 use cyndra_proto::runtime::{
     runtime_server::{Runtime, RuntimeServer},
     LoadRequest, LoadResponse, StartRequest, StartResponse, StopReason, StopRequest, StopResponse,
