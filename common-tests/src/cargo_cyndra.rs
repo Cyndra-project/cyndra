@@ -30,6 +30,7 @@ pub async fn cargo_cyndra_run(working_directory: &str, external: bool) -> String
         port,
         external,
         release: false,
+        secret_args: Default::default(),
     };
 
     let runner = Cyndra::new().unwrap().run(
