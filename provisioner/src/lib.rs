@@ -14,7 +14,7 @@ use rand::Rng;
 use cyndra_common::backends::auth::VerifyClaim;
 use cyndra_common::backends::client::gateway;
 use cyndra_common::backends::ClaimExt;
-use cyndra_common::claims::Scope;
+use cyndra_common::claims::{Claim, Scope};
 use cyndra_common::models::project::ProjectName;
 pub use cyndra_proto::provisioner::provisioner_server::ProvisionerServer;
 use cyndra_proto::provisioner::{
@@ -460,6 +460,21 @@ impl CyndraProvisioner {
 
         Ok(DatabaseDeletionResponse {})
     }
+
+    async fn verify_ownership(&self, claim: &Claim, project_name: &str) -> Result<(), Status> {
+        if !claim.is_admin()
+            && !claim.is_deployer()
+            && !claim
+                .owns_project(&self.gateway_client, project_name)
+                .await
+                .map_err(|_| Status::internal("could not verify project ownership"))?
+        {
+            let status = Status::permission_denied("the request lacks the authorizations");
+            error!(error = &status as &dyn std::error::Error);
+            return Err(status);
+        }
+        Ok(())
+    }
 }
 
 #[tonic::async_trait]
@@ -470,24 +485,12 @@ impl Provisioner for CyndraProvisioner {
         request: Request<DatabaseRequest>,
     ) -> Result<Response<DatabaseResponse>, Status> {
         request.verify(Scope::ResourcesWrite)?;
-
         let claim = request.get_claim()?;
-
         let request = request.into_inner();
         if !ProjectName::is_valid(&request.project_name) {
             return Err(Status::invalid_argument("invalid project name"));
         }
-
-        // Check project ownership.
-        if !claim
-            .owns_project(&self.gateway_client, &request.project_name)
-            .await
-            .map_err(|_| Status::internal("can not verify project ownership"))?
-        {
-            let status = Status::permission_denied("the request lacks the authorizations");
-            error!(error = &status as &dyn std::error::Error);
-            return Err(status);
-        }
+        self.verify_ownership(&claim, &request.project_name).await?;
 
         let db_type = request.db_type.unwrap();
 
@@ -539,22 +542,11 @@ impl Provisioner for CyndraProvisioner {
     ) -> Result<Response<DatabaseDeletionResponse>, Status> {
         request.verify(Scope::ResourcesWrite)?;
         let claim = request.get_claim()?;
-
         let request = request.into_inner();
         if !ProjectName::is_valid(&request.project_name) {
             return Err(Status::invalid_argument("invalid project name"));
         }
-
-        // Check project ownership.
-        if !claim
-            .owns_project(&self.gateway_client, &request.project_name)
-            .await
-            .map_err(|_| Status::internal("can not verify project ownership"))?
-        {
-            let status = Status::permission_denied("the request lacks the authorizations");
-            error!(error = &status as &dyn std::error::Error);
-            return Err(status);
-        }
+        self.verify_ownership(&claim, &request.project_name).await?;
 
         let db_type = request.db_type.unwrap();
 
