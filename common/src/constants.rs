@@ -22,8 +22,7 @@ pub const cyndra_IDLE_DOCS_URL: &str = "https://docs.cyndra.rs/getting-started/i
 pub const cyndra_EXAMPLES_README: &str =
     "https://github.com/cyndra-hq/cyndra-examples#how-to-clone-run-and-deploy-an-example";
 
-// Crate names for checking cargo metadata
-pub const NEXT_NAME: &str = "cyndra-next";
+// Crate name for checking cargo metadata
 pub const RUNTIME_NAME: &str = "cyndra-runtime";
 
 /// Current version field in requests to provisioner

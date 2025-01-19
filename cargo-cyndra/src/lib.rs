@@ -15,9 +15,23 @@ use std::path::{Path, PathBuf};
 use std::process::exit;
 use std::str::FromStr;
 
+use anyhow::{anyhow, bail, Context, Result};
 use args::{ConfirmationArgs, GenerateCommand};
+use clap::{parser::ValueSource, CommandFactory, FromArgMatches};
+use clap_complete::{generate, Shell};
 use clap_mangen::Man;
-
+use config::RequestContext;
+use crossterm::style::Stylize;
+use dialoguer::{theme::ColorfulTheme, Confirm, FuzzySelect, Input, Password};
+use flate2::write::GzEncoder;
+use flate2::Compression;
+use futures::{StreamExt, TryFutureExt};
+use git2::{Repository, StatusOptions};
+use globset::{Glob, GlobSetBuilder};
+use ignore::overrides::OverrideBuilder;
+use ignore::WalkBuilder;
+use indicatif::ProgressBar;
+use indoc::{formatdoc, printdoc};
 use cyndra_common::{
     constants::{
         API_URL_DEFAULT, DEFAULT_IDLE_MINUTES, EXECUTABLE_DIRNAME, RESOURCE_SCHEMA_VERSION,
@@ -45,22 +59,6 @@ use cyndra_service::{
     builder::{build_workspace, BuiltService},
     runner, Environment,
 };
-
-use anyhow::{anyhow, bail, Context, Result};
-use clap::{parser::ValueSource, CommandFactory, FromArgMatches};
-use clap_complete::{generate, Shell};
-use config::RequestContext;
-use crossterm::style::Stylize;
-use dialoguer::{theme::ColorfulTheme, Confirm, FuzzySelect, Input, Password};
-use flate2::write::GzEncoder;
-use flate2::Compression;
-use futures::{StreamExt, TryFutureExt};
-use git2::{Repository, StatusOptions};
-use globset::{Glob, GlobSetBuilder};
-use ignore::overrides::OverrideBuilder;
-use ignore::WalkBuilder;
-use indicatif::ProgressBar;
-use indoc::{formatdoc, printdoc};
 use strum::IntoEnumIterator;
 use tar::Builder;
 use tokio::io::{AsyncBufReadExt, BufReader};
@@ -79,7 +77,6 @@ use crate::client::Client;
 use crate::provisioner_server::LocalProvisioner;
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
-const MANIFEST_DIR: &str = env!("CARGO_MANIFEST_DIR");
 
 pub struct Cyndra {
     ctx: RequestContext,
@@ -961,85 +958,37 @@ impl Cyndra {
             Default::default()
         };
 
-        let runtime_executable = if service.is_wasm {
-            let runtime_path = home::cargo_home()
-                .expect("failed to find cargo home dir")
-                .join("bin/cyndra-next");
-
-            println!("Installing cyndra-next runtime. This can take a while...");
-
-            if cfg!(debug_assertions) {
-                // Canonicalized path to cyndra-runtime for dev to work on windows
-
-                let path = dunce::canonicalize(format!("{MANIFEST_DIR}/../runtime"))
-                    .expect("path to cyndra-runtime does not exist or is invalid");
-
-                tokio::process::Command::new("cargo")
-                    .arg("install")
-                    .arg("cyndra-runtime")
-                    .arg("--path")
-                    .arg(path)
-                    .arg("--bin")
-                    .arg("cyndra-next")
-                    .arg("--features")
-                    .arg("next")
-                    .output()
-                    .await
-                    .expect("failed to install the cyndra runtime");
-            } else {
-                // If the version of cargo-cyndra is different from cyndra-runtime,
-                // or it isn't installed, try to install cyndra-runtime from crates.io.
-                if let Err(err) = check_version(&runtime_path).await {
-                    warn!("{}", err);
-
-                    trace!("installing cyndra-runtime");
-                    tokio::process::Command::new("cargo")
-                        .arg("install")
-                        .arg("cyndra-runtime")
-                        .arg("--bin")
-                        .arg("cyndra-next")
-                        .arg("--features")
-                        .arg("next")
-                        .output()
-                        .await
-                        .expect("failed to install the cyndra runtime");
-                };
-            };
-
-            runtime_path
-        } else {
-            trace!(path = ?service.executable_path, "using alpha runtime");
-            if let Err(err) = check_version(&service.executable_path).await {
-                warn!("{}", err);
-                if let Some(mismatch) = err.downcast_ref::<VersionMismatchError>() {
-                    println!("Warning: {}.", mismatch);
-                    if mismatch.cyndra_runtime > mismatch.cargo_cyndra {
-                        // The runtime is newer than cargo-cyndra so we
-                        // should help the user to update cargo-cyndra.
-                        printdoc! {"
-                            Hint: A newer version of cargo-cyndra is available.
-                                  Check out the installation docs for how to update: {cyndra_INSTALL_DOCS_URL}",
-                        };
-                    } else {
-                        printdoc! {"
-                            Hint: A newer version of cyndra-runtime is available.
-                            Change its version to {} in Cargo.toml to update it, or
-                            run this command: cargo add cyndra-runtime@{}",
-                            mismatch.cargo_cyndra,
-                            mismatch.cargo_cyndra,
-                        };
-                    }
+        trace!(path = ?service.executable_path, "using alpha runtime");
+        if let Err(err) = check_version(&service.executable_path).await {
+            warn!("{}", err);
+            if let Some(mismatch) = err.downcast_ref::<VersionMismatchError>() {
+                println!("Warning: {}.", mismatch);
+                if mismatch.cyndra_runtime > mismatch.cargo_cyndra {
+                    // The runtime is newer than cargo-cyndra so we
+                    // should help the user to update cargo-cyndra.
+                    printdoc! {"
+                        Hint: A newer version of cargo-cyndra is available.
+                                Check out the installation docs for how to update: {cyndra_INSTALL_DOCS_URL}",
+                    };
                 } else {
-                    return Err(err.context(
-                        format!(
-                            "Failed to verify the version of cyndra-runtime in {}. Is cargo targeting the correct executable?",
-                            service.executable_path.display()
-                        )
-                    ));
+                    printdoc! {"
+                        Hint: A newer version of cyndra-runtime is available.
+                        Change its version to {} in Cargo.toml to update it, or
+                        run this command: cargo add cyndra-runtime@{}",
+                        mismatch.cargo_cyndra,
+                        mismatch.cargo_cyndra,
+                    };
                 }
+            } else {
+                return Err(err.context(
+                    format!(
+                        "Failed to verify the version of cyndra-runtime in {}. Is cargo targeting the correct executable?",
+                        service.executable_path.display()
+                    )
+                ));
             }
-            service.executable_path.clone()
-        };
+        }
+        let runtime_executable = service.executable_path.clone();
 
         // Child process and gRPC client for sending requests to it
         let (mut runtime, mut runtime_client) = runner::start(
@@ -1331,7 +1280,6 @@ impl Cyndra {
             working_directory.display()
         );
 
-        // Compile all the alpha or cyndra-next services in the workspace.
         build_workspace(working_directory, run_args.release, tx, false).await
     }
 
