@@ -17,16 +17,21 @@ pub const cyndra_STATUS_URL: &str = "https://status.cyndra.rs";
 pub const cyndra_LOGIN_URL: &str = "https://console.cyndra.rs/new-project";
 pub const cyndra_GH_ISSUE_URL: &str = "https://github.com/cyndra-hq/cyndra/issues/new/choose";
 pub const cyndra_INSTALL_DOCS_URL: &str = "https://docs.cyndra.rs/getting-started/installation";
-pub const cyndra_CLI_DOCS_URL: &str = "https://docs.cyndra.rs/getting-started/cyndra-commands";
 pub const cyndra_IDLE_DOCS_URL: &str = "https://docs.cyndra.rs/getting-started/idle-projects";
-pub const cyndra_EXAMPLES_README: &str =
+pub const EXAMPLES_REPO: &str = "https://github.com/cyndra-hq/cyndra-examples";
+pub const EXAMPLES_README: &str =
     "https://github.com/cyndra-hq/cyndra-examples#how-to-clone-run-and-deploy-an-example";
+pub const EXAMPLES_TEMPLATES_TOML: &str =
+    "https://raw.githubusercontent.com/cyndra-hq/cyndra-examples/main/templates.toml";
 
 // Crate name for checking cargo metadata
 pub const RUNTIME_NAME: &str = "cyndra-runtime";
 
 /// Current version field in requests to provisioner
 pub const RESOURCE_SCHEMA_VERSION: u32 = 1;
+
+/// Current version field in `examples/templates.toml`
+pub const TEMPLATES_SCHEMA_VERSION: u32 = 1;
 
 /// Timeframe before a project is considered idle
 pub const DEFAULT_IDLE_MINUTES: u64 = 30;
