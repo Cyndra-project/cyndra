@@ -1,4 +1,4 @@
-## Cyndra service integration for the Salvo web framework.
+## Cyndra service integration for the Salvo web framework
 
 ### Example
 
@@ -16,5 +16,4 @@ async fn salvo() -> cyndra_salvo::CyndraSalvo {
 
     Ok(router.into())
 }
-
 ```

@@ -1,4 +1,4 @@
-## Cyndra service integration for the Actix Web framework.
+## Cyndra service integration for the Actix Web framework
 
 ### Example
 
@@ -19,5 +19,4 @@ async fn actix_web() -> CyndraActixWeb<impl FnOnce(&mut ServiceConfig) + Send + 
 
     Ok(config.into())
 }
-
 ```

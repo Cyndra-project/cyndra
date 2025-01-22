@@ -1,4 +1,4 @@
-## Cyndra service integration for the Thruster web framework.
+## Cyndra service integration for the Thruster web framework
 
 ### Example
 

@@ -114,7 +114,7 @@ impl<R: Serialize + DeserializeOwned + Send> IntoResource<R> for CyndraResourceO
 
 /// The core trait of the Cyndra platform. Every service deployed to Cyndra needs to implement this trait.
 ///
-/// An `Into<Service>` implementor is what is returned in the [`cyndra_runtime::main`] macro
+/// An `Into<Service>` implementor is what is returned in the `cyndra_runtime::main` macro
 /// in order to run it on the Cyndra servers.
 #[async_trait]
 pub trait Service: Send {

@@ -1,4 +1,4 @@
-## Cyndra service integration for the Tower framework.
+## Cyndra service integration for the Tower framework
 
 ### Example
 

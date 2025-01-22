@@ -1,4 +1,4 @@
-## Cyndra service integration for the Tide web framework.
+## Cyndra service integration for the Tide web framework
 
 ### Example
 

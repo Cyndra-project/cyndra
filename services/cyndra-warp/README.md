@@ -1,4 +1,4 @@
-## Cyndra service integration for the Warp web framework.
+## Cyndra service integration for the Warp web framework
 
 ### Example
 

@@ -1,4 +1,4 @@
-## Cyndra service integration for the Poem web framework.
+## Cyndra service integration for the Poem web framework
 
 ### Example
 

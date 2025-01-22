@@ -8,4 +8,4 @@ keywords = ["cyndra-service", "metadata"]
 
 [dependencies]
 async-trait = "0.1.56"
-cyndra-service = { path = "../../service", version = "0.41.0" }
+cyndra-service = { path = "../../service", version = "<=0.44.0" }

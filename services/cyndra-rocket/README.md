@@ -1,12 +1,10 @@
-## Cyndra service integration for the Rocket web framework.
+## Cyndra service integration for the Rocket web framework
 
 ### Example
 
 ```rust,no_run
-#[macro_use]
-extern crate rocket;
+use rocket::{get, routes};
 
-# fn main() {
 #[get("/")]
 fn index() -> &'static str {
     "Hello, world!"
@@ -18,5 +16,4 @@ async fn rocket() -> cyndra_rocket::CyndraRocket {
 
     Ok(rocket.into())
 }
-# }
 ```

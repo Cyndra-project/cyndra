@@ -3,6 +3,10 @@ pub use cyndra_service::{DeploymentMetadata as Metadata, Environment, SecretStor
 use cyndra_service::{Error, ResourceFactory, ResourceInputBuilder};
 
 #[derive(Default)]
+#[deprecated(
+    since = "0.42.0",
+    note = "This plugin has been moved to cyndra_runtime::Metadata, see https://docs.cyndra.rs/resources/cyndra-metadata"
+)]
 pub struct CyndraMetadata;
 
 #[async_trait]
