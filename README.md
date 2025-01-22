@@ -121,6 +121,8 @@ URI:           https://hello-world.cyndraapp.rs
 Feel free to build on top of the generated `hello-world` boilerplate or take a stab at one of our [examples](https://github.com/cyndra-hq/cyndra-examples).
 
 For the full documentation, visit [our docs](https://docs.cyndra.rs).
+<br>
+<br>
 
 # Quick Look
 
@@ -186,6 +188,8 @@ async fn main(
 ```
 
 Now, if we run `cargo cyndra deploy`, we'll have an up and running project with a database inside & ready to use.
+<br>
+<br>
 
 # Repositories
 
@@ -198,6 +202,8 @@ Now, if we run `cargo cyndra deploy`, we'll have an up and running project with 
 | [deploy-action](https://github.com/cyndra-hq/deploy-action) ⚙ | GitHub Action for continuous deployments. |
 | [awesome-cyndra](https://github.com/cyndra-hq/awesome-cyndra) 🌟 | An awesome list of Cyndra-hosted projects and resources that users can add to. |
 | [shuttlings](https://github.com/cyndra-hq/shuttlings) ⚔️ | A collection of Rust code challenges. A great way to get started with using Rust and Cyndra. |
+<br>
+<br>
 
 # Contributing to Cyndra
 
@@ -225,8 +231,10 @@ Also, check out the [Beta announcement](https://www.cyndra.rs/beta#06) for featu
   there are a few kinks
 - [x] Public Beta: Stable enough for most non-enterprise use-cases
 - [ ] Public: Production-ready!
+<br>
+<br>
 
-## Contributors ✨
+# Contributors ✨
 
 Thanks goes to these wonderful people:
 
