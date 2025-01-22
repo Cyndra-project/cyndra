@@ -9,4 +9,4 @@ export cyndra_API_KEY=$key
 export cyndra_API="http://localhost:8001"
 export PS1="(cyndra: local admin key) $(echo $PS1 | sed -e "s/(cyndra: .*) //")"
 
-docker compose --file docker-compose.rendered.yml --project-name cyndra-dev exec auth /usr/local/bin/cyndra-auth --db-connection-uri=postgres://postgres:postgres@control-db init-admin --name admin --key $key
+docker compose --file docker-compose.rendered.yml --project-name cyndra-dev exec auth /usr/local/bin/cyndra-auth --db-connection-uri=postgres://postgres:postgres@control-db init-admin --user-id admin --key $key
