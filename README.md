@@ -39,42 +39,42 @@
     <img alt="rewarded bounties" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fconsole.algora.io%2Fapi%2Fshields%2Fcyndra%2Fbounties%3Fstatus%3Dcompleted"/>
   </a>
 </p>
-<!-- markdownlint-restore -->
+<br>
 
----
+<h1 align="center">Fastest Way to Build & Ship Rust Apps</h1>
+<div align="center">
+Get resources and deploy your apps with a few lines of code.
+</div>
 
-# Cyndra
+<h3 align="center">Simple. &nbsp; Easy. &nbsp; Joyful.</h3>
 
-[Cyndra](https://www.cyndra.rs/) is a Rust-native cloud development platform that lets you deploy your Rust apps for free.
+<p align="center">
+    <a href="https://github.com/cyndra-hq/cyndra/issues/new?assignees=&labels=S-Triage%2CT-Bug&projects=&template=BUG-REPORT.yml&title=%5BBug%5D%3A+">Report Bug</a>
+    ·
+    <a href="https://github.com/cyndra-hq/cyndra/issues/new?assignees=&labels=S-Triage%2CT-Feature+Request&projects=&template=FEATURE-SUGGESTION.yml&title=%5BFeature%5D%3A+">Request a Feature</a>
+    ·
+  <a href="https://discord.gg/cyndra">Join Our Discord</a>
+    ·
+    <a href="https://twitter.com/cyndra_dev">Follow us on Twitter</a>
+  </p>
 
-Cyndra is built for productivity, reliability and performance:
+<div align="center"><img src="https://i.imgur.com/1qdWipP.gif" width="100%" ></div>
+<br>
 
-- Zero-Configuration support for Rust using macro annotations
-- Automatic resource provisioning (databases, etc.) via [Infrastructure-From-Code](https://www.cyndra.rs/blog/2022/05/09/ifc)
-- First-class support for popular Rust frameworks ([Axum](https://docs.cyndra.rs/examples/axum), [Actix Web](https://docs.cyndra.rs/examples/actix), [Rocket](https://docs.cyndra.rs/examples/rocket), and [more](https://docs.cyndra.rs/examples/other))
-- Support for deploying Discord bots using [Serenity](https://docs.cyndra.rs/examples/serenity)
 
-📖 Check out our documentation to get started quickly: [docs.cyndra.rs](https://docs.cyndra.rs)
+*<div align="center">⭐ If you find Cyndra interesting, consider starring this repo to help spread the word.</div>*
+<br>
 
-🙋‍♂️ If you have any questions, join our [Discord](https://discord.gg/cyndra) server.
+# Features
 
-⭐ If you find Cyndra interesting, and would like to stay up-to-date, consider starring this repo to help spread the word.
+* __One-line Resource Provisioning:__ Get a database, or any other AWS resource by adding a line of code to your main file. To delete one, just remove that line of code. No config/yaml files required.
+* __Rapid Development:__ It takes 2 minutes from project initialization to a deployed project. It takes another 2 minutes to provision a resource, and get it deployed to production.
+* __First-class support for popular Rust frameworks:__ [Axum](https://docs.cyndra.rs/examples/axum), [Actix Web](https://docs.cyndra.rs/examples/actix), [Rocket](https://docs.cyndra.rs/examples/rocket), and [more](https://docs.cyndra.rs/examples/other)
+*  __Security:__ Let us worry about the security & permissions while you focus on writing good code.
+<br>
+<br>
 
-![star](https://i.imgur.com/kLWmThm.gif)
-
-## Cyndra Console
-
-In addition to the CLI, you can also view your projects on the [Cyndra Console](https://console.cyndra.rs/)!
-
-![console-preview](https://i.imgur.com/1qdWipP.gif)
-*The GIF above visualizes the ease of adding resources to your project(s), along with how they are displayed in the console.*
-
-## Getting Started
-
-The `cargo-cyndra` CLI can be installed with a pre-built binary or from source with cargo.
-
-Cyndra provides pre-built binaries of the `cargo-cyndra` CLI with every release
-for most platforms, they can be found on [our GitHub](https://github.com/cyndra-hq/cyndra/releases/latest).
+# Quick Start
 
 On Linux and macOS, you can use this install script, which will automatically install the correct target for your OS and distro:
 
@@ -87,23 +87,6 @@ On Windows, you can use this install script to do the same:
 ```powershell
 iwr "https://www.cyndra.rs/install-win" | iex
 ```
-
-Our binaries can also be installed using [cargo-binstall](https://github.com/cargo-bins/cargo-binstall).
-To install with `cargo-binstall`, run:
-
-```sh
-# cargo-binstall can also be installed directly as a binary to skip the compilation time: https://github.com/cargo-bins/cargo-binstall#installation
-cargo install cargo-binstall
-cargo binstall cargo-cyndra
-```
-
-Although a bit slower, you can also install directly with cargo:
-
-```sh
-cargo install cargo-cyndra
-```
-
-> If installing cargo-binstall or cargo-cyndra fails, try adding `--locked` to the install command
 
 After installing, log in with:
 
@@ -139,7 +122,72 @@ Feel free to build on top of the generated `hello-world` boilerplate or take a s
 
 For the full documentation, visit [our docs](https://docs.cyndra.rs).
 
-## Repositories
+# Quick Look
+
+Below is a basic "Hello World" application written in Axum:
+```rust
+use axum::{routing::get, Router};
+
+#[tokio::main]
+async fn main() {
+    let app = Router::new().route("/", get(hello_world));
+
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
+        .await
+        .unwrap();
+    println!("listening on {}", listener.local_addr().unwrap());
+    axum::serve(listener, app).await.unwrap();
+}
+
+async fn hello_world() -> &'static str {
+    "Hello, world!"
+}
+```
+
+In order to be able to deploy it with a single command, we update the snippet as follows:
+
+```rust
+use axum::{routing::get, Router};
+
+async fn hello_world() -> &'static str {
+    "Hello, world!"
+}
+
+#[cyndra_runtime::main]
+async fn main() -> cyndra_axum::CyndraAxum {
+    let router = Router::new().route("/", get(hello_world));
+
+    Ok(router.into())
+}
+```
+
+Now, with just `cargo cyndra deploy`, you can see your application live. But let's enhance it further by adding a shared Postgres database:
+
+```rust
+use axum::{routing::get, Router};
+
+async fn hello_world() -> &'static str {
+    "Hello, world!"
+}
+
+#[cyndra_runtime::main]
+async fn main(
+    #[cyndra_shared_db::Postgres] pool: sqlx::PgPool,
+) -> cyndra_axum::CyndraAxum {
+
+    pool.execute(include_str!("../schema.sql"))
+        .await
+        .context("failed to run migrations")?;
+
+    let router = Router::new().route("/", get(hello_world));
+
+    Ok(router.into())
+}
+```
+
+Now, if we run `cargo cyndra deploy`, we'll have an up and running project with a database inside & ready to use.
+
+# Repositories
 
 | Name | Description |
 |-|-|
@@ -151,7 +199,7 @@ For the full documentation, visit [our docs](https://docs.cyndra.rs).
 | [awesome-cyndra](https://github.com/cyndra-hq/awesome-cyndra) 🌟 | An awesome list of Cyndra-hosted projects and resources that users can add to. |
 | [shuttlings](https://github.com/cyndra-hq/shuttlings) ⚔️ | A collection of Rust code challenges. A great way to get started with using Rust and Cyndra. |
 
-## Contributing to Cyndra
+# Contributing to Cyndra
 
 Contributing to Cyndra is highly encouraged!
 Even if you are not planning to submit any code, joining our [Discord server](https://discord.gg/cyndra) and providing feedback helps us a lot!
@@ -164,13 +212,7 @@ For development of this repo, check the [development docs](./DEVELOPING.md).
 To offload work from the engineering team on low-priority issues, we will sometimes add a cash bounty to issues.
 Sign up to the [Algora Console](https://console.algora.io/org/cyndra/bounties?status=open) to find open issues with bounties.
 
-## Community and Support
-
-- [GitHub Issues](https://github.com/cyndra-hq/cyndra/issues). Best for: bugs and errors you encounter using Cyndra.
-- [X (Twitter)](https://twitter.com/cyndra_dev). Best for: keeping up with announcements, releases, collaborations and other events.
-- [Discord](https://discord.gg/cyndra). Best for: *ALL OF THE ABOVE* + help, support, sharing your applications and hanging out with the community.
-
-## Project Status
+# Project Status
 
 Check for any outages and incidents on [Cyndra Status](https://status.cyndra.rs/).
 
