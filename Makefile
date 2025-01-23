@@ -41,6 +41,7 @@ MONGO_INITDB_ROOT_USERNAME?=mongodb
 MONGO_INITDB_ROOT_PASSWORD?=password
 STRIPE_SECRET_KEY?=""
 AUTH_JWTSIGNING_PRIVATE_KEY?=""
+PERMIT_API_KEY?=""
 
 DD_ENV=$(cyndra_ENV)
 ifeq ($(cyndra_ENV),production)
@@ -127,7 +128,8 @@ DOCKER_COMPOSE_ENV=\
 	COMPOSE_PROFILES=$(COMPOSE_PROFILES)\
 	DOCKER_SOCK=$(DOCKER_SOCK)\
 	cyndra_ENV=$(cyndra_ENV)\
-	cyndra_SERVICE_VERSION=$(cyndra_SERVICE_VERSION)
+	cyndra_SERVICE_VERSION=$(cyndra_SERVICE_VERSION)\
+	PERMIT_API_KEY=$(PERMIT_API_KEY)
 
 .PHONY: clean deep-clean images the-cyndra-images cyndra-% postgres otel deploy test docker-compose.rendered.yml up down
 
