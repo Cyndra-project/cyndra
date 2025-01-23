@@ -21,6 +21,7 @@ async fn cargo_cyndra_command(
                     name: None,
                 },
                 offline: false,
+                debug: false,
                 cmd,
             },
             false,
