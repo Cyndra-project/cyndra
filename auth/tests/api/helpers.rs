@@ -4,11 +4,10 @@ use hyper::http::{header::AUTHORIZATION, Request};
 use once_cell::sync::Lazy;
 use serde_json::{json, Value};
 use cyndra_auth::{pgpool_init, ApiBuilder};
+use cyndra_backends::{headers::X_cyndra_ADMIN_SECRET, test_utils::gateway::PermissionsMock};
 use cyndra_common::{
-    backends::headers::X_cyndra_ADMIN_SECRET,
     claims::{AccountTier, Claim},
     models::user,
-    test_utils::PermissionsMock,
 };
 use cyndra_common_tests::postgres::DockerInstance;
 use sqlx::query;

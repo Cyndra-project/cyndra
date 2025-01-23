@@ -54,7 +54,7 @@ impl<MakeSpan> TraceLayer<MakeSpan> {
     ///
     /// # Example
     /// ```
-    /// use cyndra_common::{request_span, backends::metrics::TraceLayer};
+    /// use cyndra_backens::{request_span, metrics::TraceLayer};
     /// use tracing::field;
     ///
     /// TraceLayer::new(|request| {

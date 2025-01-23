@@ -4,7 +4,7 @@ use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
 
 use serde::{ser::SerializeMap, Serialize};
-use cyndra_common::backends::client;
+use cyndra_backends::client;
 use cyndra_common::models::error::ApiError;
 use stripe::StripeError;
 

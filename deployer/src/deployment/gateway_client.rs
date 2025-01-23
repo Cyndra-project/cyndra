@@ -1,7 +1,5 @@
-use cyndra_common::{
-    backends::client::{Error, ServicesApiClient},
-    models,
-};
+use cyndra_backends::client::{Error, ServicesApiClient};
+use cyndra_common::models;
 use uuid::Uuid;
 
 /// A client that can communicate with the build queue

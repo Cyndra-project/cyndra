@@ -7,7 +7,8 @@ description = "Service responsible for provisioning and managing resources for s
 publish = false
 
 [dependencies]
-cyndra-common = { workspace = true, features = ["backend", "extract_propagation", "models", "service", "tonic"] }
+cyndra-backends = { workspace = true }
+cyndra-common = { workspace = true, features = ["extract_propagation", "models", "service", "tonic"] }
 cyndra-proto = { workspace = true, features = ["provisioner", "resource-recorder-client"] }
 
 aws-config = "0.56.1"
@@ -29,6 +30,5 @@ ctor = { workspace = true }
 once_cell = { workspace = true }
 portpicker = { workspace = true }
 serde_json = { workspace = true }
-cyndra-common = { workspace = true, features = ["test-utils"] }
+cyndra-backends = { workspace = true, features = ["test-utils"] }
 cyndra-common-tests = { workspace = true }
-cyndra-proto = { workspace = true, features = ["test-utils"] }

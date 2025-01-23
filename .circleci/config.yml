@@ -634,9 +634,10 @@ workflows:
             parameters:
               crate:
                 # - cyndra-admin # no tests
+                - cyndra-backends
                 - cyndra-codegen
                 - cyndra-common
-                # - cyndra-common-tests # no tests
+                # - cyndra-gateway # TODO: move docker-dependant tests to integration tests and activate this
       - test-workspace-member-with-integration:
           name: << matrix.crate >>
           matrix:

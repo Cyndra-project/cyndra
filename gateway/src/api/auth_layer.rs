@@ -15,10 +15,10 @@ use hyper_reverse_proxy::ReverseProxy;
 use once_cell::sync::Lazy;
 use opentelemetry::global;
 use opentelemetry_http::HeaderInjector;
-use cyndra_common::{
-    backends::{auth::ConvertResponse, cache::CacheManagement, headers::XCyndraAdminSecret},
-    ApiKey,
+use cyndra_backends::{
+    auth::ConvertResponse, cache::CacheManagement, headers::XCyndraAdminSecret,
 };
+use cyndra_common::ApiKey;
 use tower::{Layer, Service};
 use tracing::{error, trace, Span};
 use tracing_opentelemetry::OpenTelemetrySpanExt;

@@ -1,14 +1,11 @@
 use std::{net::SocketAddr, time::Duration};
 
 use clap::Parser;
-use cyndra_common::{
-    backends::{
-        auth::{AuthPublicKey, JwtAuthenticationLayer},
-        trace::setup_tracing,
-    },
-    extract_propagation::ExtractPropagationLayer,
-    log::Backend,
+use cyndra_backends::{
+    auth::{AuthPublicKey, JwtAuthenticationLayer},
+    trace::setup_tracing,
 };
+use cyndra_common::{extract_propagation::ExtractPropagationLayer, log::Backend};
 use cyndra_provisioner::{Args, ProvisionerServer, CyndraProvisioner};
 use tonic::transport::Server;
 

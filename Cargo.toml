@@ -2,7 +2,7 @@
 resolver = "2"
 members = [
   "admin",
-  "auth",
+  "auth", "backends",
   "cargo-cyndra",
   "codegen",
   "common",
@@ -30,6 +30,7 @@ repository = "https://github.com/cyndra-hq/cyndra"
 
 # https://doc.rust-lang.org/cargo/reference/workspaces.html#the-workspacedependencies-table
 [workspace.dependencies]
+cyndra-backends = { path = "backends", version = "0.42.0" }
 cyndra-codegen = { path = "codegen", version = "0.42.0" }
 cyndra-common = { path = "common", version = "0.42.0" }
 cyndra-common-tests = { path = "common-tests", version = "0.42.0" }

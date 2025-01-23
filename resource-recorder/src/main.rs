@@ -1,15 +1,12 @@
 use std::time::Duration;
 
 use clap::Parser;
-use cyndra_common::{
-    backends::{
-        auth::{AuthPublicKey, JwtAuthenticationLayer},
-        client::ServicesApiClient,
-        trace::setup_tracing,
-    },
-    extract_propagation::ExtractPropagationLayer,
-    log::Backend,
+use cyndra_backends::{
+    auth::{AuthPublicKey, JwtAuthenticationLayer},
+    client::ServicesApiClient,
+    trace::setup_tracing,
 };
+use cyndra_common::{extract_propagation::ExtractPropagationLayer, log::Backend};
 use cyndra_proto::resource_recorder::resource_recorder_server::ResourceRecorderServer;
 use cyndra_resource_recorder::{args::Args, Service, Sqlite};
 use tonic::transport::Server;

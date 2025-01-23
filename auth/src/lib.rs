@@ -7,7 +7,8 @@ mod user;
 use std::io;
 
 use args::StartArgs;
-use cyndra_common::{backends::client::permit, claims::AccountTier, ApiKey};
+use cyndra_backends::client::permit;
+use cyndra_common::{claims::AccountTier, ApiKey};
 use sqlx::{migrate::Migrator, query, PgPool};
 use tracing::info;
 pub use user::User;

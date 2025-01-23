@@ -3,9 +3,9 @@ use std::fmt::Debug;
 use axum::extract::{FromRef, FromRequestParts, Path};
 use axum::http::request::Parts;
 use serde::{Deserialize, Serialize};
+use cyndra_backends::project_name::ProjectName;
 use cyndra_common::claims::{Claim, Scope};
 use cyndra_common::models::error::InvalidProjectName;
-use cyndra_common::models::project::ProjectName;
 use cyndra_common::models::user::UserId;
 use tracing::{trace, Span};
 

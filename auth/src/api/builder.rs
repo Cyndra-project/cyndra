@@ -6,11 +6,9 @@ use axum::{
     routing::{delete, get, post, put},
     Router, Server,
 };
-use cyndra_common::{
-    backends::{
-        client::PermissionsDal,
-        metrics::{Metrics, TraceLayer},
-    },
+use cyndra_backends::{
+    client::PermissionsDal,
+    metrics::{Metrics, TraceLayer},
     request_span,
 };
 use sqlx::PgPool;

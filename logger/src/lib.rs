@@ -1,7 +1,8 @@
 use async_trait::async_trait;
 use dal::Log;
 use dal::{Dal, DalError};
-use cyndra_common::{backends::auth::VerifyClaim, claims::Scope};
+use cyndra_backends::auth::VerifyClaim;
+use cyndra_common::claims::Scope;
 use cyndra_proto::logger::LogLine;
 use cyndra_proto::logger::{
     logger_server::Logger, LogsRequest, LogsResponse, StoreLogsRequest, StoreLogsResponse,

@@ -1,14 +1,11 @@
 use std::time::Duration;
 
 use clap::Parser;
-use cyndra_common::{
-    backends::{
-        auth::{AuthPublicKey, JwtAuthenticationLayer},
-        trace::setup_tracing,
-    },
-    extract_propagation::ExtractPropagationLayer,
-    log::Backend,
+use cyndra_backends::{
+    auth::{AuthPublicKey, JwtAuthenticationLayer},
+    trace::setup_tracing,
 };
+use cyndra_common::{extract_propagation::ExtractPropagationLayer, log::Backend};
 use cyndra_logger::{args::Args, Postgres, Service};
 use cyndra_proto::logger::logger_server::LoggerServer;
 use tonic::transport::Server;

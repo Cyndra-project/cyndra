@@ -1,7 +1,8 @@
 use std::io;
 
 use clap::Parser;
-use cyndra_common::{backends::trace::setup_tracing, claims::AccountTier, log::Backend};
+use cyndra_backends::trace::setup_tracing;
+use cyndra_common::{claims::AccountTier, log::Backend};
 use sqlx::migrate::Migrator;
 use tracing::trace;
 

@@ -2,7 +2,7 @@ use async_posthog::ClientOptions;
 use clap::Parser;
 use futures::prelude::*;
 
-use cyndra_common::backends::trace::setup_tracing;
+use cyndra_backends::trace::setup_tracing;
 use cyndra_common::log::Backend;
 use cyndra_gateway::acme::{AcmeClient, CustomDomain};
 use cyndra_gateway::api::latest::{ApiBuilder, SVC_DEGRADED_THRESHOLD};

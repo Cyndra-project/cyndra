@@ -1,8 +1,6 @@
 use clap::Parser;
-use cyndra_common::{
-    backends::trace::setup_tracing,
-    log::{Backend, DeploymentLogLayer},
-};
+use cyndra_backends::trace::setup_tracing;
+use cyndra_common::log::{Backend, DeploymentLogLayer};
 use cyndra_deployer::{start, Args, Persistence, RuntimeManager, StateChangeLayer};
 use cyndra_proto::logger::{self, Batcher};
 use tracing::trace;

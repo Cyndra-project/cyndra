@@ -2,7 +2,8 @@ use std::sync::Arc;
 
 pub use persistence::Persistence;
 pub use runtime_manager::RuntimeManager;
-use cyndra_common::{backends::client::ServicesApiClient, log::LogRecorder};
+use cyndra_backends::client::ServicesApiClient;
+use cyndra_common::log::LogRecorder;
 use cyndra_proto::{logger, provisioner};
 use tokio::sync::Mutex;
 use tracing::info;
