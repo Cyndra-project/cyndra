@@ -55,5 +55,5 @@ pub fn main(
     attr: proc_macro::TokenStream,
     item: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
-    cyndra_main::r#impl(attr, item)
+    cyndra_main::tokens(attr, item)
 }
