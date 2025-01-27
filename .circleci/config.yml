@@ -649,6 +649,10 @@ workflows:
                 - cyndra-common
       - test-workspace-member-with-integration:
           name: << matrix.crate >>
+          filters:
+            branches:
+              ignore:
+                - /pull\/.*/
           matrix:
             alias: test-workspace-member-with-integration-medium
             parameters:
@@ -680,6 +684,10 @@ workflows:
                 - cyndra-deployer
       - test-workspace-member-with-integration-docker:
           name: << matrix.crate >> with docker
+          filters:
+            branches:
+              ignore:
+                - /pull\/.*/
           matrix:
             alias: test-workspace-member-with-integration-docker-medium
             parameters:
@@ -687,6 +695,7 @@ workflows:
                 - medium
               crate:
                 - cyndra-auth
+                - cyndra-backends
                 - cyndra-provisioner
                 - cyndra-logger
       - test-workspace-member-with-integration-docker:
