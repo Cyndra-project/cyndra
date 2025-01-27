@@ -10,8 +10,5 @@ keywords = ["cyndra-service", "warp"]
 [workspace]
 
 [dependencies]
-warp = { version = "0.3.3" }
+warp = "0.3.3"
 cyndra-runtime = { path = "../../runtime", version = "0.43.0", default-features = false }
-
-[dev-dependencies]
-tokio = { version = "1.26.0", features = ["macros", "rt-multi-thread"] }
