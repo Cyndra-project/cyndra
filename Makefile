@@ -43,6 +43,11 @@ STRIPE_SECRET_KEY?=""
 AUTH_JWTSIGNING_PRIVATE_KEY?=""
 PERMIT_API_KEY?=""
 
+# log level set in all backends
+RUST_LOG?=cyndra=debug,info
+
+# production/staging/dev
+cyndra_ENV?=dev
 DD_ENV=$(cyndra_ENV)
 ifeq ($(cyndra_ENV),production)
 DOCKER_COMPOSE_FILES=docker-compose.yml
@@ -53,8 +58,8 @@ CONTAINER_REGISTRY=public.ecr.aws/cyndra
 # make sure we only ever go to production with `--tls=enable`
 USE_TLS=enable
 CARGO_PROFILE=release
-RUST_LOG?=cyndra=debug,info
 else
+# add local development overrides to compose
 DOCKER_COMPOSE_FILES=docker-compose.yml docker-compose.dev.yml
 STACK?=cyndra-dev
 APPS_FQDN=unstable.cyndraapp.rs
@@ -63,7 +68,10 @@ CONTAINER_REGISTRY=public.ecr.aws/cyndra-dev
 USE_TLS?=disable
 # default for local run
 CARGO_PROFILE?=debug
-RUST_LOG?=cyndra=debug,info
+ifeq ($(CI),true)
+# use release builds for staging deploys so that the DLC cache can be re-used for prod deploys
+CARGO_PROFILE=release
+endif
 DEV_SUFFIX=-dev
 DEPLOYS_API_KEY?=gateway4deployes
 GATEWAY_ADMIN_KEY?=dh9z58jttoes3qvt
@@ -77,11 +85,6 @@ CONTROL_DB_POSTGRES_URI?=postgres://postgres:${CONTROL_DB_POSTGRES_PASSWORD}@con
 LOGGER_POSTGRES_TAG?=15
 LOGGER_POSTGRES_PASSWORD?=postgres
 LOGGER_POSTGRES_URI?=postgres://postgres:${LOGGER_POSTGRES_PASSWORD}@logger-postgres:5432/postgres
-endif
-
-ifeq ($(CI),true)
-# default for staging
-CARGO_PROFILE=release
 endif
 
 POSTGRES_EXTRA_PATH?=./extras/postgres
