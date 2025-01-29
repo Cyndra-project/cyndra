@@ -7,7 +7,7 @@
 // Public API
 pub use cyndra_codegen::main;
 pub use cyndra_service::{
-    CustomError, DbInput, DeploymentMetadata, Error, IntoResource, ResourceFactory,
+    CustomError, DbInput, DeploymentMetadata, Environment, Error, IntoResource, ResourceFactory,
     ResourceInputBuilder, SecretStore, Service,
 };
 
