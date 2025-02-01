@@ -6,7 +6,7 @@ Serenity 0.11 is supported by using these feature flags (native TLS also availab
 
 ```toml,ignore
 serenity = { version = "0.11.7", features = ["..."] }
-cyndra-serenity = { version = "0.43.0", default-features = false, features = ["serenity-0-11-rustls_backend"] }
+cyndra-serenity = { version = "0.44.0", default-features = false, features = ["serenity-0-11-rustls_backend"] }
 ```
 
 ### Example
