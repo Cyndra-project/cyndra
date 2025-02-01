@@ -112,6 +112,8 @@ pub struct DatabaseInfo {
     hostname_cyndra: String,
     #[serde(alias = "address_public")]
     hostname_public: String,
+    /// Used to identify RDS instances we want to delete.
+    instance_name: Option<String>,
 }
 
 impl DatabaseInfo {
@@ -123,6 +125,7 @@ impl DatabaseInfo {
         port: String,
         hostname_cyndra: String,
         hostname_public: String,
+        instance_name: Option<String>,
     ) -> Self {
         Self {
             engine,
@@ -132,6 +135,7 @@ impl DatabaseInfo {
             port,
             hostname_cyndra,
             hostname_public,
+            instance_name,
         }
     }
     /// For connecting to the db from inside the Cyndra network
@@ -169,6 +173,10 @@ impl DatabaseInfo {
 
     pub fn database_name(&self) -> String {
         self.database_name.to_string()
+    }
+
+    pub fn instance_name(&self) -> Option<String> {
+        self.instance_name.clone()
     }
 }
 
