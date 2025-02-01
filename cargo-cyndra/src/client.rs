@@ -10,7 +10,7 @@ use serde::{Deserialize, Serialize};
 use cyndra_common::constants::headers::X_CARGO_cyndra_VERSION;
 use cyndra_common::log::LogsRange;
 use cyndra_common::models::deployment::DeploymentRequest;
-use cyndra_common::models::organization;
+use cyndra_common::models::team;
 use cyndra_common::models::{deployment, project, service, ToJson};
 use cyndra_common::{resource, ApiKey, LogItem, VersionInfo};
 use tokio::net::TcpStream;
@@ -224,15 +224,12 @@ impl CyndraApiClient {
         self.delete(path).await
     }
 
-    pub async fn get_organizations_list(&self) -> Result<Vec<organization::Response>> {
-        self.get("/organizations".to_string()).await
+    pub async fn get_teams_list(&self) -> Result<Vec<team::Response>> {
+        self.get("/teams".to_string()).await
     }
 
-    pub async fn get_organization_projects_list(
-        &self,
-        org_id: &str,
-    ) -> Result<Vec<project::Response>> {
-        let path = format!("/organizations/{org_id}/projects");
+    pub async fn get_team_projects_list(&self, team_id: &str) -> Result<Vec<project::Response>> {
+        let path = format!("/teams/{team_id}/projects");
 
         self.get(path).await
     }
