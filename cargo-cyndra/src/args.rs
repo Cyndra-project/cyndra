@@ -40,7 +40,7 @@ pub struct CyndraArgs {
     #[arg(long, env = "cyndra_DEBUG")]
     pub debug: bool,
     /// Target Cyndra's development environment
-    #[arg(long, env = "cyndra_BETA")]
+    #[arg(long, env = "cyndra_BETA", hide = true)]
     pub beta: bool,
 
     #[command(subcommand)]
