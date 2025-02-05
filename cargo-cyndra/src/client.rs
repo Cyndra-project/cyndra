@@ -9,7 +9,7 @@ use reqwest::{RequestBuilder, Response};
 use serde::{Deserialize, Serialize};
 use cyndra_common::constants::headers::X_CARGO_cyndra_VERSION;
 use cyndra_common::log::LogsRange;
-use cyndra_common::models::deployment::DeploymentRequest;
+use cyndra_common::models::deployment::{DeploymentRequest, DeploymentRequestBeta};
 use cyndra_common::models::team;
 use cyndra_common::models::{deployment, project, service, ToJson};
 use cyndra_common::{resource, ApiKey, LogItem, VersionInfo};
@@ -108,7 +108,7 @@ impl CyndraApiClient {
     pub async fn deploy_beta(
         &self,
         project: &str,
-        deployment_req: DeploymentRequest,
+        deployment_req: DeploymentRequestBeta,
     ) -> Result<deployment::EcsResponse> {
         let path = format!("/projects/{project}");
         let deployment_req = rmp_serde::to_vec(&deployment_req)
