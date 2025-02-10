@@ -4,7 +4,7 @@ use crate::Error;
 use async_trait::async_trait;
 use chrono::{DateTime, Utc};
 use prost_types::Timestamp;
-use cyndra_common::resource::Type;
+use cyndra_common::resource::{InvalidResourceType, Type};
 use cyndra_proto::resource_recorder::{self, record_request};
 use sqlx::{
     migrate::{MigrateDatabase, Migrator},
@@ -244,7 +244,7 @@ impl FromRow<'_, SqliteRow> for Resource {
 }
 
 impl TryFrom<record_request::Resource> for Resource {
-    type Error = String;
+    type Error = InvalidResourceType;
 
     fn try_from(value: record_request::Resource) -> Result<Self, Self::Error> {
         let r#type = value.r#type.parse()?;
