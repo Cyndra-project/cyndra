@@ -1372,6 +1372,7 @@ impl Cyndra {
                     *bytes = serde_json::to_vec(&CyndraResourceOutput {
                         output: res,
                         custom: cyndra_resource.custom,
+                        state: None
                     })
                     .unwrap();
                 }
@@ -1385,6 +1386,7 @@ impl Cyndra {
                     *bytes = serde_json::to_vec(&CyndraResourceOutput {
                         output: secrets.clone(),
                         custom: cyndra_resource.custom,
+                        state: None
                     })
                     .unwrap();
                 }
@@ -1403,6 +1405,7 @@ impl Cyndra {
                     *bytes = serde_json::to_vec(&CyndraResourceOutput {
                         output: res,
                         custom: cyndra_resource.custom,
+                        state: None
                     })
                     .unwrap();
                 }

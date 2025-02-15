@@ -536,6 +536,7 @@ async fn provision(
                 *bytes = serde_json::to_vec(&CyndraResourceOutput {
                     output,
                     custom: cyndra_resource.custom,
+                    state: None
                 })
                 .expect("to serialize struct");
             }
@@ -549,6 +550,7 @@ async fn provision(
                 *bytes = serde_json::to_vec(&CyndraResourceOutput {
                     output: new_secrets.clone(),
                     custom: cyndra_resource.custom,
+                    state: None
                 })
                 .expect("to serialize struct");
             }
