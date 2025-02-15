@@ -1,12 +1,9 @@
 use clap::Parser;
 use cyndra_backends::trace::setup_tracing;
 use cyndra_common::{claims::AccountTier, log::Backend};
-use sqlx::migrate::Migrator;
 use tracing::trace;
 
 use cyndra_auth::{copy_environment, init, pgpool_init, start, sync, Args, Commands};
-
-pub static MIGRATIONS: Migrator = sqlx::migrate!("./migrations");
 
 #[tokio::main]
 async fn main() {
