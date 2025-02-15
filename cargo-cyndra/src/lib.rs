@@ -1792,12 +1792,21 @@ impl Cyndra {
 
             let metadata = async_cargo_metadata(manifest_path.as_path()).await?;
             let packages = find_cyndra_packages(&metadata)?;
-            let package_name = packages
+            // TODO: support overriding this
+            let package = packages
                 .first()
-                .expect("at least one cyndra crate in the workspace")
-                .name
-                .to_owned();
+                .expect("at least one cyndra crate in the workspace");
+            let package_name = package.name.to_owned();
             deployment_req_beta.package_name = package_name;
+
+            // TODO: add these to the request and builder
+            let (_no_default_features, _features) = if package.features.contains_key("cyndra") {
+                (true, vec!["cyndra".to_owned()])
+            } else {
+                (false, vec![])
+            };
+            // TODO: determine which (one) binary to build
+            // TODO: have the above be configurable in CLI and Cyndra.toml
         }
 
         if let Ok(repo) = Repository::discover(working_directory) {
