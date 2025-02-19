@@ -33,7 +33,7 @@ use ignore::WalkBuilder;
 use indicatif::ProgressBar;
 use indoc::{formatdoc, printdoc};
 use cyndra_common::models::deployment::{
-    BuildMetaBeta, DeploymentRequestBuildArchiveBeta, DeploymentRequestImageBeta,
+    BuildArgsBeta, BuildMetaBeta, DeploymentRequestBuildArchiveBeta, DeploymentRequestImageBeta,
 };
 use cyndra_common::{
     constants::{
@@ -1821,6 +1821,8 @@ impl Cyndra {
         };
 
         if self.beta {
+            let mut build_args = BuildArgsBeta::default();
+
             let metadata = async_cargo_metadata(manifest_path.as_path()).await?;
             let packages = find_cyndra_packages(&metadata)?;
             // TODO: support overriding this
@@ -1828,16 +1830,22 @@ impl Cyndra {
                 .first()
                 .expect("at least one cyndra crate in the workspace");
             let package_name = package.name.to_owned();
-            deployment_req_buildarch_beta.package_name = package_name;
+            build_args.package_name = Some(package_name);
 
-            // TODO: add these to the request and builder
-            let (_no_default_features, _features) = if package.features.contains_key("cyndra") {
-                (true, vec!["cyndra".to_owned()])
+            // activate cyndra feature is present
+            let (no_default_features, features) = if package.features.contains_key("cyndra") {
+                (true, Some(vec!["cyndra".to_owned()]))
             } else {
-                (false, vec![])
+                (false, None)
             };
+            build_args.no_default_features = no_default_features;
+            build_args.features = features.map(|v| v.join(","));
+
             // TODO: determine which (one) binary to build
-            // TODO: have the above be configurable in CLI and Cyndra.toml
+
+            deployment_req_buildarch_beta.build_args = Some(build_args);
+
+            // TODO: have all of the above be configurable in CLI and Cyndra.toml
         }
 
         if let Ok(repo) = Repository::discover(working_directory) {
