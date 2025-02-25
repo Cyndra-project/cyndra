@@ -35,7 +35,7 @@ pub struct CyndraArgs {
     /// Disable network requests that are not strictly necessary. Limits some features.
     #[arg(long, env = "cyndra_OFFLINE")]
     pub offline: bool,
-    /// Turn on tracing output for cargo-cyndra and cyndra libraries.
+    /// Turn on tracing output for Cyndra libraries. (WARNING: can print sensitive data)
     #[arg(long, env = "cyndra_DEBUG")]
     pub debug: bool,
     /// Target Cyndra's development environment
