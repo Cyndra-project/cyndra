@@ -6,6 +6,7 @@ cyndra-runtime = { path = "BASE/runtime" }
 cyndra-service = { path = "BASE/service" }
 
 cyndra-aws-rds = { path = "BASE/resources/aws-rds" }
+cyndra-openai = { path = "BASE/resources/openai" }
 cyndra-opendal = { path = "BASE/resources/opendal" }
 cyndra-persist = { path = "BASE/resources/persist" }
 cyndra-qdrant = { path = "BASE/resources/qdrant" }
