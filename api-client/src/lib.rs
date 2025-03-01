@@ -12,7 +12,7 @@ use cyndra_common::log::{LogsRange, LogsResponseBeta};
 use cyndra_common::models::deployment::{
     DeploymentRequest, DeploymentRequestBeta, UploadArchiveResponseBeta,
 };
-use cyndra_common::models::{deployment, project, service, team, user, ToJson};
+use cyndra_common::models::{deployment, project, service, team, user};
 use cyndra_common::resource::{ProvisionResourceRequest, CyndraResourceOutput};
 use cyndra_common::{resource, LogItem, VersionInfo};
 use tokio::net::TcpStream;
@@ -26,6 +26,9 @@ mod middleware;
 use crate::middleware::LoggingMiddleware;
 #[cfg(feature = "tracing")]
 use tracing::{debug, error};
+
+mod util;
+use util::ToJson;
 
 #[derive(Clone)]
 pub struct CyndraApiClient {
