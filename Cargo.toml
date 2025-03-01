@@ -32,7 +32,7 @@ repository = "https://github.com/cyndra-hq/cyndra"
 
 # https://doc.rust-lang.org/cargo/reference/workspaces.html#the-workspacedependencies-table
 [workspace.dependencies]
-cyndra-api-client = { path = "api-client", version = "0.47.0" }
+cyndra-api-client = { path = "api-client", version = "0.47.0", default-features = false }
 cyndra-backends = { path = "backends", version = "0.47.0" }
 cyndra-codegen = { path = "codegen", version = "0.47.0" }
 cyndra-common = { path = "common", version = "0.47.0" }

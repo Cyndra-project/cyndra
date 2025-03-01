@@ -8,7 +8,7 @@ description = "A cargo command for the Cyndra platform (https://www.cyndra.rs/)"
 homepage = "https://www.cyndra.rs"
 
 [dependencies]
-cyndra-api-client = { workspace = true }
+cyndra-api-client = { workspace = true, default-features = true }
 cyndra-common = { workspace = true, features = ["models"] }
 cyndra-proto = { workspace = true, features = ["provisioner", "runtime-client"] }
 cyndra-service = { workspace = true, features = ["builder", "runner"] }

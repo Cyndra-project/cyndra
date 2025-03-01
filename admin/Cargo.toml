@@ -5,7 +5,7 @@ edition = "2021"
 publish = false
 
 [dependencies]
-cyndra-api-client = { workspace = true }
+cyndra-api-client = { workspace = true, default-features = true }
 cyndra-common = { workspace = true, features = ["models"] }
 cyndra-backends = { workspace = true }
 
