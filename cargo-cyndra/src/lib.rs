@@ -2053,7 +2053,7 @@ impl Cyndra {
         let mut signal_received = false;
         for (i, service) in services.iter().enumerate() {
             signal_received = tokio::select! {
-                res = Cyndra::spin_local_runtime(self.beta, &run_args, service, i as u16) => {
+                res = Cyndra::spin_local_runtime(&run_args, service, i as u16) => {
                     Cyndra::add_runtime_info(res.unwrap(), &mut runtimes).await?;
                     false
                 },
