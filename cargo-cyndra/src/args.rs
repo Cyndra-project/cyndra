@@ -122,6 +122,8 @@ pub enum Command {
     Resource(ResourceCommand),
     /// Remove cargo build artifacts in the Cyndra environment
     Clean,
+    /// BETA: Show info about your Cyndra account
+    Account,
     /// Login to the Cyndra platform
     Login(LoginArgs),
     /// Log out of the Cyndra platform

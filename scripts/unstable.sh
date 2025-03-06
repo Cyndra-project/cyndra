@@ -5,4 +5,5 @@
 
 export cyndra_API="https://api.unstable.cyndra.rs"
 unset cyndra_API_KEY
+unset cyndra_BETA
 export PS1="(cyndra: unstable) $(echo $PS1 | sed -e "s/(cyndra: .*) //")"
