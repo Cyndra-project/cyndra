@@ -135,9 +135,13 @@ DOCKER_COMPOSE_ENV=\
 	DOCKER_SOCK=$(DOCKER_SOCK)\
 	cyndra_ENV=$(cyndra_ENV)\
 	cyndra_SERVICE_VERSION=$(cyndra_SERVICE_VERSION)\
-	PERMIT_API_KEY=$(PERMIT_API_KEY)
+	PERMIT_API_KEY=$(PERMIT_API_KEY)\
+	PERMIT_DEV_API_KEY=$(PERMIT_DEV_API_KEY)
 
-.PHONY: clean deep-clean images the-cyndra-images cyndra-% postgres otel deploy test docker-compose.rendered.yml up down
+.PHONY: envfile clean deep-clean images the-cyndra-images cyndra-% postgres otel deploy test docker-compose.rendered.yml up down
+
+envfile:
+	echo $(DOCKER_COMPOSE_ENV) > dockerenv
 
 clean:
 	rm .cyndra-*
