@@ -130,7 +130,7 @@ async fn proxy(
         };
 
     // Record current project for tracing purposes
-    span.record("cyndra.project.name", &project_name.to_string());
+    span.record("cyndra.project.name", project_name.to_string());
 
     req.headers_mut()
         .typed_insert(XCyndraProject(project_name.to_string()));
