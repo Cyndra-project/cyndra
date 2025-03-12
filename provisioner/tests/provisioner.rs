@@ -34,10 +34,7 @@ fn cleanup() {
 
 mod needs_docker {
     use serde_json::json;
-    use cyndra_common::{
-        claims::{AccountTier, Claim},
-        limits::Limits,
-    };
+    use cyndra_common::{claims::Claim, limits::Limits, models::user::AccountTier};
     use cyndra_common_tests::ClaimTestsExt;
     use cyndra_proto::{
         provisioner::{

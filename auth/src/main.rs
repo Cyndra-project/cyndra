@@ -1,6 +1,6 @@
 use clap::Parser;
 use cyndra_backends::trace::setup_tracing;
-use cyndra_common::{claims::AccountTier, log::Backend};
+use cyndra_common::{log::Backend, models::user::AccountTier};
 use tracing::trace;
 
 use cyndra_auth::{copy_environment, init, pgpool_init, start, sync, Args, Commands};

@@ -6,8 +6,8 @@ use serde_json::{json, Value};
 use cyndra_auth::{pgpool_init, ApiBuilder};
 use cyndra_backends::{headers::X_cyndra_ADMIN_SECRET, test_utils::gateway::PermissionsMock};
 use cyndra_common::{
-    claims::{AccountTier, Claim},
-    models::user,
+    claims::Claim,
+    models::user::{self, AccountTier},
 };
 use cyndra_common_tests::postgres::DockerInstance;
 use sqlx::query;

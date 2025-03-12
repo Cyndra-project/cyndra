@@ -1,6 +1,9 @@
 use tracing::instrument;
 
-use cyndra_common::claims::{AccountTier, Claim, Scope};
+use cyndra_common::{
+    claims::{Claim, Scope},
+    models::user::AccountTier,
+};
 
 use client::{ProjectsDal, ResourceDal};
 

@@ -3,7 +3,7 @@ mod needs_docker {
     use http::{Request, StatusCode};
     use hyper::Body;
     use serde_json::Value;
-    use cyndra_common::claims::AccountTier;
+    use cyndra_common::models::user::AccountTier;
 
     use crate::helpers::{app, ADMIN_KEY};
 

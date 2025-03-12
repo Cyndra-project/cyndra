@@ -170,8 +170,9 @@ pub mod tests {
     use cyndra_backends::test_utils::gateway::PermissionsMock;
     use cyndra_backends::test_utils::provisioner::get_mocked_provisioner;
     use cyndra_backends::test_utils::resource_recorder::get_mocked_resource_recorder;
-    use cyndra_common::claims::{AccountTier, Claim};
+    use cyndra_common::claims::Claim;
     use cyndra_common::models::deployment::DeploymentRequest;
+    use cyndra_common::models::user::AccountTier;
     use cyndra_common::models::{project, service};
     use sqlx::sqlite::SqliteConnectOptions;
     use sqlx::{query, SqlitePool};

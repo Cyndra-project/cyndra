@@ -11,7 +11,7 @@ use cyndra_backends::client::{
     permit::{self, Error, ResponseContent},
     PermissionsDal,
 };
-use cyndra_common::{claims::AccountTier, ApiKey};
+use cyndra_common::{models::user::AccountTier, ApiKey};
 use sqlx::{query, PgPool};
 use tracing::info;
 pub use user::User;

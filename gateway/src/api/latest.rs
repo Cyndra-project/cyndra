@@ -1257,8 +1257,8 @@ pub mod tests {
     use hyper::StatusCode;
     use serde_json::Value;
     use cyndra_backends::test_utils::gateway::PermissionsMock;
-    use cyndra_common::claims::AccountTier;
     use cyndra_common::constants::limits::{MAX_PROJECTS_DEFAULT, MAX_PROJECTS_EXTRA};
+    use cyndra_common::models::user::AccountTier;
     use test_context::test_context;
     use tokio::sync::mpsc::channel;
     use tokio::sync::oneshot;
