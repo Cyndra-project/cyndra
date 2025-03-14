@@ -16,6 +16,7 @@ pub const API_URL_DEFAULT: &str = API_URL_PRODUCTION;
 
 pub const cyndra_STATUS_URL: &str = "https://status.cyndra.rs";
 pub const cyndra_LOGIN_URL: &str = "https://console.cyndra.rs/new-project";
+pub const cyndra_GH_REPO_URL: &str = "https://github.com/cyndra-hq/cyndra";
 pub const cyndra_GH_ISSUE_URL: &str = "https://github.com/cyndra-hq/cyndra/issues/new/choose";
 pub const cyndra_INSTALL_DOCS_URL: &str = "https://docs.cyndra.rs/getting-started/installation";
 pub const cyndra_IDLE_DOCS_URL: &str = "https://docs.cyndra.rs/getting-started/idle-projects";
