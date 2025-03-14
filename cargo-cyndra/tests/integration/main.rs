@@ -1,17 +1,14 @@
 mod init;
 mod run;
 
-use cargo_cyndra::{Command, CommandOutcome, ProjectArgs, Cyndra, CyndraArgs};
+use cargo_cyndra::{Command, ProjectArgs, Cyndra, CyndraArgs};
 use std::path::Path;
 
 /// creates a `cargo-cyndra` run instance with some reasonable defaults set.
-async fn cargo_cyndra_command(
-    cmd: Command,
-    working_directory: &str,
-) -> anyhow::Result<CommandOutcome> {
+async fn cargo_cyndra_command(cmd: Command, working_directory: &str) -> anyhow::Result<()> {
     let working_directory = Path::new(working_directory).to_path_buf();
 
-    Cyndra::new()
+    Cyndra::new(cargo_cyndra::Binary::CargoCyndra)
         .unwrap()
         .run(
             CyndraArgs {
