@@ -72,6 +72,7 @@ Please file an issue if you encounter any problems!
         New-Item -ItemType Directory -Force "$TempDir\cargo-cyndra"
         tar.exe -xzf "$TempDir\cargo-cyndra.tar.gz" -C "$TempDir\cargo-cyndra"
         Move-Item -Force "$TempDir\cargo-cyndra\cargo-cyndra-x86_64-pc-windows-msvc-$LatestRelease\cargo-cyndra.exe" "$CargoHome\bin\cargo-cyndra.exe"
+        Move-Item -Force "$TempDir\cargo-cyndra\cargo-cyndra-x86_64-pc-windows-msvc-$LatestRelease\cyndra.exe" "$CargoHome\bin\cyndra.exe"
         Remove-Item -Recurse -Force -ErrorAction SilentlyContinue "$TempDir\cargo-cyndra.tar.gz", "$TempDir\cargo-cyndra"
         Write-Host "Installed cargo-cyndra, try running ``cargo cyndra --help``" -ForegroundColor Green
         return
