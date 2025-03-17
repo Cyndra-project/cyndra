@@ -14,7 +14,7 @@ use cyndra_common::log::{LogsRange, LogsResponseBeta};
 use cyndra_common::models::deployment::{
     DeploymentListResponseBeta, DeploymentRequest, DeploymentRequestBeta, UploadArchiveResponseBeta,
 };
-use cyndra_common::models::project::ProjectListResponseBeta;
+use cyndra_common::models::project::{ProjectCreateRequestBeta, ProjectListResponseBeta};
 use cyndra_common::models::{deployment, project, service, team, user};
 use cyndra_common::resource::{
     ProvisionResourceRequestBeta, ResourceListResponseBeta, ResourceResponseBeta,
@@ -265,8 +265,13 @@ impl CyndraApiClient {
             .context("failed to make create project request")
     }
     pub async fn create_project_beta(&self, name: &str) -> Result<project::ProjectResponseBeta> {
-        self.post_json(format!("/projects/{name}"), None::<()>)
-            .await
+        self.post_json(
+            "/projects",
+            Some(ProjectCreateRequestBeta {
+                name: name.to_string(),
+            }),
+        )
+        .await
     }
 
     pub async fn clean_project(&self, project: &str) -> Result<String> {

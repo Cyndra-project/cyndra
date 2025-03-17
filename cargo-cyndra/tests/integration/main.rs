@@ -15,7 +15,7 @@ async fn cargo_cyndra_command(cmd: Command, working_directory: &str) -> anyhow::
                 api_url: Some("http://cyndra.invalid:80".to_string()),
                 project_args: ProjectArgs {
                     working_directory,
-                    name: None,
+                    name_or_id: None,
                 },
                 offline: false,
                 debug: false,
