@@ -21,7 +21,7 @@ cargo install cargo-cyndra
 Now that Cyndra is installed, you can initialize a project with Axum boilerplate:
 
 ```bash
-cargo cyndra init --template axum my-axum-app
+cyndra init --template axum my-axum-app
 ```
 
 By looking at the `Cargo.toml` file of the generated `my-axum-app` project you will see it has been made to
@@ -59,7 +59,7 @@ our [examples](https://github.com/cyndra-hq/cyndra-examples) if you prefer that 
 To test your app locally before deploying, use:
 
 ```bash
-cargo cyndra run
+cyndra run
 ```
 
 You should see your app build and start on the default port 8000. You can test this using;
@@ -71,23 +71,15 @@ curl http://localhost:8000/
 
 ## Deploying
 
-Before you can deploy, you have to create a project. This will start a deployer container for your
-project under the hood, ensuring isolation from other users' projects. PS. you don't have to do this
-now if you did in in the `cargo cyndra init` flow.
+Deploy the service with:
 
 ```bash
-cargo cyndra project start
+cyndra deploy
 ```
 
-Then, deploy the service with:
+Your service will then be made available under a subdomain of `*.cyndra.app`. For example:
 
 ```bash
-cargo cyndra deploy
-```
-
-Your service will immediately be available at `https://{project_name}.cyndraapp.rs/`. For example:
-
-```bash
-curl https://my-axum-app.cyndraapp.rs/
+curl https://my-axum-app-0000.cyndra.app/
 # Hello, world!
 ```

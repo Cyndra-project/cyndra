@@ -38,7 +38,7 @@ use cyndra_common::{
         headers::X_CARGO_cyndra_VERSION, API_URL_BETA, API_URL_DEFAULT, DEFAULT_IDLE_MINUTES,
         EXAMPLES_REPO, EXECUTABLE_DIRNAME, RESOURCE_SCHEMA_VERSION, RUNTIME_NAME,
         cyndra_GH_ISSUE_URL, cyndra_GH_REPO_URL, cyndra_IDLE_DOCS_URL, cyndra_INSTALL_DOCS_URL,
-        cyndra_LOGIN_URL, STORAGE_DIRNAME, TEMPLATES_SCHEMA_VERSION,
+        cyndra_LOGIN_URL, cyndra_LOGIN_URL_BETA, STORAGE_DIRNAME, TEMPLATES_SCHEMA_VERSION,
     },
     deployment::{DeploymentStateBeta, DEPLOYER_END_MESSAGES_BAD, DEPLOYER_END_MESSAGES_GOOD},
     log::LogsRange,
@@ -158,22 +158,19 @@ impl Cyndra {
         self.beta = args.beta;
         if self.beta {
             if matches!(args.cmd, Command::Project(ProjectCommand::Restart { .. })) {
-                bail!("This command is discontinued on the beta platform. Deploy to start a new deployment.");
+                bail!("This command is discontinued on the NEW platform (cyndra.dev). Deploy to start a new deployment.");
             }
             if matches!(args.cmd, Command::Status) {
-                bail!("This command is discontinued on the beta platform. Use `deployment status` instead.");
+                bail!("This command is discontinued on the NEW platform (cyndra.dev). Use `deployment status` instead.");
             }
             if matches!(
                 args.cmd,
                 Command::Stop | Command::Project(ProjectCommand::Stop { .. })
             ) {
-                bail!("This command is discontinued on the beta platform. Use `deployment stop` instead.");
+                bail!("This command is discontinued on the NEW platform (cyndra.dev). Use `deployment stop` instead.");
             }
             if matches!(args.cmd, Command::Clean) {
-                bail!("This command is not yet implemented on the beta platform.");
-            }
-            if self.bin == Binary::CargoCyndra {
-                eprintln!("INFO: Using beta platform API");
+                bail!("This command is discontinued on the NEW platform (cyndra.dev).");
             }
         } else if matches!(
             args.cmd,
@@ -181,11 +178,20 @@ impl Cyndra {
                 | Command::Account
                 | Command::Project(ProjectCommand::Link)
         ) {
-            bail!("This command is not supported on the legacy platform. Set --beta or cyndra_BETA=true.");
+            bail!("This command is not supported on the OLD platform (cyndra.rs).");
+        }
+
+        if self.beta {
+            eprintln!("{}", "INFO: Using NEW platform API (cyndra.dev)".green());
+        } else {
+            eprintln!("{}", "INFO: Using OLD platform API (cyndra.rs)".blue());
         }
         if let Some(ref url) = args.api_url {
             if (!self.beta && url != API_URL_DEFAULT) || (self.beta && url != API_URL_BETA) {
-                eprintln!("INFO: Targeting non-standard API: {url}");
+                eprintln!(
+                    "{}",
+                    format!("INFO: Targeting non-default API: {url}").yellow(),
+                );
             }
             if url.ends_with('/') {
                 eprintln!("WARNING: API URL is probably incorrect. Ends with '/': {url}");
@@ -216,7 +222,7 @@ impl Cyndra {
         ) {
             let client = CyndraApiClient::new(
                 self.ctx.api_url(self.beta),
-                self.ctx.api_key().ok().map(|s| s.as_ref().to_owned()),
+                self.ctx.api_key().ok(),
                 Some(
                     HeaderMap::try_from(&HashMap::from([(
                         X_CARGO_cyndra_VERSION.clone(),
@@ -717,10 +723,14 @@ impl Cyndra {
         if std::env::current_dir().is_ok_and(|d| d != path) {
             println!("You can `cd` to the directory, then:");
         }
-        println!("Run `cargo cyndra run` to run the app locally.");
+        if self.beta {
+            println!("Run `cyndra run` to run the app locally.");
+        } else {
+            println!("Run `cargo cyndra run` to run the app locally.");
+        }
         if !should_create_environment {
             if self.beta {
-                println!("Run `cargo cyndra deploy --allow-dirty` to deploy it to Cyndra.");
+                println!("Run `cyndra deploy` to deploy it to Cyndra.");
             } else {
                 println!(
                     "Run `cargo cyndra project start` to create a project environment on Cyndra."
@@ -911,14 +921,17 @@ impl Cyndra {
 
     /// Log in with the given API key or after prompting the user for one.
     async fn login(&mut self, login_args: LoginArgs, offline: bool) -> Result<()> {
-        let api_key_str = match login_args.api_key {
+        let api_key = match login_args.api_key {
             Some(api_key) => api_key,
             None => {
                 if !offline {
-                    let _ = webbrowser::open(cyndra_LOGIN_URL);
-                    println!(
-                        "If your browser did not automatically open, go to {cyndra_LOGIN_URL}"
-                    );
+                    let url = if self.beta {
+                        cyndra_LOGIN_URL_BETA
+                    } else {
+                        cyndra_LOGIN_URL
+                    };
+                    let _ = webbrowser::open(url);
+                    println!("If your browser did not automatically open, go to {url}");
                 }
 
                 Password::with_theme(&ColorfulTheme::default())
@@ -928,13 +941,10 @@ impl Cyndra {
             }
         };
 
-        // TODO(beta): don't validate the key in c-s
-        let api_key = ApiKey::parse(&api_key_str)?;
-
         self.ctx.set_api_key(api_key.clone())?;
 
         if let Some(client) = self.client.as_mut() {
-            client.api_key = Some(api_key.as_ref().to_string());
+            client.api_key = Some(api_key);
 
             if self.beta {
                 if offline {
@@ -1118,7 +1128,7 @@ impl Cyndra {
 
     async fn logs_beta(&self, args: LogsArgs) -> Result<()> {
         if args.follow {
-            eprintln!("Streamed logs are not yet supported on beta.");
+            eprintln!("Streamed logs are not yet supported on the new platform.");
             return Ok(());
         }
         // TODO: implement logs range
@@ -1261,7 +1271,7 @@ impl Cyndra {
 
         let proj_name = self.ctx.project_name();
 
-        let deployments_len = if self.beta {
+        if self.beta {
             let mut deployments = client
                 .get_deployments_beta(self.ctx.project_id(), page as i32, limit as i32)
                 .await?
@@ -1282,8 +1292,6 @@ impl Cyndra {
             if page_hint {
                 println!("View the next page using `--page {}`", page + 1);
             }
-
-            deployments.len()
         } else {
             let mut deployments = client
                 .get_deployments(proj_name, page, limit)
@@ -1299,14 +1307,12 @@ impl Cyndra {
                 get_deployments_table(&deployments, proj_name, page, table_args.raw, page_hint);
             println!("{table}");
 
-            deployments.len()
+            if deployments.is_empty() {
+                println!("Run `cargo cyndra deploy` to deploy your project.");
+            } else {
+                println!("Run `cargo cyndra logs <id>` to get logs for a given deployment.");
+            }
         };
-
-        if deployments_len == 0 {
-            println!("Run `cargo cyndra deploy` to deploy your project.");
-        } else {
-            println!("Run `cargo cyndra logs <id>` to get logs for a given deployment.");
-        }
 
         Ok(())
     }
@@ -2966,6 +2972,7 @@ impl Cyndra {
 
     async fn project_delete_beta(&self, no_confirm: bool) -> Result<()> {
         let client = self.client.as_ref().unwrap();
+        let pid = self.ctx.project_id();
 
         if !no_confirm {
             println!(
@@ -2973,13 +2980,12 @@ impl Cyndra {
                 formatdoc!(
                     r#"
                     WARNING:
-                        Are you sure you want to delete "{}"?
+                        Are you sure you want to delete "{pid}"?
                         This will...
                         - Shut down you service.
                         - Delete any databases and secrets in this project.
                         - Delete any custom domains linked to this project.
-                        This action is permanent."#,
-                    self.ctx.project_name()
+                        This action is permanent."#
                 )
                 .bold()
                 .red()
@@ -2994,7 +3000,7 @@ impl Cyndra {
             }
         }
 
-        let res = client.delete_project_beta(self.ctx.project_id()).await?;
+        let res = client.delete_project_beta(pid).await?;
 
         println!("{res}");
 

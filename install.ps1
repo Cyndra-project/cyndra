@@ -50,7 +50,7 @@ Please file an issue if you encounter any problems!
         Write-Host "Installing cargo-cyndra using cargo binstall"
         cargo-binstall.exe cargo-cyndra --no-confirm
         if ($?) {
-            Write-Host "Installed cargo-cyndra, try running ``cargo cyndra --help``" -ForegroundColor Green
+            Write-Host "Installed cargo-cyndra" -ForegroundColor Green
             return
         }
         else {
@@ -74,7 +74,7 @@ Please file an issue if you encounter any problems!
         Move-Item -Force "$TempDir\cargo-cyndra\cargo-cyndra-x86_64-pc-windows-msvc-$LatestRelease\cargo-cyndra.exe" "$CargoHome\bin\cargo-cyndra.exe"
         Move-Item -Force "$TempDir\cargo-cyndra\cargo-cyndra-x86_64-pc-windows-msvc-$LatestRelease\cyndra.exe" "$CargoHome\bin\cyndra.exe"
         Remove-Item -Recurse -Force -ErrorAction SilentlyContinue "$TempDir\cargo-cyndra.tar.gz", "$TempDir\cargo-cyndra"
-        Write-Host "Installed cargo-cyndra, try running ``cargo cyndra --help``" -ForegroundColor Green
+        Write-Host "Installed cargo-cyndra" -ForegroundColor Green
         return
     }
     elseif ($Arch -ne "AMD64") {
@@ -89,7 +89,7 @@ Please file an issue if you encounter any problems!
         Write-Host "Installing cargo-cyndra using cargo install (from source)"
         cargo.exe install cargo-cyndra --locked
         if ($?) {
-            Write-Host "Installed cargo-cyndra, try running ``cargo cyndra --help``" -ForegroundColor Green
+            Write-Host "Installed cargo-cyndra" -ForegroundColor Green
             return
         }
         else {

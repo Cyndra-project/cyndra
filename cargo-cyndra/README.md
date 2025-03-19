@@ -44,7 +44,7 @@ cargo install cargo-cyndra
 
 ## Documentation
 
-Run `cargo cyndra help` to see the basic usage.
+Run `cyndra help` to see the basic usage.
 
 Full list of commands and more documentation can be viewed on the [CLI docs](https://docs.cyndra.rs/getting-started/cyndra-commands).
 

@@ -91,21 +91,20 @@ iwr "https://www.cyndra.rs/install-win" | iex
 After installing, log in with:
 
 ```sh
-cargo cyndra login
+cyndra login
 ```
 
 To initialize your project, simply write:
 
 ```bash
-cargo cyndra init --template axum hello-world
+cyndra init --template axum hello-world
 ```
 
 And to deploy it, write:
 
 ```bash
 cd hello-world
-cargo cyndra project start  # Only needed if project has not already been created during init
-cargo cyndra deploy --allow-dirty
+cyndra deploy
 ```
 
 And... that's it!
@@ -163,7 +162,7 @@ async fn main() -> cyndra_axum::CyndraAxum {
 }
 ```
 
-Now, with just `cargo cyndra deploy`, you can see your application live. But let's enhance it further by adding a shared Postgres database:
+Now, with just `cyndra deploy`, you can see your application live. But let's enhance it further by adding a shared Postgres database:
 
 ```rust
 use axum::{routing::get, Router};
@@ -187,7 +186,7 @@ async fn main(
 }
 ```
 
-Now, if we run `cargo cyndra deploy`, we'll have an up and running project with a database inside & ready to use.
+Now, if we run `cyndra deploy`, we'll have an up and running project with a database inside & ready to use.
 <br>
 <br>
 
