@@ -181,10 +181,15 @@ impl Cyndra {
             bail!("This command is not supported on the OLD platform (cyndra.rs).");
         }
 
-        if self.beta {
-            eprintln!("{}", "INFO: Using NEW platform API (cyndra.dev)".green());
-        } else {
-            eprintln!("{}", "INFO: Using OLD platform API (cyndra.rs)".blue());
+        if !matches!(
+            args.cmd,
+            Command::Feedback | Command::Generate(_) | Command::Upgrade { .. }
+        ) {
+            if self.beta {
+                eprintln!("{}", "INFO: Using NEW platform API (cyndra.dev)".green());
+            } else {
+                eprintln!("{}", "INFO: Using OLD platform API (cyndra.rs)".blue());
+            }
         }
         if let Some(ref url) = args.api_url {
             if (!self.beta && url != API_URL_DEFAULT) || (self.beta && url != API_URL_BETA) {
