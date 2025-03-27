@@ -12,12 +12,13 @@ use clap::{
     Args, Parser, Subcommand, ValueEnum,
 };
 use clap_complete::Shell;
-use cyndra_common::constants::{DEFAULT_IDLE_MINUTES, EXAMPLES_REPO};
+use cyndra_common::constants::{DEFAULT_IDLE_MINUTES, EXAMPLES_REPO, cyndra_CONSOLE_URL};
 use cyndra_common::resource;
 
 #[derive(Parser)]
 #[command(
     version,
+    next_help_heading = "Global options",
     // Cargo passes in the subcommand name to the invoked executable. Use a
     // hidden, optional positional argument to deal with it.
     arg(clap::Arg::new("dummy")
@@ -26,10 +27,8 @@ use cyndra_common::resource;
         .hide(true))
 )]
 pub struct CyndraArgs {
-    #[command(flatten)]
-    pub project_args: ProjectArgs,
     /// URL for the Cyndra API to target (mainly for development)
-    #[arg(global = true, long, env = "cyndra_API")]
+    #[arg(global = true, long, env = "cyndra_API", hide = true)]
     pub api_url: Option<String>,
     /// Disable network requests that are not strictly necessary. Limits some features.
     #[arg(global = true, long, env = "cyndra_OFFLINE")]
@@ -40,6 +39,8 @@ pub struct CyndraArgs {
     /// Target Cyndra's development environment
     #[arg(global = true, long, env = "cyndra_BETA", hide = true)]
     pub beta: bool,
+    #[command(flatten)]
+    pub project_args: ProjectArgs,
 
     #[command(subcommand)]
     pub cmd: Command,
@@ -51,7 +52,7 @@ pub struct ProjectArgs {
     /// Specify the working directory
     #[arg(global = true, long, visible_alias = "wd", default_value = ".", value_parser = OsStringValueParser::new().try_map(parse_path))]
     pub working_directory: PathBuf,
-    /// Specify the name or id of the project (overrides crate name)
+    /// Specify the name or id of the project
     #[arg(global = true, long = "name", visible_alias = "id")]
     // in alpha mode, this is always a name
     pub name_or_id: Option<String>,
@@ -93,10 +94,9 @@ impl ProjectArgs {
     }
 }
 
-/// A cargo command for the Cyndra platform (https://www.cyndra.rs/)
+/// CLI for the Cyndra platform (https://www.cyndra.dev/)
 ///
-/// See the CLI docs (https://docs.cyndra.rs/getting-started/cyndra-commands)
-/// for more information.
+/// See the CLI docs for more information: https://docs.cyndra.dev/guides/cli
 #[derive(Subcommand)]
 pub enum Command {
     /// Generate a Cyndra project from a template
@@ -160,6 +160,7 @@ pub enum GenerateCommand {
 }
 
 #[derive(Args)]
+#[command(next_help_heading = "Table options")]
 pub struct TableArgs {
     /// Output tables without borders
     #[arg(long, default_value_t = false)]
@@ -197,12 +198,12 @@ pub enum ResourceCommand {
     /// List the resources for a project
     #[command(visible_alias = "ls")]
     List {
-        #[command(flatten)]
-        table: TableArgs,
-
         /// Show secrets from resources (e.g. a password in a connection string)
         #[arg(long, default_value_t = false)]
         show_secrets: bool,
+
+        #[command(flatten)]
+        table: TableArgs,
     },
     /// Delete a resource
     #[command(visible_alias = "rm")]
@@ -307,10 +308,17 @@ pub struct ProjectStartArgs {
 }
 
 #[derive(Args, Clone, Debug, Default)]
+#[command(next_help_heading = "Login options")]
 pub struct LoginArgs {
-    /// API key for the Cyndra platform
+    /// Prompt to paste the API key instead of opening the browser
+    #[arg(long, conflicts_with = "api_key", alias = "input")]
+    pub prompt: bool,
+    /// Log in with this Cyndra API key
     #[arg(long)]
     pub api_key: Option<String>,
+    /// URL to the Cyndra Console for automatic login
+    #[arg(long, env = "cyndra_CONSOLE", default_value = cyndra_CONSOLE_URL, hide_default_value = true)]
+    pub console_url: String,
 }
 
 #[derive(Args, Clone, Debug)]

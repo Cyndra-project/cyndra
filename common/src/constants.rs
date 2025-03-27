@@ -7,20 +7,23 @@ pub const STORAGE_DIRNAME: &str = ".cyndra-storage";
 
 // URLs
 pub const API_URL_LOCAL: &str = "http://localhost:8001";
-pub const API_URL_PRODUCTION: &str = "https://api.cyndra.rs";
-pub const API_URL_BETA: &str = "https://api.cyndra.dev";
+pub const API_URL_RS: &str = "https://api.cyndra.rs";
+pub const API_URL_DEFAULT_BETA: &str = "https://api.cyndra.dev";
 #[cfg(debug_assertions)]
 pub const API_URL_DEFAULT: &str = API_URL_LOCAL;
 #[cfg(not(debug_assertions))]
-pub const API_URL_DEFAULT: &str = API_URL_PRODUCTION;
+pub const API_URL_DEFAULT: &str = API_URL_RS;
 
 pub const cyndra_STATUS_URL: &str = "https://status.cyndra.rs";
-pub const cyndra_LOGIN_URL: &str = "https://console.cyndra.rs/new-project";
-pub const cyndra_LOGIN_URL_BETA: &str = "https://console.cyndra.dev/new-project";
+
+pub const cyndra_LEGACY_NEW_PROJECT: &str = "https://console.cyndra.rs/new-project";
+pub const cyndra_CONSOLE_URL: &str = "https://console.cyndra.dev";
+
+pub const cyndra_INSTALL_DOCS_URL: &str = "https://docs.cyndra.dev/getting-started/installation";
+pub const cyndra_IDLE_DOCS_URL: &str = "https://docs.cyndra.rs/getting-started/idle-projects";
+
 pub const cyndra_GH_REPO_URL: &str = "https://github.com/cyndra-hq/cyndra";
 pub const cyndra_GH_ISSUE_URL: &str = "https://github.com/cyndra-hq/cyndra/issues/new/choose";
-pub const cyndra_INSTALL_DOCS_URL: &str = "https://docs.cyndra.rs/getting-started/installation";
-pub const cyndra_IDLE_DOCS_URL: &str = "https://docs.cyndra.rs/getting-started/idle-projects";
 pub const EXAMPLES_REPO: &str = "https://github.com/cyndra-hq/cyndra-examples";
 pub const EXAMPLES_README: &str =
     "https://github.com/cyndra-hq/cyndra-examples#how-to-clone-run-and-deploy-an-example";
