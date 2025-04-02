@@ -9,7 +9,7 @@ cat <<EOF
 \__ \\ | | | |_| | |_| |_| |  __/
 |___/_| |_|\\__,_|\\__|\\__|_|\\___|
 
-https://www.cyndra.rs
+https://www.cyndra.dev
 https://github.com/cyndra-hq/cyndra
 
 Please file an issue if you encounter any problems!

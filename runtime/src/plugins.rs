@@ -31,7 +31,7 @@ impl ResourceInputBuilder for Metadata {
 
 /// ## Cyndra Secrets
 ///
-/// Plugin for getting secrets in your [Cyndra](https://www.cyndra.rs) service.
+/// Plugin for getting secrets in your [Cyndra](https://www.cyndra.dev) service.
 ///
 /// ### Usage
 ///

@@ -7,8 +7,8 @@
   <a href="https://github.com/cyndra-hq/cyndra/search?l=rust">
     <img alt="language" src="https://img.shields.io/badge/language-Rust-orange.svg">
   </a>
-  <a href="https://docs.cyndra.rs/">
-    <img alt="docs" src="https://img.shields.io/badge/docs-cyndra.rs-orange">
+  <a href="https://docs.cyndra.dev/">
+    <img alt="docs" src="https://img.shields.io/badge/docs-cyndra.dev-orange">
   </a>
   <a href="https://docs.rs/cyndra-runtime">
     <img alt="crate-docs" src="https://img.shields.io/badge/docs-docs.rs-orange">
@@ -69,7 +69,7 @@ Get resources and deploy your apps with a few lines of code.
 
 * __One-line Resource Provisioning:__ Get a database, or any other AWS resource by adding a line of code to your main file. To delete one, just remove that line of code. No config/yaml files required.
 * __Rapid Development:__ It takes 2 minutes from project initialization to a deployed project. It takes another 2 minutes to provision a resource, and get it deployed to production.
-* __First-class support for popular Rust frameworks:__ [Axum](https://docs.cyndra.rs/examples/axum), [Actix Web](https://docs.cyndra.rs/examples/actix), [Rocket](https://docs.cyndra.rs/examples/rocket), and [more](https://docs.cyndra.rs/examples/other)
+* __First-class support for popular Rust frameworks:__ [Axum](https://docs.cyndra.dev/examples/axum), [Actix Web](https://docs.cyndra.dev/examples/actix), [Rocket](https://docs.cyndra.dev/examples/rocket), and [more](https://docs.cyndra.dev/examples/other)
 *  __Security:__ Let us worry about the security & permissions while you focus on writing good code.
 <br>
 <br>
@@ -79,13 +79,13 @@ Get resources and deploy your apps with a few lines of code.
 On Linux and macOS, you can use this install script, which will automatically install the correct target for your OS and distro:
 
 ```sh
-curl -sSfL https://www.cyndra.rs/install | bash
+curl -sSfL https://www.cyndra.dev/install | bash
 ```
 
 On Windows, you can use this install script to do the same:
 
 ```powershell
-iwr "https://www.cyndra.rs/install-win" | iex
+iwr "https://www.cyndra.dev/install-win" | iex
 ```
 
 After installing, log in with:
@@ -119,7 +119,7 @@ URI:           https://hello-world.cyndraapp.rs
 
 Feel free to build on top of the generated `hello-world` boilerplate or take a stab at one of our [examples](https://github.com/cyndra-hq/cyndra-examples).
 
-For the full documentation, visit [our docs](https://docs.cyndra.rs).
+For the full documentation, visit [our docs](https://docs.cyndra.dev).
 <br>
 <br>
 
@@ -196,8 +196,8 @@ Now, if we run `cyndra deploy`, we'll have an up and running project with a data
 |-|-|
 | [cyndra](https://github.com/cyndra-hq/cyndra) 🚀 (This repo) | The core Cyndra product. Contains all crates that users interact with. |
 | [cyndra-examples](https://github.com/cyndra-hq/cyndra-examples) 👨‍🏫 | Officially maintained examples of projects that can be deployed on Cyndra. Also has a list of [community examples](https://github.com/cyndra-hq/cyndra-examples#community-examples). |
-| [cyndra-docs](https://github.com/cyndra-hq/cyndra-docs) 📃 | Documentation hosted on [docs.cyndra.rs](https://docs.cyndra.rs/). |
-| [www](https://github.com/cyndra-hq/www) 🌍 | Our website [cyndra.rs](https://www.cyndra.rs/), including the [blog](https://www.cyndra.rs/blog/tags/all) and [Launchpad newsletter](https://www.cyndra.rs/launchpad). |
+| [cyndra-docs](https://github.com/cyndra-hq/cyndra-docs) 📃 | Documentation hosted on [docs.cyndra.dev](https://docs.cyndra.dev/). |
+| [www](https://github.com/cyndra-hq/www) 🌍 | Our website [cyndra.dev](https://www.cyndra.dev/), including the [blog](https://www.cyndra.dev/blog/tags/all) and [Launchpad newsletter](https://www.cyndra.dev/launchpad). |
 | [deploy-action](https://github.com/cyndra-hq/deploy-action) ⚙ | GitHub Action for continuous deployments. |
 | [awesome-cyndra](https://github.com/cyndra-hq/awesome-cyndra) 🌟 | An awesome list of Cyndra-hosted projects and resources that users can add to. |
 | [shuttlings](https://github.com/cyndra-hq/shuttlings) ⚔️ | A collection of Rust code challenges. A great way to get started with using Rust and Cyndra. |
@@ -219,11 +219,8 @@ Sign up to the [Algora Console](https://console.algora.io/org/cyndra/bounties?st
 
 # Project Status
 
-Check for any outages and incidents on [Cyndra Status](https://status.cyndra.rs/).
-
 We are currently in Public Beta.
 Watch "releases" of this repo to get notified of major updates!
-Also, check out the [Beta announcement](https://www.cyndra.rs/beta#06) for features we are looking forward to.
 
 - [x] Alpha: We are testing Cyndra, API and deployments may be unstable
 - [x] Public Alpha: Anyone can sign up, but go easy on us,

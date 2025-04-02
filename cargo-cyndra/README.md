@@ -1,10 +1,10 @@
 <!-- markdownlint-disable -->
 <div align="center">
 
-# cargo-cyndra
+# Cyndra CLI
 
 <p align=center>
-  <a href="https://docs.cyndra.rs/">
+  <a href="https://docs.cyndra.dev/">
     <img alt="docs" src="https://img.shields.io/badge/docs-reference-orange">
   </a>
   <a href="https://github.com/cyndra-hq/cyndra/search?l=rust">
@@ -16,24 +16,24 @@
 </p>
 <!-- markdownlint-restore -->
 
-`cargo-cyndra` is the command line tool for deploying Rust apps on [Cyndra](https://www.cyndra.rs/), the Rust-native cloud deployment platform.
+This is the command line tool for deploying Rust apps on [Cyndra](https://www.cyndra.dev/), the Rust-native cloud deployment platform.
 
 </div>
 
 ## Installation
 
-For the full list of installation options, refer to the [Installation docs](https://docs.cyndra.rs/getting-started/installation).
+For the full list of installation options, refer to the [Installation docs](https://docs.cyndra.dev/getting-started/installation).
 
 Linux and macOS:
 
 ```sh
-curl -sSfL https://www.cyndra.rs/install | bash
+curl -sSfL https://www.cyndra.dev/install | bash
 ```
 
 Windows (powershell):
 
 ```powershell
-iwr https://www.cyndra.rs/install-win | iex
+iwr https://www.cyndra.dev/install-win | iex
 ```
 
 Build from source:
@@ -46,10 +46,8 @@ cargo install cargo-cyndra
 
 Run `cyndra help` to see the basic usage.
 
-Full list of commands and more documentation can be viewed on the [CLI docs](https://docs.cyndra.rs/getting-started/cyndra-commands).
+Full list of commands and more documentation can be viewed on the [CLI docs](https://docs.cyndra.dev/guides/cli).
 
 ## Development
-
-Thanks for using `cargo-cyndra`! We’re very happy to have you with us!
 
 To contribute to `cargo-cyndra` or stay updated with our development, please [open an issue, discussion or PR on Github](https://github.com/cyndra-hq/cyndra) and [join our Discord](https://discord.gg/cyndra)! 🚀

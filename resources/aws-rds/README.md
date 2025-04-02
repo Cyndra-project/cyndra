@@ -1,6 +1,6 @@
 # Cyndra AWS RDS
 
-This plugin provisions databases on AWS RDS using [cyndra](https://www.cyndra.rs). The following three engines are supported:
+This plugin provisions databases on AWS RDS using [cyndra](https://www.cyndra.dev). The following three engines are supported:
 
 - Postgres
 - MySql

@@ -4,9 +4,9 @@
 <img src="https://raw.githubusercontent.com/cyndra-hq/cyndra/main/assets/logo-rectangle-transparent.png" width="400px" style="margin-left: auto; margin-right: auto;"/>
 </div>
 
-[Cyndra](https://www.cyndra.rs/) is a Rust-native cloud development platform that lets you deploy your Rust apps for free.
+[Cyndra](https://www.cyndra.dev/) is a Rust-native cloud development platform that lets you deploy your Rust apps for free.
 
-📖 Check out our documentation to get started quickly: [docs.cyndra.rs](https://docs.cyndra.rs)
+📖 Check out our documentation to get started quickly: [docs.cyndra.dev](https://docs.cyndra.dev)
 
 🙋‍♂️ If you have any questions, join our [Discord](https://discord.gg/cyndra) server.
 
@@ -51,7 +51,7 @@ async fn main() -> cyndra_axum::CyndraAxum {
 }
 ```
 
-Check out [our docs](https://docs.cyndra.rs/introduction/welcome) to see all the frameworks we support, or
+Check out [our docs](https://docs.cyndra.dev) to see all the frameworks we support, or
 our [examples](https://github.com/cyndra-hq/cyndra-examples) if you prefer that format.
 
 ## Running locally
