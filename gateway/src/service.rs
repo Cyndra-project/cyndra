@@ -26,7 +26,7 @@ use cyndra_backends::headers::XCyndraAdminSecret;
 use cyndra_backends::project_name::ProjectName;
 use cyndra_common::constants::cyndra_IDLE_DOCS_URL;
 use cyndra_common::models::error::{
-    ApiError, ProjectNotFound, ProjectNotReady, ProjectUnavailable,
+    ApiError, Deprecated, ProjectNotFound, ProjectNotReady, ProjectUnavailable,
 };
 use cyndra_common::models::project::State;
 use cyndra_common::models::user::{AccountTier, UserId};
@@ -82,6 +82,9 @@ pub enum Error {
     #[error("You cannot create more projects. Delete some projects first.")]
     TooManyProjects,
 
+    #[error(transparent)]
+    Deprecated(#[from] Deprecated),
+
     #[error("A project with the same name already exists. Try using a different name.")]
     ProjectAlreadyExists,
 
@@ -114,6 +117,7 @@ impl From<Error> for ApiError {
                 return Self::internal("Internal server error");
             }
             Error::ProjectNotReady(_) => StatusCode::SERVICE_UNAVAILABLE,
+            Error::Deprecated(e) => return e.into(),
             Error::ProjectUnavailable(_) => StatusCode::SERVICE_UNAVAILABLE,
             Error::ProjectNotFound(e) => return e.into(),
             Error::OwnProjectAlreadyExists(_) => StatusCode::CONFLICT,
@@ -718,11 +722,12 @@ impl GatewayService {
                 Err(Error::OwnProjectAlreadyExists(message))
             }
         } else if can_create_project {
-            // Attempt to create a new one. This will fail
-            // outright if the project already exists (this happens if
-            // it belongs to another account).
-            self.insert_project(project_name, Ulid::new(), user_id, idle_minutes)
-                .await
+            // Project creation is deprecated on the legacy platform as of the 19th of December
+            // 2024.
+            Err(Deprecated(
+                "New project creation on the cyndra.rs platform is deprecated.".to_string(),
+            )
+            .into())
         } else {
             Err(Error::TooManyProjects)
         }
