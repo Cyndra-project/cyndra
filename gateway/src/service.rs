@@ -725,7 +725,7 @@ impl GatewayService {
             // Project creation is deprecated on the legacy platform as of the 19th of December
             // 2024.
             Err(Deprecated(
-                "New project creation on the cyndra.rs platform is deprecated.".to_string(),
+                "New project creation on the cyndra.rs platform has been deprecated.".to_string(),
             )
             .into())
         } else {
