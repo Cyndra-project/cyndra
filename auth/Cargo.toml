@@ -8,7 +8,7 @@ publish = false
 
 [dependencies]
 cyndra-backends = { workspace = true }
-cyndra-common = { workspace = true, features = ["models", "persist"] }
+cyndra-common = { workspace = true, features = ["models"] }
 
 anyhow = { workspace = true }
 async-stripe = { version = "0.25.1", default-features = false, features = ["checkout", "runtime-tokio-hyper-rustls"] }

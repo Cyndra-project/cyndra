@@ -7,7 +7,7 @@ publish = false
 
 [dependencies]
 cyndra-backends = { workspace = true, features = ["sqlx"] }
-cyndra-common = { workspace = true, features = ["models", "persist"] }
+cyndra-common = { workspace = true, features = ["models"] }
 cyndra-proto = { workspace = true, features = ["provisioner-client"] }
 
 async-trait = { workspace = true }
