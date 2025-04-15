@@ -2,7 +2,9 @@
 use cyndra_runtime::{CustomError, Error};
 use std::net::SocketAddr;
 
-/// A wrapper type for [tide::Server<T] so we can implement [cyndra_runtime::Service] for it.
+pub use tide;
+
+/// A wrapper type for [tide::Server<T>] so we can implement [cyndra_runtime::Service] for it.
 pub struct TideService<T>(pub tide::Server<T>);
 
 #[cyndra_runtime::async_trait]

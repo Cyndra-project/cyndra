@@ -3,6 +3,8 @@ use salvo::Listener;
 use cyndra_runtime::Error;
 use std::net::SocketAddr;
 
+pub use salvo;
+
 /// A wrapper type for [salvo::Router] so we can implement [cyndra_runtime::Service] for it.
 pub struct SalvoService(pub salvo::Router);
 
