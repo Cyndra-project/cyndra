@@ -1,4 +1,4 @@
-# Cyndra - Deploy Rust apps with a single Cargo subcommand
+# Cyndra - Deploy Rust apps with a single command
 
 <div style="display: flex; margin-top: 30px; margin-bottom: 30px;">
 <img src="https://raw.githubusercontent.com/cyndra-hq/cyndra/main/assets/logo-rectangle-transparent.png" width="400px" style="margin-left: auto; margin-right: auto;"/>
@@ -12,7 +12,7 @@
 
 ## Usage
 
-Start by installing the [`cargo cyndra`](https://docs.rs/crate/cargo-cyndra/latest) subcommand by running the following in a terminal:
+Start by installing the Cyndra CLI by running the following in a terminal:
 
 ```bash
 cargo install cargo-cyndra

@@ -6,20 +6,17 @@ use async_trait::async_trait;
 use serde::{de::DeserializeOwned, Serialize};
 use cyndra_common::constants::STORAGE_DIRNAME;
 pub use cyndra_common::{
-    database,
-    deployment::{DeploymentMetadata, Environment},
-    resource::{self, CyndraResourceOutput},
-    secrets::Secret,
-    ContainerRequest, ContainerResponse, DatabaseInfo, DatabaseResource, DbInput, SecretStore,
+    models::{
+        deployment::{DeploymentMetadata, Environment},
+        resource,
+    },
+    secrets::{Secret, SecretStore},
+    ContainerRequest, ContainerResponse, DatabaseInfo, DatabaseResource, DbInput,
 };
 
 pub use crate::error::{CustomError, Error};
 
-#[cfg(feature = "builder")]
-pub mod builder;
 pub mod error;
-#[cfg(feature = "runner")]
-pub mod runner;
 
 /// Allows implementing plugins for the Cyndra main function.
 ///
@@ -39,8 +36,8 @@ pub trait ResourceInputBuilder: Default {
     /// The input for requesting this resource.
     ///
     /// If the input is a [`cyndra_common::resource::ProvisionResourceRequest`],
-    /// then the resource will be provisioned and the [`ResourceInputBuilder::Output`]
-    /// will be a [`cyndra_common::resource::CyndraResourceOutput<T>`] with the resource's associated output type.
+    /// then the resource will be provisioned and the associated output type will
+    /// be put in [`ResourceInputBuilder::Output`].
     type Input: Serialize + DeserializeOwned;
 
     /// The output from provisioning this resource.
@@ -98,17 +95,11 @@ pub trait IntoResource<R>: Serialize + DeserializeOwned {
     async fn into_resource(self) -> Result<R, crate::Error>;
 }
 
-// Base impls for [`ResourceInputBuilder::Output`] types that don't need to convert into anything else
+// Base impl for [`ResourceInputBuilder::Output`] types that don't need to convert into anything else
 #[async_trait]
 impl<R: Serialize + DeserializeOwned + Send> IntoResource<R> for R {
     async fn into_resource(self) -> Result<R, crate::Error> {
         Ok(self)
-    }
-}
-#[async_trait]
-impl<R: Serialize + DeserializeOwned + Send> IntoResource<R> for CyndraResourceOutput<R> {
-    async fn into_resource(self) -> Result<R, crate::Error> {
-        Ok(self.output)
     }
 }
 

@@ -13,7 +13,7 @@ use hyper::{
 };
 use cyndra_api_client::CyndraApiClient;
 use cyndra_common::{
-    resource::{ProvisionResourceRequestBeta, ResourceInput, ResourceState, ResourceTypeBeta},
+    models::resource::{ResourceInputBeta, ResourceState, ResourceTypeBeta},
     secrets::Secret,
 };
 use cyndra_service::{Environment, ResourceFactory, Service};
@@ -21,7 +21,7 @@ use tracing::{debug, info, trace};
 
 use crate::__internals::{Loader, Runner};
 
-struct BetaEnvArgs {
+struct RuntimeEnvArgs {
     /// Are we running in a Cyndra deployment?
     cyndra: bool,
     project_id: String,
@@ -39,7 +39,7 @@ struct BetaEnvArgs {
     api_key: Option<String>,
 }
 
-impl BetaEnvArgs {
+impl RuntimeEnvArgs {
     /// Uses primitive parsing instead of clap for reduced dependency weight.
     /// # Panics
     /// if any required arg is missing or does not parse
@@ -71,7 +71,7 @@ impl BetaEnvArgs {
 
 pub async fn start(loader: impl Loader + Send + 'static, runner: impl Runner + Send + 'static) {
     debug!("Parsing environment variables");
-    let BetaEnvArgs {
+    let RuntimeEnvArgs {
         cyndra,
         project_id,
         project_name,
@@ -81,7 +81,7 @@ pub async fn start(loader: impl Loader + Send + 'static, runner: impl Runner + S
         healthz_port,
         api_url,
         api_key,
-    } = BetaEnvArgs::parse();
+    } = RuntimeEnvArgs::parse();
 
     let service_addr = SocketAddr::new(ip, port);
     let client = CyndraApiClient::new(api_url, api_key, None, None);
@@ -144,7 +144,8 @@ pub async fn start(loader: impl Loader + Send + 'static, runner: impl Runner + S
     let values = match resources
         .iter()
         .map(|bytes| {
-            serde_json::from_slice::<ResourceInput>(bytes).context("deserializing resource input")
+            serde_json::from_slice::<ResourceInputBeta>(bytes)
+                .context("deserializing resource input")
         })
         .collect::<anyhow::Result<Vec<_>>>()
     {
@@ -160,10 +161,8 @@ pub async fn start(loader: impl Loader + Send + 'static, runner: impl Runner + S
         .zip(values)
         // ignore non-Cyndra resource items
         .filter_map(|(bytes, value)| match value {
-            ResourceInput::Cyndra(cyndra_resource) => {
-                Some((bytes, ProvisionResourceRequestBeta::from(cyndra_resource)))
-            }
-            ResourceInput::Custom(_) => None,
+            ResourceInputBeta::Cyndra(cyndra_resource) => Some((bytes, cyndra_resource)),
+            ResourceInputBeta::Custom(_) => None,
         })
     {
         // Secrets don't need to be requested here since we already got them above.

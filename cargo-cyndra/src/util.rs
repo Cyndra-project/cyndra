@@ -89,7 +89,7 @@ pub async fn check_and_warn_runtime_version(path: &Path) -> Result<Option<String
                 writedoc! {
                     &mut warning,
                     "
-                    Hint: A newer version of cargo-cyndra is available.
+                    Hint: A newer version of Cyndra CLI is available.
                           Check out the installation docs for how to update: {}
                     ",
                     cyndra_INSTALL_DOCS_URL,
@@ -168,7 +168,7 @@ pub async fn check_version(runtime_path: &Path) -> Result<()> {
             cyndra_runtime: runtime_version,
             cargo_cyndra: my_version,
         })
-        .context("cyndra-runtime and cargo-cyndra have incompatible versions")
+        .context("cyndra-runtime and Cyndra CLI have incompatible versions")
     }
 }
 
@@ -182,7 +182,7 @@ impl std::fmt::Display for VersionMismatchError {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(
             f,
-            "cyndra-runtime {} and cargo-cyndra {} are incompatible",
+            "cyndra-runtime {} and Cyndra CLI {} are incompatible",
             self.cyndra_runtime, self.cargo_cyndra
         )
     }

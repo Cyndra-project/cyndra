@@ -1,14 +1,12 @@
 [patch.crates-io]
 cyndra-codegen = { path = "BASE/codegen" }
 cyndra-common = { path = "BASE/common" }
-cyndra-proto = { path = "BASE/proto" }
 cyndra-runtime = { path = "BASE/runtime" }
 cyndra-service = { path = "BASE/service" }
 
 cyndra-aws-rds = { path = "BASE/resources/aws-rds" }
 cyndra-openai = { path = "BASE/resources/openai" }
 cyndra-opendal = { path = "BASE/resources/opendal" }
-cyndra-persist = { path = "BASE/resources/persist" }
 cyndra-qdrant = { path = "BASE/resources/qdrant" }
 cyndra-shared-db = { path = "BASE/resources/shared-db" }
 cyndra-turso = { path = "BASE/resources/turso" }

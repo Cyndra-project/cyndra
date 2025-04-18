@@ -1,14 +1,15 @@
+mod builder;
 mod init;
 mod run;
 
 use cargo_cyndra::{Command, ProjectArgs, Cyndra, CyndraArgs};
 use std::path::Path;
 
-/// creates a `cargo-cyndra` run instance with some reasonable defaults set.
-async fn cargo_cyndra_command(cmd: Command, working_directory: &str) -> anyhow::Result<()> {
+/// Creates a CLI instance with some reasonable defaults set
+async fn cyndra_command(cmd: Command, working_directory: &str) -> anyhow::Result<()> {
     let working_directory = Path::new(working_directory).to_path_buf();
 
-    Cyndra::new(cargo_cyndra::Binary::CargoCyndra)
+    Cyndra::new(cargo_cyndra::Binary::Cyndra)
         .unwrap()
         .run(
             CyndraArgs {
@@ -19,7 +20,6 @@ async fn cargo_cyndra_command(cmd: Command, working_directory: &str) -> anyhow::
                 },
                 offline: false,
                 debug: false,
-                beta: false,
                 cmd,
             },
             false,
@@ -30,13 +30,18 @@ async fn cargo_cyndra_command(cmd: Command, working_directory: &str) -> anyhow::
 #[tokio::test]
 #[should_panic(expected = "failed to start `cargo metadata`: No such file or directory")]
 async fn fails_if_working_directory_does_not_exist() {
-    cargo_cyndra_command(Command::Status, "/path_that_does_not_exist")
-        .await
-        .unwrap();
+    cyndra_command(
+        Command::Logs(Default::default()),
+        "/path_that_does_not_exist",
+    )
+    .await
+    .unwrap();
 }
 
 #[tokio::test]
 #[should_panic(expected = "could not find `Cargo.toml` in `/` or any parent directory")]
 async fn fails_if_working_directory_not_part_of_cargo_workspace() {
-    cargo_cyndra_command(Command::Status, "/").await.unwrap();
+    cyndra_command(Command::Logs(Default::default()), "/")
+        .await
+        .unwrap();
 }

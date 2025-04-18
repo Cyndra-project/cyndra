@@ -7,7 +7,6 @@ publish = false
 [dependencies]
 cyndra-api-client = { workspace = true, default-features = true }
 cyndra-common = { workspace = true, features = ["models"] }
-cyndra-backends = { workspace = true }
 
 anyhow = { workspace = true }
 clap = { workspace = true, features = ["env"] }

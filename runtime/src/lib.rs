@@ -4,8 +4,6 @@
     html_favicon_url = "https://raw.githubusercontent.com/cyndra-hq/cyndra/main/assets/favicon.ico"
 )]
 
-/// cyndra.rs runtime
-mod alpha;
 /// Built-in plugins
 mod plugins;
 /// cyndra.dev runtime

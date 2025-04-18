@@ -19,7 +19,7 @@ body:
     id: version
     attributes:
       label: Version
-      description: What version of `cargo-cyndra` are you running (`cyndra --version`)?
+      description: What version of Cyndra CLI are you running (`cyndra --version`)?
       placeholder: "v0.51.0"
     validations:
       required: true
