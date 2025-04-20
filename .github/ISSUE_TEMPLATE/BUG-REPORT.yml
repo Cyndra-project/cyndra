@@ -20,7 +20,7 @@ body:
     attributes:
       label: Version
       description: What version of Cyndra CLI are you running (`cyndra --version`)?
-      placeholder: "v0.51.0"
+      placeholder: "v0.52.0"
     validations:
       required: true
   - type: dropdown
