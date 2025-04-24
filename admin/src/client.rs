@@ -1,6 +1,9 @@
 use anyhow::Result;
 use cyndra_api_client::CyndraApiClient;
-use cyndra_common::models::project::{ComputeTier, ProjectResponse, ProjectUpdateRequest};
+use cyndra_common::models::{
+    project::{ComputeTier, ProjectResponse, ProjectUpdateRequest},
+    user::UserResponse,
+};
 
 pub struct Client {
     pub inner: CyndraApiClient,
@@ -69,5 +72,9 @@ impl Client {
     pub async fn gc_shuttlings(&self, minutes: u32) -> Result<Vec<String>> {
         let path = format!("/admin/gc/shuttlings/{minutes}");
         self.inner.get_json(&path).await
+    }
+
+    pub async fn get_user(&self, user_id: &str) -> Result<UserResponse> {
+        self.inner.get_json(format!("/admin/users/{user_id}")).await
     }
 }
