@@ -211,7 +211,7 @@ darwin*) _install_mac ;;
 esac
 
 cat <<EOF
-Thanks for installing cargo-cyndra! 🚀
+Thanks for installing Cyndra CLI! 🚀
 
 If you have any issues, please open an issue on GitHub or visit our Discord (https://discord.gg/cyndra)!
 EOF
