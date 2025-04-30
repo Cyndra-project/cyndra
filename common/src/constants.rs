@@ -4,7 +4,7 @@
 pub const STORAGE_DIRNAME: &str = ".cyndra-storage";
 
 // URLs
-pub const API_URL_DEFAULT_BETA: &str = "https://api.cyndra.dev";
+pub const cyndra_API_URL: &str = "https://api.cyndra.dev";
 pub const cyndra_CONSOLE_URL: &str = "https://console.cyndra.dev";
 
 pub const cyndra_INSTALL_DOCS_URL: &str = "https://docs.cyndra.dev/getting-started/installation";
