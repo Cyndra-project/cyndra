@@ -826,7 +826,7 @@ impl Cyndra {
             )
         });
         let _ = webbrowser::open(&url);
-        eprintln!("Complete login in Cyndra Console to authenticate CLI.");
+        eprintln!("Complete login in Cyndra Console to authenticate the Cyndra CLI.");
         eprintln!("If your browser did not automatically open, go to {url}");
         eprintln!();
         eprintln!("{}", format!("Token: {token}").bold());
