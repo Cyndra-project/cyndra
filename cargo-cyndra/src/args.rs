@@ -29,6 +29,9 @@ pub struct CyndraArgs {
     /// URL for the Cyndra API to target (mainly for development)
     #[arg(global = true, long, env = "cyndra_API", hide = true)]
     pub api_url: Option<String>,
+    /// Modify Cyndra API URL to use admin endpoints
+    #[arg(global = true, long, env = "cyndra_ADMIN", hide = true)]
+    pub admin: bool,
     /// Disable network requests that are not strictly necessary. Limits some features.
     #[arg(global = true, long, env = "cyndra_OFFLINE")]
     pub offline: bool,

@@ -30,6 +30,7 @@ async fn cyndra_run(working_directory: &str, external: bool) -> String {
     let runner = Cyndra::new(cargo_cyndra::Binary::Cyndra).unwrap().run(
         CyndraArgs {
             api_url: Some("http://cyndra.invalid:80".to_string()),
+            admin: false,
             project_args: ProjectArgs {
                 working_directory: working_directory.clone(),
                 name_or_id: None,
