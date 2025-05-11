@@ -198,7 +198,7 @@ impl Cyndra {
                     // ProjectCommand::List does not need to know which project we are in
                     ProjectCommand::Create
                         | ProjectCommand::Update(..)
-                        | ProjectCommand::Status { .. }
+                        | ProjectCommand::Status
                         | ProjectCommand::Delete { .. }
                         | ProjectCommand::Link
                 )
