@@ -94,6 +94,7 @@ impl ProjectArgs {
     }
 }
 
+#[allow(rustdoc::bare_urls)]
 /// CLI for the Cyndra platform (https://www.cyndra.dev/)
 ///
 /// See the CLI docs for more information: https://docs.cyndra.dev/guides/cli
