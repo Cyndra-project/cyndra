@@ -191,10 +191,10 @@ Now, if we run `cyndra deploy`, we'll have an up and running project with a data
 
 | Name | Description |
 |-|-|
-| [cyndra](https://github.com/cyndra-hq/cyndra) 🚀 (This repo) | The core Cyndra product. Contains all crates that users interact with. |
-| [cyndra-examples](https://github.com/cyndra-hq/cyndra-examples) 👨‍🏫 | Officially maintained examples of projects that can be deployed on Cyndra. Also has a list of [community examples](https://github.com/cyndra-hq/cyndra-examples#community-examples). |
+| [cyndra](https://github.com/cyndra-hq/cyndra) 🚀 (This repo) | All library crates and the Cyndra CLI. |
+| [cyndra-examples](https://github.com/cyndra-hq/cyndra-examples) 👨‍🏫 | Officially maintained examples of projects that can be deployed on Cyndra. |
 | [cyndra-docs](https://github.com/cyndra-hq/cyndra-docs) 📃 | Documentation hosted on [docs.cyndra.dev](https://docs.cyndra.dev/). |
-| [www](https://github.com/cyndra-hq/www) 🌍 | Our website [cyndra.dev](https://www.cyndra.dev/), including the [blog](https://www.cyndra.dev/blog/tags/all) and [Launchpad newsletter](https://www.cyndra.dev/launchpad). |
+| [www](https://github.com/cyndra-hq/www) 🌍 | Our website [cyndra.dev](https://www.cyndra.dev/), including the [blog](https://www.cyndra.dev/blog/tags/all) and more. |
 | [deploy-action](https://github.com/cyndra-hq/deploy-action) ⚙ | GitHub Action for continuous deployments. |
 | [awesome-cyndra](https://github.com/cyndra-hq/awesome-cyndra) 🌟 | An awesome list of Cyndra-hosted projects and resources that users can add to. |
 | [shuttlings](https://github.com/cyndra-hq/shuttlings) ⚔️ | A collection of Rust code challenges. A great way to get started with using Rust and Cyndra. |
@@ -213,19 +213,6 @@ For development of this repo, check the [development docs](./DEVELOPING.md).
 
 To offload work from the engineering team on low-priority issues, we will sometimes add a cash bounty to issues.
 Sign up to the [Algora Console](https://console.algora.io/org/cyndra/bounties?status=open) to find open issues with bounties.
-
-## Project Status
-
-We are currently in Public Beta.
-Watch "releases" of this repo to get notified of major updates!
-
-- [x] Alpha: We are testing Cyndra, API and deployments may be unstable
-- [x] Public Alpha: Anyone can sign up, but go easy on us,
-  there are a few kinks
-- [x] Public Beta: Stable enough for most non-enterprise use-cases
-- [ ] Public: Production-ready!
-<br>
-<br>
 
 ## Contributors ✨
 
