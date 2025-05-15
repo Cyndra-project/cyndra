@@ -9,12 +9,13 @@ use std::path::Path;
 async fn cyndra_command(cmd: Command, working_directory: &str) -> anyhow::Result<()> {
     let working_directory = Path::new(working_directory).to_path_buf();
 
-    Cyndra::new(cargo_cyndra::Binary::Cyndra)
+    Cyndra::new(cargo_cyndra::Binary::Cyndra, None)
         .unwrap()
         .run(
             CyndraArgs {
                 api_url: Some("http://cyndra.invalid:80".to_string()),
                 admin: false,
+                api_env: None,
                 project_args: ProjectArgs {
                     working_directory,
                     name_or_id: None,

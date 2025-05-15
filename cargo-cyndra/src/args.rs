@@ -26,7 +26,11 @@ use cyndra_common::{constants::EXAMPLES_REPO, models::resource::ResourceType};
         .hide(true))
 )]
 pub struct CyndraArgs {
-    /// URL for the Cyndra API to target (mainly for development)
+    /// Target a different Cyndra API env (use a separate global config) (default: None (= prod = production))
+    // ("cyndra_ENV" is used for user-facing environments (agnostic of Cyndra API env))
+    #[arg(global = true, long, env = "cyndra_API_ENV", hide = true)]
+    pub api_env: Option<String>,
+    /// URL for the Cyndra API to target (overrides inferred URL from api_env)
     #[arg(global = true, long, env = "cyndra_API", hide = true)]
     pub api_url: Option<String>,
     /// Modify Cyndra API URL to use admin endpoints
