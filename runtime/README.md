@@ -28,7 +28,7 @@ By looking at the `Cargo.toml` file of the generated `my-axum-app` project you w
 be a binary crate with a few dependencies including `cyndra-runtime` and `cyndra-axum`.
 
 ```toml
-axum = "0.7.3"
+axum = "0.8.1"
 cyndra-axum = "0.54.0"
 cyndra-runtime = "0.54.0"
 tokio = "1.28.2"
