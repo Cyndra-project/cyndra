@@ -10,6 +10,7 @@ default-run = "cyndra"
 
 [dependencies]
 cyndra-api-client = { workspace = true, default-features = true }
+cyndra-builder = { workspace = true }
 cyndra-common = { workspace = true, features = ["models", "tables", "config"] }
 
 anyhow = { workspace = true }
