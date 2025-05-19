@@ -12,10 +12,14 @@
 
 ## Usage
 
-Start by installing the Cyndra CLI by running the following in a terminal:
+Start by installing the [Cyndra CLI](https://crates.io/crates/cargo-cyndra) by running the following in a terminal ([more installation options](https://docs.cyndra.dev/getting-started/installation)):
 
 ```bash
-cargo install cargo-cyndra
+# Linux / macOS
+curl -sSfL https://www.cyndra.dev/install | bash
+
+# Windows (Powershell)
+iwr https://www.cyndra.dev/install-win | iex
 ```
 
 Now that Cyndra is installed, you can initialize a project with Axum boilerplate:
