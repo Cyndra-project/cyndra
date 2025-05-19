@@ -29,8 +29,8 @@ be a binary crate with a few dependencies including `cyndra-runtime` and `cyndra
 
 ```toml
 axum = "0.8.1"
-cyndra-axum = "0.54.0"
-cyndra-runtime = "0.54.0"
+cyndra-axum = "0.55.0"
+cyndra-runtime = "0.55.0"
 tokio = "1.28.2"
 ```
 
