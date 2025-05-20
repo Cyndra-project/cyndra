@@ -388,6 +388,7 @@ workflows:
                 - services/cyndra-actix-web
                 - services/cyndra-axum
                 - services/cyndra-poem
+                - services/cyndra-rama
                 - services/cyndra-rocket
                 - services/cyndra-salvo
                 - services/cyndra-serenity
@@ -558,6 +559,7 @@ workflows:
                 - services/cyndra-actix-web
                 - services/cyndra-axum
                 - services/cyndra-poem
+                - services/cyndra-rama
                 - services/cyndra-rocket
                 - services/cyndra-salvo
                 - services/cyndra-serenity

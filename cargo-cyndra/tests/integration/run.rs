@@ -27,27 +27,30 @@ async fn cyndra_run(working_directory: &str, external: bool) -> String {
         format!("http://0.0.0.0:{port}")
     };
 
-    let runner = Cyndra::new(cargo_cyndra::Binary::Cyndra).unwrap().run(
-        CyndraArgs {
-            api_url: Some("http://cyndra.invalid:80".to_string()),
-            admin: false,
-            project_args: ProjectArgs {
-                working_directory: working_directory.clone(),
-                name_or_id: None,
+    let runner = Cyndra::new(cargo_cyndra::Binary::Cyndra, None)
+        .unwrap()
+        .run(
+            CyndraArgs {
+                api_url: Some("http://cyndra.invalid:80".to_string()),
+                admin: false,
+                api_env: None,
+                project_args: ProjectArgs {
+                    working_directory: working_directory.clone(),
+                    name_or_id: None,
+                },
+                offline: false,
+                debug: false,
+                cmd: Command::Run(RunArgs {
+                    port,
+                    external,
+                    release: false,
+                    raw: false,
+                    bacon: false,
+                    secret_args: Default::default(),
+                }),
             },
-            offline: false,
-            debug: false,
-            cmd: Command::Run(RunArgs {
-                port,
-                external,
-                release: false,
-                raw: false,
-                bacon: false,
-                secret_args: Default::default(),
-            }),
-        },
-        false,
-    );
+            false,
+        );
 
     tokio::spawn({
         let working_directory = working_directory.clone();

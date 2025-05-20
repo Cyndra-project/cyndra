@@ -1,12 +1,12 @@
 [package]
 name = "cyndra-admin"
-version = "0.53.0"
+version = "0.55.0"
 edition = "2021"
 publish = false
 
 [dependencies]
 cyndra-api-client = { workspace = true, default-features = true }
-cyndra-common = { workspace = true, features = ["models"] }
+cyndra-common = { workspace = true, features = ["models", "config"] }
 
 anyhow = { workspace = true }
 clap = { workspace = true, features = ["env"] }
