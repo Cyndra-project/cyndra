@@ -4,81 +4,81 @@
 </p>
 <br>
 
-<h1 align="center">Fastest Way to Build & Ship Rust Apps</h1>
+<h1 align="center">Swiftly Create & Launch Rust Applications</h1>
 <div align="center">
-Get resources and deploy your apps with a few lines of code.
+Provision resources and deploy your projects with minimal code.
 </div>
 
-<h3 align="center">Simple. &nbsp; Easy. &nbsp; Joyful.</h3>
+<h3 align="center">Effortless. Streamlined. Delightful.</h3>
 
 <div align="center"><img src="https://i.imgur.com/1qdWipP.gif" width="100%" ></div>
 <br>
 
-
-*<div align="center">⭐ If you find Cyndra interesting, consider starring this repo to help spread the word.</div>*
+*<div align="center">🌟 If you like Cyndra, please give this repository a star to share it with others.</div>*
 <br>
 
-## Features
+## Key Features
 
-- **One-line Resource Provisioning:** Get a database or other resource by adding a single line of code to your main file. No config or yaml files required.
-- **Rapid Development:** It takes 2 minutes from project initialization to a deployed project. It takes seconds to provision a resource, and get it deployed to production.
-- **First-class support for popular Rust frameworks:** [Axum](https://docs.cyndra.dev/examples/axum), [Actix Web](https://docs.cyndra.dev/examples/actix), [Rocket](https://docs.cyndra.dev/examples/rocket), and [more](https://docs.cyndra.dev/examples/other)
-- **Security:** Let us worry about the security & permissions while you focus on writing good code.
+- **Single-Line Resource Setup:** Add a database or other resources with just one line in your main file—no need for configuration or YAML files.
+- **Fast Development Cycle:** Go from project setup to deployment in just 2 minutes. Provision resources in seconds and push to production effortlessly.
+- **Top Rust Frameworks Supported:** Full compatibility with [Axum](https://docs.cyndra.dev/examples/axum), [Actix Web](https://docs.cyndra.dev/examples/actix), [Rocket](https://docs.cyndra.dev/examples/rocket), and [more](https://docs.cyndra.dev/examples/other).
+- **Secure by Default:** Focus on coding while we handle security and permissions for you.
 <br>
 <br>
 
-## Quick Start
+## Getting Started
 
-On Linux and macOS, you can use this install script, which will automatically install the correct target for your OS and distro:
+For Linux or macOS, run this installation script to automatically set up the appropriate version for your system:
 
 ```sh
 curl -sSfL https://www.cyndra.dev/install | bash
 ```
 
-On Windows, you can use this install script to do the same:
+For Windows, use the following script to achieve the same:
 
 ```powershell
 iwr "https://www.cyndra.dev/install-win" | iex
 ```
 
-After installing, log in with:
+Once installed, log in with:
 
 ```sh
 cyndra login
 ```
 
-To initialize your project, simply write:
+To start a new project, run:
 
 ```bash
 cyndra init --template axum hello-world
 ```
 
-And to deploy it, write:
+To deploy it, navigate to the project folder and execute:
 
 ```bash
 cd hello-world
 cyndra deploy
 ```
 
-And... that's it!
+That’s all it takes!
 
 ```text
 Service Name:  hello-world
 Deployment ID: 3d08ac34-ad63-41c1-836b-99afdc90af9f
-Status:        running
+Status:        active
 Last Updated:  2022-04-01T08:32:34Z
 URI:           https://hello-world.cyndraapp.rs
 ```
 
-Feel free to build on top of the generated `hello-world` boilerplate or take a stab at one of our [examples](https://github.com/cyndra-project/cyndra-examples).
+You can build upon the `hello-world` template or explore our [example projects](https://github.com/cyndra-project/cyndra-examples).
 
-For the full documentation, visit [our docs](https://docs.cyndra.dev).
+For comprehensive guides, check out [our documentation](https://docs.cyndra.dev).
 <br>
 <br>
 
-## Quick Look
+## Example Overview
 
-Below is a basic "Hello World" application written in Axum:
+Here’s a simple "Hello World" app using Axum:
+
 ```rust
 use axum::{routing::get, Router};
 
@@ -98,7 +98,7 @@ async fn hello_world() -> &'static str {
 }
 ```
 
-In order to be able to deploy it with a single command, we update the snippet as follows:
+To make it deployable with a single command, modify it like this:
 
 ```rust
 use axum::{routing::get, Router};
@@ -115,7 +115,7 @@ async fn main() -> cyndra_axum::CyndraAxum {
 }
 ```
 
-Now, with just `cyndra deploy`, you can see your application live. But let's enhance it further by adding a shared Postgres database:
+Now, running `cyndra deploy` will make your app live. To add a shared Postgres database, update the code as follows:
 
 ```rust
 use axum::{routing::get, Router};
@@ -139,7 +139,7 @@ async fn main(
 }
 ```
 
-Now, if we run `cyndra deploy`, we'll have an up and running project with a database inside & ready to use.
+Run `cyndra deploy` again, and your project will be live with a fully configured database.
 <br>
 <br>
 
@@ -147,8 +147,7 @@ Now, if we run `cyndra deploy`, we'll have an up and running project with a data
 
 | Name | Description |
 |-|-|
-| [cyndra](https://github.com/cyndra-project/cyndra) 🚀 (This repo) | All library crates and the Cyndra CLI. |
-| [cyndra-examples](https://github.com/cyndra-project/cyndra-examples) 👨‍🏫 | Officially maintained examples of projects that can be deployed on Cyndra. |
-| [cyndra-docs](https://docs.cyndra.dev/) 📃 | Official documentation [docs.cyndra.dev](https://docs.cyndra.dev/). |
+| [cyndra](https://github.com/cyndra-project/cyndra) 🚀 (This repo) | Contains all library crates and the Cyndra CLI tool. |
+| [cyndra-examples](https://github.com/cyndra-project/cyndra-examples) 👨‍🏫 | Official example projects deployable on Cyndra. |
+| [cyndra-docs](https://docs.cyndra.dev/) 📃 | Official documentation at [docs.cyndra.dev](https://docs.cyndra.dev/). |
 <br>
-
