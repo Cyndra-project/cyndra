@@ -1,40 +1,6 @@
 <!-- markdownlint-disable -->
 <p align="center">
-<img width="300" src="https://raw.githubusercontent.com/cyndra-hq/cyndra/master/assets/logo-rectangle-transparent.png"/>
-</p>
-<br>
-<p align="center">
-  <a href="https://github.com/cyndra-hq/cyndra/search?l=rust">
-    <img alt="language" src="https://img.shields.io/badge/language-Rust-orange.svg">
-  </a>
-  <a href="https://docs.cyndra.dev/">
-    <img alt="docs" src="https://img.shields.io/badge/docs-cyndra.dev-orange">
-  </a>
-  <a href="https://docs.rs/cyndra-runtime">
-    <img alt="crate-docs" src="https://img.shields.io/badge/docs-docs.rs-orange">
-  </a>
-  <a href="https://circleci.com/gh/cyndra-hq/cyndra/">
-    <img alt="build status" src="https://circleci.com/gh/cyndra-hq/cyndra.svg?style=shield"/>
-  </a>
-</p>
-<p align="center">
-  <a href="https://crates.io/crates/cargo-cyndra">
-    <img alt="crates" src="https://img.shields.io/crates/d/cargo-cyndra">
-  </a>
-  <a href="https://discord.gg/cyndra">
-    <img alt="discord" src="https://img.shields.io/discord/803236282088161321?logo=discord"/>
-  </a>
-  <a href="https://twitter.com/cyndra_dev">
-    <img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/cyndra_dev">
-  </a>
-</p>
-<p align="center">
-  <a href="https://console.algora.io/org/cyndra/bounties?status=open">
-    <img alt="open bounties" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fconsole.algora.io%2Fapi%2Fshields%2Fcyndra%2Fbounties%3Fstatus%3Dopen"/>
-  </a>
-  <a href="https://console.algora.io/org/cyndra/bounties?status=completed">
-    <img alt="rewarded bounties" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fconsole.algora.io%2Fapi%2Fshields%2Fcyndra%2Fbounties%3Fstatus%3Dcompleted"/>
-  </a>
+<img width="700" src="https://github.com/user-attachments/assets/1cc0f346-abd8-4753-ac5f-ad918bc87c46"/>
 </p>
 <br>
 
@@ -44,16 +10,6 @@ Get resources and deploy your apps with a few lines of code.
 </div>
 
 <h3 align="center">Simple. &nbsp; Easy. &nbsp; Joyful.</h3>
-
-<p align="center">
-    <a href="https://github.com/cyndra-hq/cyndra/issues/new?assignees=&labels=S-Triage%2CT-Bug&projects=&template=BUG-REPORT.yml&title=%5BBug%5D%3A+">Report Bug</a>
-    ·
-    <a href="https://github.com/cyndra-hq/cyndra/issues/new?assignees=&labels=S-Triage%2CT-Feature+Request&projects=&template=FEATURE-SUGGESTION.yml&title=%5BFeature%5D%3A+">Request a Feature</a>
-    ·
-  <a href="https://discord.gg/cyndra">Join Our Discord</a>
-    ·
-    <a href="https://x.com/cyndra_dev">Follow us on X</a>
-  </p>
 
 <div align="center"><img src="https://i.imgur.com/1qdWipP.gif" width="100%" ></div>
 <br>
@@ -114,7 +70,7 @@ Last Updated:  2022-04-01T08:32:34Z
 URI:           https://hello-world.cyndraapp.rs
 ```
 
-Feel free to build on top of the generated `hello-world` boilerplate or take a stab at one of our [examples](https://github.com/cyndra-hq/cyndra-examples).
+Feel free to build on top of the generated `hello-world` boilerplate or take a stab at one of our [examples](https://github.com/cyndra-project/cyndra-examples).
 
 For the full documentation, visit [our docs](https://docs.cyndra.dev).
 <br>
@@ -191,36 +147,8 @@ Now, if we run `cyndra deploy`, we'll have an up and running project with a data
 
 | Name | Description |
 |-|-|
-| [cyndra](https://github.com/cyndra-hq/cyndra) 🚀 (This repo) | All library crates and the Cyndra CLI. |
-| [cyndra-examples](https://github.com/cyndra-hq/cyndra-examples) 👨‍🏫 | Officially maintained examples of projects that can be deployed on Cyndra. |
-| [cyndra-docs](https://github.com/cyndra-hq/cyndra-docs) 📃 | Documentation hosted on [docs.cyndra.dev](https://docs.cyndra.dev/). |
-| [www](https://github.com/cyndra-hq/www) 🌍 | Our website [cyndra.dev](https://www.cyndra.dev/), including the [blog](https://www.cyndra.dev/blog/tags/all) and more. |
-| [deploy-action](https://github.com/cyndra-hq/deploy-action) ⚙ | GitHub Action for continuous deployments. |
-| [awesome-cyndra](https://github.com/cyndra-hq/awesome-cyndra) 🌟 | An awesome list of Cyndra-hosted projects and resources that users can add to. |
-| [shuttlings](https://github.com/cyndra-hq/shuttlings) ⚔️ | A collection of Rust code challenges. A great way to get started with using Rust and Cyndra. |
-<br>
+| [cyndra](https://github.com/cyndra-project/cyndra) 🚀 (This repo) | All library crates and the Cyndra CLI. |
+| [cyndra-examples](https://github.com/cyndra-project/cyndra-examples) 👨‍🏫 | Officially maintained examples of projects that can be deployed on Cyndra. |
+| [cyndra-docs](https://docs.cyndra.dev/) 📃 | Official documentation [docs.cyndra.dev](https://docs.cyndra.dev/). |
 <br>
 
-## Contributing to Cyndra
-
-Contributing to Cyndra is highly encouraged!
-Even if you are not planning to submit any code, joining our [Discord server](https://discord.gg/cyndra) and providing feedback helps us a lot!
-
-Check out our [contributing docs](./CONTRIBUTING.md) and find the appropriate repo above to contribute to.
-For development of this repo, check the [development docs](./DEVELOPING.md).
-
-### Algora Bounties 💰
-
-To offload work from the engineering team on low-priority issues, we will sometimes add a cash bounty to issues.
-Sign up to the [Algora Console](https://console.algora.io/org/cyndra/bounties?status=open) to find open issues with bounties.
-
-## Contributors ✨
-
-Thanks goes to these wonderful people:
-
-<!-- markdownlint-disable -->
-<a href="https://github.com/cyndra-hq/cyndra/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=cyndra-hq/cyndra" />
-</a>
-
-Made with [contrib.rocks](https://contrib.rocks).
